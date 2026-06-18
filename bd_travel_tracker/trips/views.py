@@ -6,7 +6,7 @@ import re
 from django.contrib.auth import get_user_model, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
-from django.db import IntegrityError
+from django.db import IntegrityError, OperationalError, ProgrammingError
 from django.db.models import Avg, Count, ExpressionWrapper, F, IntegerField, Q, Sum, Value
 from django.http import JsonResponse
 from django.urls import reverse
@@ -518,49 +518,76 @@ class TravelLoginView(LoginView):
 
 
 def home(request):
-    trip_summary = Trip.objects.aggregate(
-        total_trips=Count("id"),
-        explored_districts=Count("district", distinct=True),
-        spots_visited=Count("spot", distinct=True),
-        total_spent=Sum("total_cost"),
-        transport_total=Sum("transport_cost"),
-        food_total=Sum("food_cost"),
-        hotel_total=Sum("hotel_cost"),
-        ticket_total=Sum("ticket_cost"),
-        other_total=Sum("other_cost"),
-    )
+    try:
+        trip_summary = Trip.objects.aggregate(
+            total_trips=Count("id"),
+            explored_districts=Count("district", distinct=True),
+            spots_visited=Count("spot", distinct=True),
+            total_spent=Sum("total_cost"),
+            transport_total=Sum("transport_cost"),
+            food_total=Sum("food_cost"),
+            hotel_total=Sum("hotel_cost"),
+            ticket_total=Sum("ticket_cost"),
+            other_total=Sum("other_cost"),
+        )
 
-    featured_spots = (
-        TourSpot.objects.select_related("upazila__district")
-        .annotate(total_visits=Count("trips"))
-        .order_by("-total_visits", "name")[:3]
-    )
-
-    top_districts_footer = (
-        Trip.objects.values("district__name")
-        .annotate(total=Count("id"))
-        .order_by("-total", "district__name")[:4]
-    )
-    top_spots_footer = (
-        Trip.objects.values("spot__name")
-        .annotate(total=Count("id"))
-        .order_by("-total", "spot__name")[:4]
-    )
+        featured_spots = (
+            TourSpot.objects.select_related("upazila__district")
+            .annotate(total_visits=Count("trips"))
+            .order_by("-total_visits", "name")[:3]
+        )
+        top_districts_footer = (
+            Trip.objects.values("district__name")
+            .annotate(total=Count("id"))
+            .order_by("-total", "district__name")[:4]
+        )
+        top_spots_footer = (
+            Trip.objects.values("spot__name")
+            .annotate(total=Count("id"))
+            .order_by("-total", "spot__name")[:4]
+        )
+        traveler_count = get_user_model().objects.count()
+        spot_count = TourSpot.objects.count()
+        division_count = Division.objects.count()
+        district_count = District.objects.count()
+        upazila_count = Upazila.objects.count()
+        all_districts = District.objects.select_related("division").order_by("name")
+    except (OperationalError, ProgrammingError):
+        trip_summary = {
+            "total_trips": 0,
+            "explored_districts": 0,
+            "spots_visited": 0,
+            "total_spent": 0,
+            "transport_total": 0,
+            "food_total": 0,
+            "hotel_total": 0,
+            "ticket_total": 0,
+            "other_total": 0,
+        }
+        featured_spots = []
+        top_districts_footer = []
+        top_spots_footer = []
+        traveler_count = 0
+        spot_count = 0
+        division_count = 0
+        district_count = 0
+        upazila_count = 0
+        all_districts = []
 
     context = {
         "total_trips": trip_summary["total_trips"] or 0,
         "explored_districts": trip_summary["explored_districts"] or 0,
         "spots_visited": trip_summary["spots_visited"] or 0,
         "total_spent": trip_summary["total_spent"] or 0,
-        "traveler_count": get_user_model().objects.count(),
-        "spot_count": TourSpot.objects.count(),
+        "traveler_count": traveler_count,
+        "spot_count": spot_count,
         "featured_spots": featured_spots,
         "top_districts_footer": top_districts_footer,
         "top_spots_footer": top_spots_footer,
-        "division_count": Division.objects.count(),
-        "district_count": District.objects.count(),
-        "upazila_count": Upazila.objects.count(),
-        "all_districts": District.objects.select_related("division").order_by("name"),
+        "division_count": division_count,
+        "district_count": district_count,
+        "upazila_count": upazila_count,
+        "all_districts": all_districts,
         "current_year": timezone.now().year,
         "expense_breakdown": {
             "Transport": float(trip_summary["transport_total"] or 0),
