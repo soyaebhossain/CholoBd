@@ -1,0 +1,30 @@
+<form method="post" class="row g-3 settings-section-body">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="save_section">
+    <div class="col-md-6">
+        <div class="settings-toggle-card">
+            {{ form.allow_dm }}
+            <label for="{{ form.allow_dm.id_for_label }}">Allow direct messages</label>
+            <small>Quick master switch for inbound direct conversation requests.</small>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label" for="{{ form.who_can_message.id_for_label }}">Who can message me</label>
+        {{ form.who_can_message }}
+    </div>
+    <div class="col-md-4">
+        <label class="form-label" for="{{ form.who_can_comment.id_for_label }}">Who can comment on my posts</label>
+        {{ form.who_can_comment }}
+    </div>
+    <div class="col-md-4">
+        <label class="form-label" for="{{ form.who_can_tag.id_for_label }}">Who can tag me</label>
+        {{ form.who_can_tag }}
+    </div>
+    <div class="col-md-4">
+        <label class="form-label" for="{{ form.who_can_mention.id_for_label }}">Who can mention me</label>
+        {{ form.who_can_mention }}
+    </div>
+    <div class="col-12 settings-actions">
+        <button class="btn btn-primary" type="submit"><i class="bi bi-check2-circle me-1"></i>Save Community Settings</button>
+    </div>
+</form>

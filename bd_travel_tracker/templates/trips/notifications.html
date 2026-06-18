@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block content %}
+<section class="mb-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <div>
+            <h1 class="h3 mb-1"><i class="bi bi-bell me-2"></i>Notifications</h1>
+            <p class="text-muted mb-0">Follow, like, comment, message, and call activity will appear here.</p>
+        </div>
+        <form method="post" action="{% url 'notifications_mark_all_read' %}">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{% url 'notifications' %}">
+            <button type="submit" class="btn btn-outline-secondary"><i class="bi bi-check2-all me-1"></i>Mark all read</button>
+        </form>
+    </div>
+</section>
+
+<section class="row g-3 mb-4">
+    <div class="col-6 col-lg-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <p class="text-muted small mb-1">Unread</p>
+                <h2 class="h4 mb-0">{{ unread_count }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <p class="text-muted small mb-1">Followers</p>
+                <h2 class="h4 mb-0">{{ follow_count }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <p class="text-muted small mb-1">Likes & Comments</p>
+                <h2 class="h4 mb-0">{{ engagement_count }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <p class="text-muted small mb-1">Messages & Calls</p>
+                <h2 class="h4 mb-0">{{ message_count }}</h2>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="card">
+    <div class="card-body">
+        {% if notifications %}
+        <div class="community-notification-list">
+            {% for note in notifications %}
+            <a class="community-notification-item text-decoration-none text-reset d-block{% if not note.is_read %} border-success-subtle bg-success-subtle{% endif %}" href="{% url 'notification_open' note.id %}">
+                <div class="d-flex gap-3">
+                    <div class="community-avatar-wrap community-avatar-wrap-sm">
+                        {% if note.actor_avatar %}
+                        <img class="community-avatar community-avatar-sm" src="{{ note.actor_avatar }}" alt="{{ note.actor_name }}">
+                        {% else %}
+                        <span class="community-avatar-placeholder community-avatar-placeholder-sm"><i class="bi bi-person"></i></span>
+                        {% endif %}
+                        {% if note.actor_is_online %}<span class="community-online-dot"></span>{% endif %}
+                    </div>
+                    <div class="flex-grow-1 min-w-0">
+                        <div class="d-flex flex-wrap justify-content-between gap-2 align-items-start mb-1">
+                            <strong>{{ note.actor_name }}</strong>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge text-bg-light border">{{ note.get_kind_display }}</span>
+                                {% if not note.is_read %}<span class="badge text-bg-success">New</span>{% endif %}
+                            </div>
+                        </div>
+                        <p class="mb-1">{{ note.message }}</p>
+                        <small class="text-muted">{{ note.created_at|naturaltime }}</small>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center text-muted py-5">
+            <i class="bi bi-bell-slash fs-1 d-block mb-3"></i>
+            No notifications yet.
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

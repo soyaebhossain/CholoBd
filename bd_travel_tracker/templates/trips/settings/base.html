@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<link href="{% static 'css/settings.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section class="settings-shell">
+    <div class="settings-header">
+        <div>
+            <p class="settings-kicker mb-2">ACCOUNT CENTER</p>
+            <h1 class="settings-title"><i class="bi bi-sliders2 me-2"></i>Settings</h1>
+            <p class="text-muted mb-0">Manage account, privacy, profile, and platform preferences in one place.</p>
+        </div>
+    </div>
+
+    <div class="settings-layout">
+        <aside class="settings-sidebar card">
+            <div class="card-body">
+                <div class="settings-sidebar-user">
+                    <div class="settings-sidebar-avatar">
+                        {% if user.profile.avatar %}
+                        <img src="{{ user.profile.avatar }}" alt="{{ user.username }}">
+                        {% else %}
+                        <i class="bi bi-person-circle"></i>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <strong class="d-block">{{ user.profile.full_name|default:user.username }}</strong>
+                        <small class="text-muted">@{{ user.username }}</small>
+                    </div>
+                </div>
+
+                <nav class="settings-nav" aria-label="Settings navigation">
+                    {% for item in settings_sidebar %}
+                    <a
+                        href="{% url 'settings_section' item.key %}"
+                        class="settings-nav-link{% if item.is_active %} is-active{% endif %}"
+                    >
+                        <span class="settings-nav-icon"><i class="bi {{ item.icon }}"></i></span>
+                        <span>
+                            <strong>{{ item.label }}</strong>
+                            <small>{{ item.description }}</small>
+                        </span>
+                    </a>
+                    {% endfor %}
+                </nav>
+            </div>
+        </aside>
+
+        <div class="settings-content">
+            <section class="card settings-panel">
+                <div class="card-body">
+                    <div class="settings-panel-head">
+                        <div>
+                            <p class="settings-kicker mb-2">{{ active_section_meta.label|upper }}</p>
+                            <h2 class="mb-1"><i class="bi {{ active_section_meta.icon }} me-2"></i>{{ active_section_meta.label }}</h2>
+                            <p class="text-muted mb-0">{{ active_section_meta.description }}</p>
+                        </div>
+                    </div>
+                    {% include section_template %}
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+{% endblock %}

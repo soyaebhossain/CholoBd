@@ -1,0 +1,43 @@
+{% load humanize %}
+{% if user.is_authenticated %}
+<div class="card mt-3 community-notification-panel">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3 gap-2">
+            <div>
+                <h2 class="h6 mb-1">Community alerts</h2>
+                <p class="small text-muted mb-0">Unread replies, mentions, and updates from the group.</p>
+            </div>
+            <button type="button" id="markNotifRead" class="btn btn-sm btn-outline-secondary">
+                <i class="bi bi-check2-all me-1"></i>Mark read
+            </button>
+        </div>
+
+        <div class="community-notification-list" id="notificationList">
+            {% for note in notifications %}
+            <a class="community-notification-item text-decoration-none text-reset d-block" href="{% url 'notification_open' note.id %}">
+                <div class="d-flex gap-2">
+                    <div class="community-avatar-wrap community-avatar-wrap-sm">
+                        {% if note.actor_avatar %}
+                        <img class="community-avatar community-avatar-sm" src="{{ note.actor_avatar }}" alt="{{ note.actor_name }}">
+                        {% else %}
+                        <span class="community-avatar-placeholder community-avatar-placeholder-sm"><i class="bi bi-person"></i></span>
+                        {% endif %}
+                        {% if note.actor_is_online %}<span class="community-online-dot"></span>{% endif %}
+                    </div>
+                    <div class="flex-grow-1 min-w-0">
+                        <div class="d-flex justify-content-between gap-2 align-items-start">
+                            <strong class="small">{{ note.actor_name }}</strong>
+                            <span class="badge text-bg-light border">{{ note.get_kind_display }}</span>
+                        </div>
+                        <p class="small mb-1">{{ note.message }}</p>
+                        <small class="text-muted">{{ note.created_at|naturaltime }}</small>
+                    </div>
+                </div>
+            </a>
+            {% empty %}
+            <p class="small text-muted mb-0">No unread notifications.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}

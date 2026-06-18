@@ -1,0 +1,23 @@
+<form method="post" class="row g-3 settings-section-body">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="save_section">
+    <div class="col-md-3">
+        <label class="form-label" for="{{ form.preferred_language.id_for_label }}">Language</label>
+        {{ form.preferred_language }}
+    </div>
+    <div class="col-md-3">
+        <label class="form-label" for="{{ form.timezone.id_for_label }}">Timezone</label>
+        {{ form.timezone }}
+    </div>
+    <div class="col-md-3">
+        <label class="form-label" for="{{ form.date_format.id_for_label }}">Date format</label>
+        {{ form.date_format }}
+    </div>
+    <div class="col-md-3">
+        <label class="form-label" for="{{ form.currency.id_for_label }}">Currency</label>
+        {{ form.currency }}
+    </div>
+    <div class="col-12 settings-actions">
+        <button class="btn btn-primary" type="submit"><i class="bi bi-check2-circle me-1"></i>Save Regional Settings</button>
+    </div>
+</form>

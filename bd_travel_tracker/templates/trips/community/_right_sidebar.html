@@ -1,0 +1,100 @@
+{% load humanize %}
+<div class="community-right-stack sticky-xl-top">
+    <div class="card mb-3 community-about-card">
+        <div class="card-body">
+            <h2 class="h5 mb-3">About</h2>
+            <p class="mb-1 fw-semibold">{{ community_group_name }}</p>
+            <p class="small text-muted mb-3">Cholo Bd community helps travelers with route planning, stay tips, safety updates, and local guidance.</p>
+
+            <div class="community-about-facts">
+                <div class="community-about-fact">
+                    <i class="bi bi-globe2"></i>
+                    <div>
+                        <strong>Public</strong>
+                        <span>Anyone can see who&apos;s in the group and what they post.</span>
+                    </div>
+                </div>
+                <div class="community-about-fact">
+                    <i class="bi bi-eye"></i>
+                    <div>
+                        <strong>Visible</strong>
+                        <span>Anyone can find this group.</span>
+                    </div>
+                </div>
+                <div class="community-about-fact">
+                    <i class="bi bi-geo-alt"></i>
+                    <div>
+                        <strong>Bangladesh</strong>
+                        <span>{{ community_stats.members|intcomma }} members • {{ community_stats.posts_today|intcomma }} posts today</span>
+                    </div>
+                </div>
+            </div>
+
+            <a class="btn btn-outline-secondary w-100 mt-3" href="{% url 'community_members' %}">
+                Learn more about this group
+            </a>
+        </div>
+    </div>
+
+    <div class="card mb-3 community-media-card">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center gap-2 mb-3">
+                <h2 class="h6 mb-0"><i class="bi bi-images me-1"></i>Recent media</h2>
+                <a href="{% url 'community_media_gallery' %}" class="small text-decoration-none">See all</a>
+            </div>
+            <div class="community-media-grid">
+                {% for media in recent_media|slice:":4" %}
+                <a href="{% url 'community_media_gallery' %}#post-{{ media.post_id }}" class="community-media-cell" title="{{ media.title }}">
+                    {% if media.media_type == 'image' %}
+                    <img src="{{ media.preview_url }}" alt="{{ media.title }}">
+                    {% else %}
+                    <span class="community-media-thumb-placeholder">
+                        <i class="bi {% if media.media_type == 'video' %}bi-camera-video{% else %}bi-mic{% endif %}"></i>
+                    </span>
+                    {% endif %}
+                </a>
+                {% empty %}
+                <p class="small text-muted mb-0">No media yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {% if top_contributors %}
+    <div class="card community-contributor-card">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center gap-2 mb-3">
+                <h2 class="h6 mb-0"><i class="bi bi-award me-1"></i>Top contributors</h2>
+                <span class="badge text-bg-light">{{ top_contributors|length }}</span>
+            </div>
+            <ul class="list-unstyled small mb-0">
+                {% for person in top_contributors|slice:":5" %}
+                <li class="community-member-row">
+                    <div class="community-member-main">
+                        <div class="community-avatar-wrap community-avatar-wrap-sm">
+                            {% if person.avatar %}
+                            <img class="community-avatar community-avatar-sm" src="{{ person.avatar }}" alt="{{ person.display_name }}">
+                            {% else %}
+                            <span class="community-avatar-placeholder community-avatar-placeholder-sm"><i class="bi bi-person"></i></span>
+                            {% endif %}
+                            {% if person.is_online %}<span class="community-online-dot"></span>{% endif %}
+                        </div>
+                        <div class="min-w-0">
+                            <div class="fw-semibold">
+                                {% if person.can_view_profile %}
+                                <a href="{% url 'traveler_profile' person.id %}" class="text-decoration-none">{{ person.display_name }}</a>
+                                {% else %}
+                                {{ person.display_name }}
+                                {% endif %}
+                            </div>
+                            <div class="text-muted">@{{ person.username }}</div>
+                        </div>
+                    </div>
+                    <strong>{{ person.post_count }}</strong>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+</div>

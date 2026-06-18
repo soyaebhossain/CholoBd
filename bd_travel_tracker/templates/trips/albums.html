@@ -1,0 +1,135 @@
+﻿{% extends 'base.html' %}
+
+{% block content %}
+<section class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+    <div>
+        <h1 class="h3 mb-1"><i class="bi bi-images me-2"></i>Albums</h1>
+        <p class="text-muted mb-0">Create date-wise albums and upload photo/media directly from this page.</p>
+    </div>
+</section>
+
+<div class="row g-3 mb-4">
+    <div class="col-lg-4">
+        <div class="card h-100">
+            <div class="card-header bg-white"><h2 class="h5 mb-0"><i class="bi bi-plus-circle me-2"></i>Create Album</h2></div>
+            <div class="card-body">
+                <form method="post" class="row g-2">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="create_album">
+                    {% if album_form.non_field_errors %}
+                    <div class="col-12 alert alert-danger">{{ album_form.non_field_errors }}</div>
+                    {% endif %}
+                    <div class="col-12">
+                        <label class="form-label" for="{{ album_form.title.id_for_label }}">Title</label>
+                        {{ album_form.title }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="{{ album_form.trip_date.id_for_label }}">Trip Date</label>
+                        {{ album_form.trip_date }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="{{ album_form.spot.id_for_label }}">Spot (Optional)</label>
+                        {{ album_form.spot }}
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label" for="{{ album_form.external_source.id_for_label }}">External Source</label>
+                        {{ album_form.external_source }}
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label" for="{{ album_form.description.id_for_label }}">Description</label>
+                        {{ album_form.description }}
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary" type="submit"><i class="bi bi-check2-circle me-1"></i>Create Album</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card h-100">
+            <div class="card-header bg-white"><h2 class="h5 mb-0"><i class="bi bi-cloud-arrow-up me-2"></i>Quick Upload</h2></div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data" class="row g-2">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="quick_upload">
+                    {% if quick_item_form.non_field_errors %}
+                    <div class="col-12 alert alert-danger">{{ quick_item_form.non_field_errors }}</div>
+                    {% endif %}
+                    <div class="col-12">
+                        <label class="form-label" for="target_album_id"><i class="bi bi-collection me-1"></i>Select Album</label>
+                        <select class="form-select" id="target_album_id" name="target_album_id" required>
+                            <option value="">-- Select Album --</option>
+                            {% for album in albums_for_upload %}
+                            <option value="{{ album.id }}">{{ album.title }} ({{ album.trip_date }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    {% if not albums_for_upload %}
+                    <div class="col-12">
+                        <div class="alert alert-info mb-0 small">Create at least one album first, then upload media.</div>
+                    </div>
+                    {% endif %}
+                    <div class="col-12">
+                        <label class="form-label" for="{{ quick_item_form.file.id_for_label }}"><i class="bi bi-image me-1"></i>Photo/Media File</label>
+                        {{ quick_item_form.file }}
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label" for="{{ quick_item_form.external_url.id_for_label }}"><i class="bi bi-link-45deg me-1"></i>External Photo URL</label>
+                        {{ quick_item_form.external_url }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="{{ quick_item_form.taken_at.id_for_label }}"><i class="bi bi-calendar-event me-1"></i>Taken Date</label>
+                        {{ quick_item_form.taken_at }}
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label" for="{{ quick_item_form.caption.id_for_label }}"><i class="bi bi-chat-left-text me-1"></i>Caption</label>
+                        {{ quick_item_form.caption }}
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary" type="submit" {% if not albums_for_upload %}disabled{% endif %}><i class="bi bi-upload me-1"></i>Upload to Album</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card h-100">
+            <div class="card-header bg-white"><h2 class="h5 mb-0"><i class="bi bi-funnel me-2"></i>Filter Albums</h2></div>
+            <div class="card-body">
+                <form method="get" class="row g-2">
+                    <div class="col-md-4"><input type="text" class="form-control" name="q" value="{{ q }}" placeholder="Search title"></div>
+                    <div class="col-md-3"><input type="date" class="form-control" name="from_date" value="{{ from_date }}"></div>
+                    <div class="col-md-3"><input type="date" class="form-control" name="to_date" value="{{ to_date }}"></div>
+                    <div class="col-md-2 d-grid"><button class="btn btn-outline-primary" type="submit"><i class="bi bi-search me-1"></i>Filter</button></div>
+                </form>
+
+                <hr>
+
+                <div class="list-group list-group-flush">
+                    {% for album in albums %}
+                    <div class="list-group-item px-0 py-3">
+                        <div class="d-flex justify-content-between align-items-start gap-2">
+                            <div>
+                                <h3 class="h6 mb-1"><i class="bi bi-folder2-open me-1"></i>{{ album.title }}</h3>
+                                <p class="small text-muted mb-1"><i class="bi bi-calendar-event me-1"></i>{{ album.trip_date }}{% if album.spot %} | <i class="bi bi-geo-alt me-1"></i>{{ album.spot.name }}{% endif %}</p>
+                                <p class="small mb-1">{{ album.description|default:'No description' }}</p>
+                                <span class="badge text-bg-light border"><i class="bi bi-image me-1"></i>Items: {{ album.item_count }}</span>
+                                {% if album.external_source %}
+                                <span class="badge text-bg-light border"><i class="bi bi-cloud me-1"></i>{{ album.external_source }}</span>
+                                {% endif %}
+                            </div>
+                            <a href="{% url 'album_detail' album.id %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-images me-1"></i>Manage</a>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="text-muted py-3">No albums yet.</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,93 @@
+<div class="card mb-3 community-toolbar-card community-filter-card">
+    <div class="card-body">
+        <form method="get" class="community-filter-form">
+            <div class="community-filter-head">
+                <div>
+                    <h2 class="h6 mb-1"><i class="bi bi-search-heart me-2"></i>Search posts</h2>
+                    <p class="small text-muted mb-0">Find posts by route, spot, hashtag, or topic without crowding the feed.</p>
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="bi bi-funnel me-1"></i>Apply
+                    </button>
+                    <a class="btn btn-outline-secondary" href="{{ request.path }}">
+                        <i class="bi bi-arrow-counterclockwise me-1"></i>Reset
+                    </a>
+                </div>
+            </div>
+
+            <div class="community-filter-hero">
+                <label class="community-filter-search" for="communityKeyword">
+                    <i class="bi bi-search"></i>
+                    <input id="communityKeyword" name="q" class="form-control" value="{{ filters.q }}" placeholder="Search title, route, district, or travel tip">
+                </label>
+
+                <div class="community-filter-sort">
+                    <label class="community-composer-section-label mb-1" for="communitySort">Sort</label>
+                    <select id="communitySort" name="sort" class="form-select">
+                        {% for value, label in sort_options %}
+                        <option value="{{ value }}" {% if filters.sort == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <details class="community-filter-panel"{% if filters.location or filters.hashtag or filters.post_type or filters.district or filters.spot or filters.media_type or filters.resolved or filters.sort != 'latest' %} open{% endif %}>
+                <summary>Advanced filters</summary>
+                <div class="row g-3 community-filter-grid">
+                    <div class="col-md-6 col-lg-4">
+                        <label class="community-composer-section-label" for="communityLocation">Location</label>
+                        <input id="communityLocation" name="location" class="form-control" value="{{ filters.location }}" placeholder="District, spot, place">
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <label class="community-composer-section-label" for="communityHashtag">Hashtag</label>
+                        <input id="communityHashtag" name="hashtag" class="form-control" value="{{ filters.hashtag }}" placeholder="#budget">
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <label class="community-composer-section-label" for="communityPostType">Post type</label>
+                        <select id="communityPostType" name="post_type" class="form-select">
+                            <option value="">All post types</option>
+                            {% for value, label in filter_post_types %}
+                            <option value="{{ value }}" {% if filters.post_type == value %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <label class="community-composer-section-label" for="communityDistrict">District</label>
+                        <select id="communityDistrict" name="district" class="form-select">
+                            <option value="">All districts</option>
+                            {% for district in districts %}
+                            <option value="{{ district.id }}" {% if filters.district == district.id|stringformat:'s' %}selected{% endif %}>{{ district.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <label class="community-composer-section-label" for="communitySpot">Tourist spot</label>
+                        <select id="communitySpot" name="spot" class="form-select">
+                            <option value="">All tourist spots</option>
+                            {% for spot in spots %}
+                            <option value="{{ spot.id }}" {% if filters.spot == spot.id|stringformat:'s' %}selected{% endif %}>{{ spot.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <label class="community-composer-section-label" for="communityResolved">Resolved</label>
+                        <select id="communityResolved" name="resolved" class="form-select">
+                            {% for value, label in resolved_options %}
+                            <option value="{{ value }}" {% if filters.resolved == value %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <label class="community-composer-section-label" for="communityMediaType">Media type</label>
+                        <select id="communityMediaType" name="media_type" class="form-select">
+                            {% for value, label in media_type_options %}
+                            <option value="{{ value }}" {% if filters.media_type == value %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </details>
+        </form>
+    </div>
+</div>

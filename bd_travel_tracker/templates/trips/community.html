@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% load static humanize %}
+
+{% block extra_head %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/community.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="community-shell">
+    <section class="community-group-hero mb-4">
+        <div class="community-cover-card"{% if community_cover_image %} style="background-image: linear-gradient(180deg, rgba(10, 16, 14, 0.12) 0%, rgba(10, 16, 14, 0.5) 100%), url('{{ community_cover_image }}');"{% endif %}>
+            <div class="community-cover-ribbon">Group by Cholo Bd</div>
+            <div class="community-cover-status">
+                <span class="community-header-kicker"><i class="bi {{ section_meta.icon }} me-2"></i>{{ section_meta.label }}</span>
+            </div>
+        </div>
+
+        <div class="community-group-bar">
+            <div class="community-group-main">
+                <div class="community-group-copy">
+                    <h1 class="mb-2">{{ community_group_name }}</h1>
+                    <div class="community-group-meta">
+                        <span><i class="bi bi-globe2 me-1"></i>{{ community_group_tagline }}</span>
+                        <span>{{ community_stats.members|intcomma }} members</span>
+                    </div>
+                    <div class="community-group-avatars">
+                        {% for person in community_header_people %}
+                            {% if person.can_view_profile %}
+                            <a href="{{ person.profile_url }}" class="community-header-avatar" title="{{ person.display_name }}">
+                                {% if person.avatar %}
+                                <img src="{{ person.avatar }}" alt="{{ person.display_name }}">
+                                {% else %}
+                                <span>{{ person.display_name|first|upper }}</span>
+                                {% endif %}
+                            </a>
+                            {% else %}
+                            <span class="community-header-avatar" title="{{ person.display_name }}">
+                                {% if person.avatar %}
+                                <img src="{{ person.avatar }}" alt="{{ person.display_name }}">
+                                {% else %}
+                                <span>{{ person.display_name|first|upper }}</span>
+                                {% endif %}
+                            </span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="community-group-actions">
+                <a class="btn btn-primary" href="{% url 'community_members' %}">
+                    <i class="bi bi-person-plus me-1"></i>Invite
+                </a>
+                <button class="btn btn-outline-secondary js-share-btn" data-share-url="{{ request.build_absolute_uri }}">
+                    <i class="bi bi-share me-1"></i>Share
+                </button>
+            </div>
+        </div>
+
+        <div class="community-group-tabs-wrap">
+            <nav class="community-group-tabs" aria-label="Community sections">
+                {% for item in community_header_tabs %}
+                <a href="{{ item.url }}" class="community-group-tab{% if item.is_active %} active{% endif %}">
+                    {{ item.label }}
+                </a>
+                {% endfor %}
+            </nav>
+
+            <div class="community-group-menu">
+                <button type="button" class="community-group-icon-btn js-focus-field" data-field="#communityKeyword" aria-label="Search community" title="Search community">
+                    <i class="bi bi-search"></i>
+                </button>
+                <div class="dropdown">
+                    <button type="button" class="community-group-icon-btn" data-bs-toggle="dropdown" aria-expanded="false" aria-label="More community links" title="More community links">
+                        <i class="bi bi-three-dots"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end community-group-dropdown">
+                        {% for item in community_shortcuts %}
+                        <li>
+                            <a href="{{ item.url }}" class="dropdown-item{% if item.is_active %} active{% endif %}">
+                                <i class="bi {{ item.icon }} me-2"></i>{{ item.label }}
+                                {% if item.badge is not None %}
+                                <span class="badge text-bg-light ms-auto">{{ item.badge }}</span>
+                                {% endif %}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="row g-3 community-layout">
+        <main class="col-xxl-8 col-xl-7">
+            {% if page_mode == "posts" %}
+                {% include "trips/community/_composer.html" %}
+                {% include "trips/community/_filters.html" %}
+                {% include "trips/community/_post_list.html" %}
+            {% else %}
+                {% include "trips/community/_members_list.html" %}
+            {% endif %}
+        </main>
+
+        <aside class="col-xxl-4 col-xl-5">
+            {% include "trips/community/_right_sidebar.html" %}
+            {% include "trips/community/_sidebar.html" %}
+        </aside>
+    </div>
+</div>
+
+<div class="modal fade" id="miniProfileModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-person-circle me-2"></i>Traveler Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="miniProfileBody">
+                <div class="text-center text-muted">Loading profile...</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script>
+    window.communityConfig = {
+        likeUrlTemplate: "{% url 'community_toggle_like' 0 %}",
+        saveUrlTemplate: "{% url 'community_toggle_save' 0 %}",
+        profileUrlTemplate: "{% url 'community_user_profile_api' 0 %}",
+        followUrlTemplate: "{% url 'community_toggle_follow' 0 %}",
+        markReadUrl: "{% url 'community_mark_notifications_read' %}",
+    };
+</script>
+<script src="{% static 'js/community.js' %}"></script>
+{% endblock %}

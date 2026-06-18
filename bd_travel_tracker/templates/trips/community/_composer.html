@@ -1,0 +1,213 @@
+<div class="card mb-3 community-composer-launch-card">
+    <div class="card-body">
+        <div class="community-post-launch-row">
+            <div class="community-avatar-wrap">
+                {% if user.profile.avatar %}
+                <img src="{{ user.profile.avatar }}" alt="{{ user.username }}" class="community-avatar">
+                {% else %}
+                <span class="community-avatar-placeholder"><i class="bi bi-person"></i></span>
+                {% endif %}
+            </div>
+
+            <button
+                type="button"
+                class="community-post-launch js-open-post-modal"
+                data-bs-toggle="modal"
+                data-bs-target="#communityPostModal"
+                data-focus-field="#{{ post_form.content.id_for_label }}"
+            >
+                Write something...
+            </button>
+
+            <button
+                type="button"
+                class="btn community-post-topic-btn js-open-post-modal"
+                data-bs-toggle="modal"
+                data-bs-target="#communityPostModal"
+                data-focus-field="#{{ post_form.post_type.id_for_label }}"
+            >
+                <span>Add topic</span>
+                <i class="bi bi-chevron-down"></i>
+            </button>
+        </div>
+
+        <div class="community-composer-shortcuts">
+            <button
+                type="button"
+                class="community-composer-shortcut js-open-post-modal"
+                data-bs-toggle="modal"
+                data-bs-target="#communityPostModal"
+                data-open-panel="composerPhoto,composerVideo"
+                data-focus-field="#{{ post_form.content.id_for_label }}"
+            >
+                <i class="bi bi-image"></i>
+                <span>Photo / video</span>
+            </button>
+
+            <button
+                type="button"
+                class="community-composer-shortcut js-open-post-modal"
+                data-bs-toggle="modal"
+                data-bs-target="#communityPostModal"
+                data-post-type="travel_question"
+                data-focus-field="#{{ post_form.content.id_for_label }}"
+            >
+                <i class="bi bi-signpost-2"></i>
+                <span>Ask travel help</span>
+            </button>
+
+            <button
+                type="button"
+                class="community-composer-shortcut js-open-post-modal"
+                data-bs-toggle="modal"
+                data-bs-target="#communityPostModal"
+                data-open-panel="composerPoll"
+                data-post-type="discussion"
+                data-focus-field="#{{ post_form.poll_question.id_for_label }}"
+            >
+                <i class="bi bi-bar-chart"></i>
+                <span>Poll</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="communityPostModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable community-post-modal-dialog">
+        <div class="modal-content community-post-modal">
+            <div class="modal-header">
+                <h2 class="modal-title h4 mb-0">Create post</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'community_create_post' %}" enctype="multipart/form-data" id="communityComposer">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ current_path_with_query }}">
+
+                    {% if post_form.non_field_errors %}
+                    <div class="alert alert-danger mb-3">{{ post_form.non_field_errors }}</div>
+                    {% endif %}
+
+                    <div class="community-composer-identity">
+                        <div class="community-avatar-wrap">
+                            {% if user.profile.avatar %}
+                            <img src="{{ user.profile.avatar }}" alt="{{ user.username }}" class="community-avatar">
+                            {% else %}
+                            <span class="community-avatar-placeholder"><i class="bi bi-person"></i></span>
+                            {% endif %}
+                        </div>
+                        <div class="community-composer-identity-copy">
+                            <strong>{{ user.profile.full_name|default:user.username }}</strong>
+                            <div class="community-composer-chip-row">
+                                <span class="community-composer-chip">
+                                    <i class="bi bi-globe2 me-1"></i>{{ community_group_tagline }}
+                                </span>
+                                <div class="community-composer-chip community-topic-select">
+                                    <i class="bi bi-plus-lg"></i>
+                                    <span>Add topic</span>
+                                    {{ post_form.post_type }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="community-composer-section-label" for="{{ post_form.title.id_for_label }}">Headline</label>
+                        {{ post_form.title }}
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center gap-2 mb-2">
+                            <label class="community-composer-section-label mb-0" for="{{ post_form.content.id_for_label }}">Post</label>
+                            <button
+                                type="button"
+                                class="community-tool-icon js-insert-post-emoji"
+                                data-target="#{{ post_form.content.id_for_label }}"
+                                data-emoji="&#128522;"
+                                aria-label="Add emoji"
+                            >
+                                <i class="bi bi-emoji-smile"></i>
+                            </button>
+                        </div>
+                        {{ post_form.content }}
+                    </div>
+
+                    <div class="community-composer-actions">
+                        <button type="button" class="community-composer-action js-toggle-composer" data-target="#composerPhoto">
+                            <i class="bi bi-image me-1"></i>Photo
+                        </button>
+                        <button type="button" class="community-composer-action js-toggle-composer" data-target="#composerVideo">
+                            <i class="bi bi-camera-video me-1"></i>Video
+                        </button>
+                        <button type="button" class="community-composer-action js-toggle-composer" data-target="#composerAudio">
+                            <i class="bi bi-mic me-1"></i>Audio
+                        </button>
+                        <button type="button" class="community-composer-action js-toggle-composer" data-target="#composerPoll">
+                            <i class="bi bi-bar-chart me-1"></i>Poll
+                        </button>
+                    </div>
+
+                    <div class="row g-3 community-composer-panel-grid">
+                        <div class="col-md-6 d-none community-composer-panel" id="composerPhoto">
+                            <label class="community-composer-section-label" for="{{ post_form.image_file.id_for_label }}">Photo</label>
+                            {{ post_form.image_file }}
+                        </div>
+                        <div class="col-md-6 d-none community-composer-panel" id="composerVideo">
+                            <label class="community-composer-section-label" for="{{ post_form.video_file.id_for_label }}">Video</label>
+                            {{ post_form.video_file }}
+                        </div>
+                        <div class="col-md-6 d-none community-composer-panel" id="composerAudio">
+                            <label class="community-composer-section-label" for="{{ post_form.audio_file.id_for_label }}">Audio</label>
+                            {{ post_form.audio_file }}
+                        </div>
+                        <div class="col-12 d-none community-composer-panel" id="composerPoll">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="community-composer-section-label" for="{{ post_form.poll_question.id_for_label }}">Poll question</label>
+                                    {{ post_form.poll_question }}
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="community-composer-section-label" for="{{ post_form.poll_options.id_for_label }}">Poll options</label>
+                                    {{ post_form.poll_options }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <details class="community-composer-more">
+                        <summary>Add route details</summary>
+                        <div class="row g-3 community-composer-more-grid">
+                            <div class="col-md-4">
+                                <label class="community-composer-section-label" for="{{ post_form.district.id_for_label }}">District</label>
+                                {{ post_form.district }}
+                            </div>
+                            <div class="col-md-4">
+                                <label class="community-composer-section-label" for="{{ post_form.spot.id_for_label }}">Tourist spot</label>
+                                {{ post_form.spot }}
+                            </div>
+                            <div class="col-md-4">
+                                <label class="community-composer-section-label" for="{{ post_form.location_name.id_for_label }}">Location tag</label>
+                                {{ post_form.location_name }}
+                            </div>
+                            <div class="col-12">
+                                <label class="community-composer-section-label" for="{{ post_form.hashtags.id_for_label }}">Hashtags</label>
+                                {{ post_form.hashtags }}
+                            </div>
+                        </div>
+                    </details>
+
+                    <div class="community-composer-footer">
+                        <div class="form-check mb-0">
+                            {{ post_form.is_resolved }}
+                            <label class="form-check-label" for="{{ post_form.is_resolved.id_for_label }}">Mark as resolved</label>
+                        </div>
+                        <p class="community-post-helper mb-0">Share route plans, budget tips, safety notes, or questions for other travelers.</p>
+                        <button type="submit" class="btn btn-primary community-post-submit">
+                            <i class="bi bi-send me-1"></i>Post
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

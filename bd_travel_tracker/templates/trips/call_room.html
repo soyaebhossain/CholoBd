@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block main_class %}container py-3 call-room-main{% endblock %}
+{% block global_footer %}{% endblock %}
+
+{% block content %}
+<section class="call-room-shell">
+    <div class="call-room-stage">
+        <div class="call-room-header">
+            <div>
+                <p class="call-room-kicker">{{ call_session.get_mode_display }} Call</p>
+                <h1 class="call-room-title">{{ call_partner.profile.full_name|default:call_partner.username }}</h1>
+                <p class="call-room-copy mb-0">
+                    {% if call_session.status == "pending" and is_initiator %}
+                    Waiting for {{ call_partner.profile.full_name|default:call_partner.username }} to join.
+                    {% else %}
+                    Camera and microphone permission is required to talk.
+                    {% endif %}
+                </p>
+            </div>
+
+            <div class="call-room-actions">
+                <a href="{% url 'direct_messages' %}?conversation={{ call_session.conversation_id }}" class="call-room-button is-secondary">
+                    <i class="bi bi-arrow-left"></i>
+                    <span>Back to chat</span>
+                </a>
+                <form method="post" action="{% url 'direct_call_update' call_session.id %}" class="m-0">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="end">
+                    <button type="submit" class="call-room-button is-danger">
+                        <i class="bi bi-telephone-x-fill"></i>
+                        <span>End call</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="call-room-frame-wrap">
+            <iframe
+                src="{{ call_room_url }}"
+                title="{{ call_session.get_mode_display }} call room"
+                class="call-room-frame"
+                allow="camera; microphone; fullscreen; display-capture; autoplay"
+                referrerpolicy="no-referrer"
+            ></iframe>
+        </div>
+    </div>
+</section>
+{% endblock %}

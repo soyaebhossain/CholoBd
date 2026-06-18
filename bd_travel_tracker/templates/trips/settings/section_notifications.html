@@ -1,0 +1,16 @@
+<form method="post" class="row g-3 settings-section-body">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="save_section">
+    <div class="col-md-4"><div class="settings-toggle-card">{{ form.community_updates }} <label for="{{ form.community_updates.id_for_label }}"><i class="bi bi-people me-1"></i>Community updates</label><small>Mentions, replies, and community activity updates.</small></div></div>
+    <div class="col-md-4"><div class="settings-toggle-card">{{ form.email_notifications }} <label for="{{ form.email_notifications.id_for_label }}"><i class="bi bi-envelope me-1"></i>Email notifications</label><small>Send important alerts to your email inbox.</small></div></div>
+    <div class="col-md-4"><div class="settings-toggle-card">{{ form.push_notifications }} <label for="{{ form.push_notifications.id_for_label }}"><i class="bi bi-app-indicator me-1"></i>Push notifications</label><small>Browser/device push once delivery is enabled.</small></div></div>
+    <div class="col-md-4"><div class="settings-toggle-card">{{ form.comment_alerts }} <label for="{{ form.comment_alerts.id_for_label }}"><i class="bi bi-chat-left-text me-1"></i>Comment alerts</label><small>Notify when someone comments on your content.</small></div></div>
+    <div class="col-md-4"><div class="settings-toggle-card">{{ form.like_alerts }} <label for="{{ form.like_alerts.id_for_label }}"><i class="bi bi-hand-thumbs-up me-1"></i>Like alerts</label><small>Notify when someone likes your community posts.</small></div></div>
+    <div class="col-md-4"><div class="settings-toggle-card">{{ form.follower_alerts }} <label for="{{ form.follower_alerts.id_for_label }}"><i class="bi bi-person-plus me-1"></i>Follower alerts</label><small>Ready for follower system events and follow requests.</small></div></div>
+    <div class="col-md-4"><div class="settings-toggle-card">{{ form.message_alerts }} <label for="{{ form.message_alerts.id_for_label }}"><i class="bi bi-chat-dots me-1"></i>Message alerts</label><small>Notify when someone sends you a direct message.</small></div></div>
+    <div class="col-md-4"><div class="settings-toggle-card">{{ form.call_alerts }} <label for="{{ form.call_alerts.id_for_label }}"><i class="bi bi-telephone me-1"></i>Call alerts</label><small>Notify when someone starts an audio or video call request.</small></div></div>
+    <div class="col-md-4"><div class="settings-toggle-card">{{ form.trip_reminders }} <label for="{{ form.trip_reminders.id_for_label }}"><i class="bi bi-bell me-1"></i>Trip reminders</label><small>Use for next trip alerts and planning reminders.</small></div></div>
+    <div class="col-12 settings-actions">
+        <button class="btn btn-primary" type="submit"><i class="bi bi-check2-circle me-1"></i>Save Notification Settings</button>
+    </div>
+</form>

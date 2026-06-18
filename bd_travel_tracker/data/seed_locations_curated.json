@@ -1,0 +1,1742 @@
+{
+  "dataset_name": "Seed dataset generated from tour_spots_by_area.json",
+  "schema_version": 1,
+  "generated_on": "2026-03-09",
+  "source_file": "data/tour_spots_by_area.json",
+  "notes": "Generated for the existing seed_locations importer. Metropolitan thana entries are flattened into the upazilas list and retain their original type in the optional area_type field.",
+  "divisions": [
+    {
+      "name": "ঢাকা",
+      "districts": [
+        {
+          "name": "ঢাকা",
+          "upazilas": [
+            {
+              "name": "লালবাগ",
+              "area_type": "thana",
+              "spots": [
+                {
+                  "name": "লালবাগ কেল্লা",
+                  "category": "historical",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "ধাকেশ্বরী মন্দির",
+                  "category": "religious",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "কোতোয়ালী",
+              "area_type": "thana",
+              "spots": [
+                {
+                  "name": "আহসান মঞ্জিল",
+                  "category": "historical",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "আর্মেনিয়ান চার্চ",
+                  "category": "heritage",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "শাহবাগ",
+              "area_type": "thana",
+              "spots": [
+                {
+                  "name": "রমনা পার্ক",
+                  "category": "park",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "শহীদ মিনার",
+                  "category": "memorial",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "সাভার",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "জাতীয় স্মৃতিসৌধ",
+                  "category": "memorial",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "গাজীপুর",
+          "upazilas": [
+            {
+              "name": "শ্রীপুর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "ভাওয়াল জাতীয় উদ্যান",
+                  "category": "nature",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "নারায়ণগঞ্জ",
+          "upazilas": [
+            {
+              "name": "সোনারগাঁ",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "পানাম নগর",
+                  "category": "historical",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "বাংলাদেশ লোক ও কারুশিল্প জাদুঘর",
+                  "category": "museum",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "নরসিংদী",
+          "upazilas": [
+            {
+              "name": "বেলাবো",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "ওয়ারী-বটেশ্বর প্রত্নস্থান",
+                  "category": "archaeology",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "মানিকগঞ্জ",
+          "upazilas": [
+            {
+              "name": "সাটুরিয়া",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "বালিয়াটি জমিদার বাড়ি",
+                  "category": "historical",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "মুন্সীগঞ্জ",
+          "upazilas": [
+            {
+              "name": "মুন্সীগঞ্জ সদর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "ইদ্রাকপুর কেল্লা",
+                  "category": "historical",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "টাঙ্গাইল",
+          "upazilas": [
+            {
+              "name": "মধুপুর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "মধুপুর জাতীয় উদ্যান",
+                  "category": "nature",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "টাঙ্গাইল সদর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "করটিয়া জমিদার বাড়ি",
+                  "category": "historical",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "কিশোরগঞ্জ",
+          "upazilas": [
+            {
+              "name": "কিশোরগঞ্জ সদর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "শোলাকিয়া ঈদগাহ",
+                  "category": "religious",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "মিঠামইন",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "হাওর ভিউপয়েন্ট",
+                  "category": "haor",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ফরিদপুর",
+          "upazilas": [
+            {
+              "name": "ফরিদপুর সদর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "পদ্মা নদীর তীর",
+                  "category": "riverfront",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "মাদারীপুর",
+          "upazilas": [
+            {
+              "name": "শিবচর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "পদ্মা সেতু দক্ষিণ প্রান্ত ভিউপয়েন্ট",
+                  "category": "viewpoint",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "রাজবাড়ী",
+          "upazilas": [
+            {
+              "name": "গোয়ালন্দ",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "গোয়ালন্দ ঘাট",
+                  "category": "riverfront",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "শরীয়তপুর",
+          "upazilas": [
+            {
+              "name": "জাজিরা",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "পদ্মা সেতু জাজিরা প্রান্ত",
+                  "category": "viewpoint",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "গোপালগঞ্জ",
+          "upazilas": [
+            {
+              "name": "টুঙ্গিপাড়া",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "বঙ্গবন্ধু শেখ মুজিবুর রহমানের সমাধিসৌধ",
+                  "category": "memorial",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "চট্টগ্রাম",
+      "districts": [
+        {
+          "name": "চট্টগ্রাম",
+          "upazilas": [
+            {
+              "name": "পতেঙ্গা",
+              "area_type": "thana",
+              "spots": [
+                {
+                  "name": "পতেঙ্গা সমুদ্র সৈকত",
+                  "category": "beach",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "সীতাকুণ্ড",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "চন্দ্রনাথ পাহাড় ও মন্দির",
+                  "category": "hill",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "গুলিয়াখালী সমুদ্র সৈকত",
+                  "category": "beach",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "মীরসরাই",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "খৈয়াছড়া ঝর্ণা",
+                  "category": "waterfall",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "মহামায়া লেক",
+                  "category": "lake",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "কক্সবাজার",
+          "upazilas": [
+            {
+              "name": "কক্সবাজার সদর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "কক্সবাজার সমুদ্র সৈকত",
+                  "category": "beach",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "হিমছড়ি",
+                  "category": "waterfall",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "উখিয়া",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "ইনানী বিচ",
+                  "category": "beach",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "টেকনাফ",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "সেন্ট মার্টিন দ্বীপ",
+                  "category": "island",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "রাঙ্গামাটি",
+          "upazilas": [
+            {
+              "name": "রাঙ্গামাটি সদর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "হ্যাংগিং ব্রিজ",
+                  "category": "bridge",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "রাজবন বিহার",
+                  "category": "religious",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "কাপ্তাই",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "কাপ্তাই লেক",
+                  "category": "lake",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "বাঘাইছড়ি",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "সাজেক ভ্যালি",
+                  "category": "hill",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "বান্দরবান",
+          "upazilas": [
+            {
+              "name": "বান্দরবান সদর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "নীলাচল",
+                  "category": "hill",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "নীলগিরি",
+                  "category": "hill",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "চিম্বুক পাহাড়",
+                  "category": "hill",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "রুমা",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "বগালেক",
+                  "category": "lake",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "কেওক্রাডং",
+                  "category": "hill",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "খাগড়াছড়ি",
+          "upazilas": [
+            {
+              "name": "খাগড়াছড়ি সদর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "আলুটিলা গুহা",
+                  "category": "cave",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "মাটিরাঙ্গা",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "রিচাং ঝর্ণা",
+                  "category": "waterfall",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "কুমিল্লা",
+          "upazilas": [
+            {
+              "name": "কুমিল্লা আদর্শ সদর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "শালবন বিহার",
+                  "category": "archaeology",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "ময়নামতি জাদুঘর",
+                  "category": "museum",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "নোয়াখালী",
+          "upazilas": [
+            {
+              "name": "হাতিয়া",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "নিঝুম দ্বীপ",
+                  "category": "island",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ফেনী",
+          "upazilas": [
+            {
+              "name": "সোনাগাজী",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "মুহুরী প্রজেক্ট",
+                  "category": "riverfront",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "লক্ষ্মীপুর",
+          "upazilas": [
+            {
+              "name": "রামগতি",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "চর আলেকজান্ডার",
+                  "category": "char",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ব্রাহ্মণবাড়িয়া",
+          "upazilas": [
+            {
+              "name": "ব্রাহ্মণবাড়িয়া সদর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "তিতাস নদী ভিউপয়েন্ট",
+                  "category": "riverfront",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "চাঁদপুর",
+          "upazilas": [
+            {
+              "name": "চাঁদপুর সদর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "ত্রিনদীর মোহনা",
+                  "category": "riverfront",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "সিলেট",
+      "districts": [
+        {
+          "name": "সিলেট",
+          "upazilas": [
+            {
+              "name": "গোয়াইনঘাট",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "জাফলং",
+                  "category": "nature",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "বিছনাকান্দি",
+                  "category": "nature",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "পান্থুমাই ঝর্ণা",
+                  "category": "waterfall",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "জৈন্তাপুর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "লালাখাল",
+                  "category": "river",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "সিলেট সদর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "হযরত শাহজালাল (র.) মাজার",
+                  "category": "religious",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "খাদিমনগর জাতীয় উদ্যান",
+                  "category": "nature",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "মৌলভীবাজার",
+          "upazilas": [
+            {
+              "name": "কমলগঞ্জ",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "লাউয়াছড়া জাতীয় উদ্যান",
+                  "category": "nature",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "মাধবপুর লেক",
+                  "category": "lake",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "বড়লেখা",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "মাধবকুণ্ড ঝর্ণা",
+                  "category": "waterfall",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "জুড়ী",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "হাকালুকি হাওর",
+                  "category": "haor",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "সুনামগঞ্জ",
+          "upazilas": [
+            {
+              "name": "তাহিরপুর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "টাঙ্গুয়ার হাওর",
+                  "category": "haor",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "জাদুকাটা নদী",
+                  "category": "river",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "হবিগঞ্জ",
+          "upazilas": [
+            {
+              "name": "চুনারুঘাট",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "সাতছড়ি জাতীয় উদ্যান",
+                  "category": "nature",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ময়মনসিংহ",
+      "districts": [
+        {
+          "name": "ময়মনসিংহ",
+          "upazilas": [
+            {
+              "name": "ময়মনসিংহ সদর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "বাংলাদেশ কৃষি বিশ্ববিদ্যালয় ক্যাম্পাস",
+                  "category": "campus",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "শিল্পাচার্য জয়নুল আবেদিন সংগ্রহশালা",
+                  "category": "museum",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "আলেকজান্ডার ক্যাসেল",
+                  "category": "historical",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "মুক্তাগাছা",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "মুক্তাগাছা জমিদার বাড়ি",
+                  "category": "historical",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "জামালপুর",
+          "upazilas": [
+            {
+              "name": "মেলান্দহ",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "গান্ধী আশ্রম",
+                  "category": "heritage",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "নেত্রকোনা",
+          "upazilas": [
+            {
+              "name": "দুর্গাপুর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "বিরিশিরি",
+                  "category": "nature",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "সোমেশ্বরী নদী",
+                  "category": "river",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "শেরপুর",
+          "upazilas": [
+            {
+              "name": "নালিতাবাড়ী",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "মধুটিলা ইকোপার্ক",
+                  "category": "park",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "গজনী অবকাশ",
+                  "category": "park",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "রাজশাহী",
+      "districts": [
+        {
+          "name": "রাজশাহী",
+          "upazilas": [
+            {
+              "name": "পুঠিয়া",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "পুঠিয়া রাজবাড়ি ও মন্দির কমপ্লেক্স",
+                  "category": "historical",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "বাঘা",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "বাঘা শাহী মসজিদ",
+                  "category": "religious",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "রাজশাহী সদর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "বরেন্দ্র গবেষণা জাদুঘর",
+                  "category": "museum",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "পদ্মা নদীর পাড়",
+                  "category": "riverfront",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "নাটোর",
+          "upazilas": [
+            {
+              "name": "নাটোর সদর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "উত্তরা গণভবন",
+                  "category": "historical",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "নওগাঁ",
+          "upazilas": [
+            {
+              "name": "বদলগাছী",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "পাহাড়পুর বৌদ্ধ বিহার",
+                  "category": "archaeology",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "চাঁপাইনবাবগঞ্জ",
+          "upazilas": [
+            {
+              "name": "শিবগঞ্জ",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "ছোট সোনা মসজিদ",
+                  "category": "religious",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "গৌড়ের ধ্বংসাবশেষ",
+                  "category": "archaeology",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "পাবনা",
+          "upazilas": [
+            {
+              "name": "ঈশ্বরদী",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "হার্ডিঞ্জ ব্রিজ",
+                  "category": "bridge",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "সিরাজগঞ্জ",
+          "upazilas": [
+            {
+              "name": "তারাশ",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "তারাশ জমিদার বাড়ি",
+                  "category": "historical",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "বগুড়া",
+          "upazilas": [
+            {
+              "name": "শিবগঞ্জ",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "মহাস্থানগড়",
+                  "category": "archaeology",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "জয়পুরহাট",
+          "upazilas": [
+            {
+              "name": "পাঁচবিবি",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "পাথরঘাটা প্রত্নস্থান",
+                  "category": "archaeology",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "রংপুর",
+      "districts": [
+        {
+          "name": "রংপুর",
+          "upazilas": [
+            {
+              "name": "রংপুর সদর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "তাজহাট জমিদার বাড়ি",
+                  "category": "historical",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "রংপুর চিড়িয়াখানা",
+                  "category": "park",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "পীরগঞ্জ",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "ভিন্নজগত অ্যামিউজমেন্ট পার্ক",
+                  "category": "park",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "দিনাজপুর",
+          "upazilas": [
+            {
+              "name": "কাহারোল",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "কান্তজীর মন্দির",
+                  "category": "religious",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "দিনাজপুর সদর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "রামসাগর",
+                  "category": "lake",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "গাইবান্ধা",
+          "upazilas": [
+            {
+              "name": "ফুলছড়ি",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "বালাসী ঘাট",
+                  "category": "riverfront",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "কুড়িগ্রাম",
+          "upazilas": [
+            {
+              "name": "চিলমারী",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "চিলমারী নদীবন্দর",
+                  "category": "riverfront",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "লালমনিরহাট",
+          "upazilas": [
+            {
+              "name": "হাতীবান্ধা",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "তিস্তা ব্যারেজ",
+                  "category": "viewpoint",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "নীলফামারী",
+          "upazilas": [
+            {
+              "name": "সৈয়দপুর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "চিনি মসজিদ",
+                  "category": "religious",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "পঞ্চগড়",
+          "upazilas": [
+            {
+              "name": "পঞ্চগড় সদর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "ভিতরগড় দুর্গ",
+                  "category": "archaeology",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "রক মিউজিয়াম",
+                  "category": "museum",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ঠাকুরগাঁও",
+          "upazilas": [
+            {
+              "name": "রাণীশংকৈল",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "নেকমরদ প্রত্নস্থান",
+                  "category": "archaeology",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "খুলনা",
+      "districts": [
+        {
+          "name": "খুলনা",
+          "upazilas": [
+            {
+              "name": "খুলনা সদর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "শহীদ হাদিস পার্ক",
+                  "category": "park",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "কয়রা",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "সুন্দরবন (খুলনা রেঞ্জ)",
+                  "category": "forest",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "বাগেরহাট",
+          "upazilas": [
+            {
+              "name": "বাগেরহাট সদর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "ষাট গম্বুজ মসজিদ",
+                  "category": "religious",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "খান জাহান আলীর মাজার",
+                  "category": "religious",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "মংলা",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "করমজল পর্যটন কেন্দ্র",
+                  "category": "forest",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "সাতক্ষীরা",
+          "upazilas": [
+            {
+              "name": "শ্যামনগর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "সুন্দরবন (সাতক্ষীরা রেঞ্জ)",
+                  "category": "forest",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "যশোর",
+          "upazilas": [
+            {
+              "name": "কেশবপুর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "সাগরদাঁড়ি মাইকেল মধুসূদন জাদুঘর",
+                  "category": "museum",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "নড়াইল",
+          "upazilas": [
+            {
+              "name": "লোহাগড়া",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "লোহাগড়া জমিদার বাড়ি",
+                  "category": "historical",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "মাগুরা",
+          "upazilas": [
+            {
+              "name": "মহম্মদপুর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "রাজা সীতারাম রায়ের প্রাসাদ",
+                  "category": "historical",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ঝিনাইদহ",
+          "upazilas": [
+            {
+              "name": "শৈলকুপা",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "শৈলকুপা জমিদার বাড়ি",
+                  "category": "historical",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "চুয়াডাঙ্গা",
+          "upazilas": [
+            {
+              "name": "দামুড়হুদা",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "দর্শনা সীমান্ত",
+                  "category": "border",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "কুষ্টিয়া",
+          "upazilas": [
+            {
+              "name": "কুমারখালী",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "লালন শাহের আখড়া",
+                  "category": "religious",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "শিলাইদহ কুঠিবাড়ি",
+                  "category": "historical",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "মেহেরপুর",
+          "upazilas": [
+            {
+              "name": "মুজিবনগর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "মুজিবনগর স্মৃতিসৌধ",
+                  "category": "memorial",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "বরিশাল",
+      "districts": [
+        {
+          "name": "বরিশাল",
+          "upazilas": [
+            {
+              "name": "বাবুগঞ্জ",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "দুর্গাসাগর দীঘি",
+                  "category": "lake",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "লাকুটিয়া জমিদার বাড়ি",
+                  "category": "historical",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "উজিরপুর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "গুটিয়া মসজিদ",
+                  "category": "religious",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "সাতলা শাপলা গ্রাম",
+                  "category": "wetland",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "পটুয়াখালী",
+          "upazilas": [
+            {
+              "name": "কলাপাড়া",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "কুয়াকাটা সমুদ্র সৈকত",
+                  "category": "beach",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ভোলা",
+          "upazilas": [
+            {
+              "name": "মনপুরা",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "মনপুরা দ্বীপ",
+                  "category": "island",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ঝালকাঠি",
+          "upazilas": [
+            {
+              "name": "রাজাপুর",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "ভিমরুলি ভাসমান বাজার",
+                  "category": "floating_market",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "পিরোজপুর",
+          "upazilas": [
+            {
+              "name": "নেছারাবাদ",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "স্বরূপকাঠির পেয়ারা বাগান",
+                  "category": "orchard",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "বরগুনা",
+          "upazilas": [
+            {
+              "name": "তালতলী",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "শুভ সন্ধ্যা সৈকত",
+                  "category": "beach",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "পাথরঘাটা",
+              "area_type": "upazila",
+              "spots": [
+                {
+                  "name": "হরিণঘাটা পর্যটন এলাকা",
+                  "category": "forest",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

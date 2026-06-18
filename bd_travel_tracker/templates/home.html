@@ -1,0 +1,294 @@
+﻿{% extends 'base.html' %}
+{% load static humanize %}
+
+{% block main_class %}p-0{% endblock %}
+
+{% block extra_head %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="{% static 'css/home.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<header class="hero-wrap">
+    <section class="hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-xl-7 col-lg-8">
+                    <h1>Cholo Bd</h1>
+                    <p class="hero-lead">Explore and track your trips across beautiful Bangladesh.</p>
+                    <p class="hero-sub">Plan routes, log expenses, and see all your travel stats in one place.</p>
+                    <div class="hero-actions d-flex flex-wrap gap-3 mt-4">
+                        <a href="{% url 'account_entry' %}" class="btn btn-primary btn-lg px-4"><i class="bi bi-person-plus me-2"></i>Login / Sign up</a>
+                        <a href="{% url 'travel_map' %}" class="btn btn-light btn-lg px-4"><i class="bi bi-geo-alt me-2"></i>Browse Travel Map</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</header>
+
+<section id="features" class="features-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="feature-title">Why Use Cholo Bd?</h2>
+            <p class="feature-subtitle">Track trips, discover spots, and monitor costs in one place.</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <article class="feature-card">
+                    <h3><i class="bi bi-journal-check"></i> Track Your Trips</h3>
+                    <p>Add district, date, and notes quickly from a clean mini trip form.</p>
+                    <div class="mini-ui mini-form">
+                        <div class="mb-2">
+                            <label class="form-label small">District</label>
+                            <select class="form-select">
+                                {% for district in all_districts %}
+                                <option value="{{ district.id }}">{{ district.name }}</option>
+                                {% empty %}
+                                <option>No district data available</option>
+                                {% endfor %}
+                            </select>
+                            <small class="text-muted">Bangladesh districts loaded: {{ district_count }}</small>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label small">Travel Date</label>
+                            <input type="date" class="form-control" value="2026-03-08">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small">Notes</label>
+                            <input type="text" class="form-control" value="River boat ride and local food">
+                        </div>
+                        <a href="{% url 'trip_create' %}" class="btn btn-primary w-100 rounded-3"><i class="bi bi-check2-circle me-2"></i>Save Trip</a>
+                    </div>
+                </article>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <article class="feature-card">
+                    <h3><i class="bi bi-geo-alt-fill"></i> Explore & Find Spots</h3>
+                    <p>Preview live spot markers and quickly browse top places by district.</p>
+                    <div class="mini-ui">
+                        <div class="mini-map">
+                            <span class="map-mark" style="top: 22%; left: 44%;"></span>
+                            <span class="map-mark" style="top: 40%; left: 52%;"></span>
+                            <span class="map-mark" style="top: 56%; left: 62%;"></span>
+                            <span class="map-mark" style="top: 31%; left: 71%;"></span>
+                        </div>
+                        <div class="spot-list">
+                            {% for spot in featured_spots %}
+                            <div class="spot-item">
+                                <span class="spot-name">{{ spot.name }}</span>
+                                <span class="badge rounded-pill text-bg-primary">{{ spot.upazila.district.name }}</span>
+                            </div>
+                            {% empty %}
+                            <div class="spot-item">
+                                <span class="spot-name">Ratargul</span>
+                                <span class="badge rounded-pill text-bg-primary">Sylhet</span>
+                            </div>
+                            <div class="spot-item">
+                                <span class="spot-name">Sajek Valley</span>
+                                <span class="badge rounded-pill text-bg-primary">Rangamati</span>
+                            </div>
+                            <div class="spot-item">
+                                <span class="spot-name">Kuakata Sea Beach</span>
+                                <span class="badge rounded-pill text-bg-primary">Patuakhali</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <article class="feature-card">
+                    <h3><i class="bi bi-bar-chart-line-fill"></i> See Stats & Costs</h3>
+                    <p>Recent Tour / Spot Insight with quick summary cards and expense pie chart.</p>
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <h4>{{ total_trips|intcomma }}</h4>
+                            <p>Total Trips</p>
+                        </div>
+                        <div class="stat-box">
+                            <h4>{{ explored_districts|intcomma }}</h4>
+                            <p>Districts Explored</p>
+                        </div>
+                        <div class="stat-box">
+                            <h4>{{ spots_visited|intcomma }}</h4>
+                            <p>Spots Visited</p>
+                        </div>
+                        <div class="stat-box">
+                            <h4>Tk {{ total_spent|floatformat:0|intcomma }}</h4>
+                            <p>Total Expenses</p>
+                        </div>
+                    </div>
+                    <div class="mini-ui chart-wrap">
+                        <canvas id="homeExpenseChart" height="180"></canvas>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="cta-top-line" aria-hidden="true"></div>
+    <div class="container">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-8">
+                <h2 class="cta-title">বাংলাদেশে ঘোরাঘুরি করে নিন!</h2>
+                <p class="cta-subtitle">Start tracking your journey today.</p>
+                <div class="d-flex flex-wrap gap-2 cta-actions">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'community_join' %}" class="btn btn-primary btn-lg px-4" data-community-entry><i class="bi bi-people me-2"></i>Join Community</a>
+                    {% else %}
+                    <a href="{% url 'community_join' %}" class="btn btn-primary btn-lg px-4" data-community-entry><i class="bi bi-people me-2"></i>Join Community</a>
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'destinations' %}" class="btn btn-outline-primary btn-lg px-4"><i class="bi bi-compass me-2"></i>Explore Bangladesh</a>
+                    {% else %}
+                    <a href="{% url 'destinations' %}" class="btn btn-outline-primary btn-lg px-4"><i class="bi bi-info-circle me-2"></i>Learn More</a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="cta-gallery" aria-label="Featured Bangladesh travel spots">
+                    <figure class="cta-bubble bubble-left">
+                        <img src="https://images.unsplash.com/photo-1566552881560-0be862a7c445?auto=format&fit=crop&w=700&q=80" alt="Historic architecture in Bangladesh" loading="lazy">
+                    </figure>
+                    <figure class="cta-bubble bubble-center">
+                        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80" alt="River and green hills scenery" loading="lazy">
+                    </figure>
+                    <figure class="cta-bubble bubble-right">
+                        <img src="https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&w=700&q=80" alt="Sea beach and coastline view" loading="lazy">
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="brand-footer-section">
+    <div class="brand-footer-main">
+        <div class="container brand-footer-container">
+            <div class="brand-footer-top">
+                <div class="brand-footer-block">
+                    <h4>Travel Data Snapshot</h4>
+                    <div class="brand-footer-link-grid">
+                        <div>
+                            <h5>Top Districts</h5>
+                            <ul>
+                                {% for row in top_districts_footer %}
+                                <li>{{ row.district__name }} ({{ row.total }})</li>
+                                {% empty %}
+                                <li>No trip data yet</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div>
+                            <h5>Top Spots</h5>
+                            <ul>
+                                {% for row in top_spots_footer %}
+                                <li>{{ row.spot__name }} ({{ row.total }})</li>
+                                {% empty %}
+                                <li>No spot history yet</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div>
+                            <h5>Master Dataset</h5>
+                            <ul>
+                                <li>{{ division_count|intcomma }} Divisions</li>
+                                <li>{{ district_count|intcomma }} Districts</li>
+                                <li>{{ upazila_count|intcomma }} Upazilas</li>
+                                <li>{{ spot_count|intcomma }} Tour Spots</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="brand-socials">
+                        <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="brand-footer-news">
+                    <h5>Get Tracker Updates</h5>
+                    <form class="brand-subscribe-form" action="#" method="get">
+                        <input type="email" placeholder="Your email here" aria-label="Email address">
+                        <button type="button">Subscribe</button>
+                    </form>
+                    <p class="small mb-0">Feature updates, new spot imports, and travel insights for your account.</p>
+                </div>
+            </div>
+
+            <div class="brand-footer-bottom">
+                <span><i class="bi bi-c-circle me-1"></i>{{ current_year }} Cholo Bd</span>
+                <span><i class="bi bi-stars me-1"></i>Explore Bangladesh with smarter trip tracking</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{ expense_breakdown|json_script:'expense-breakdown-data' }}
+{% endblock %}
+
+{% block global_footer %}{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+<script>
+    (function () {
+        const chartNode = document.getElementById("homeExpenseChart");
+        const dataNode = document.getElementById("expense-breakdown-data");
+        if (!chartNode || !dataNode) {
+            return;
+        }
+
+        const payload = JSON.parse(dataNode.textContent || "{}");
+        const labels = Object.keys(payload);
+        const values = labels.map((label) => Number(payload[label] || 0));
+        const hasValue = values.some((value) => value > 0);
+        const chartValues = hasValue ? values : [1, 1, 1, 1, 1];
+
+        new Chart(chartNode, {
+            type: "pie",
+            data: {
+                labels: labels.length ? labels : ["Transport", "Food", "Hotel", "Ticket", "Other"],
+                datasets: [
+                    {
+                        data: chartValues,
+                        backgroundColor: ["#2d7d4d", "#58a667", "#94c973", "#5a95c8", "#8f9ef5"],
+                        borderWidth: 1,
+                        borderColor: "#ffffff"
+                    }
+                ]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        position: "bottom",
+                        labels: {
+                            boxWidth: 12,
+                            boxHeight: 12,
+                            usePointStyle: true,
+                            pointStyle: "circle"
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                if (!hasValue) {
+                                    return context.label + ": 0";
+                                }
+                                return context.label + ": Tk " + Number(context.parsed || 0).toFixed(2);
+                            }
+                        }
+                    }
+                },
+                maintainAspectRatio: false
+            }
+        });
+    })();
+</script>
+{% endblock %}

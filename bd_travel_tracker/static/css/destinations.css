@@ -1,0 +1,576 @@
+:root {
+    --destination-ink: #143c2f;
+    --destination-ink-soft: #49665a;
+    --destination-line: #c8d8ce;
+    --destination-panel: #f7faf8;
+    --destination-accent: #1f7a45;
+    --destination-accent-deep: #0f5b33;
+    --destination-chip: #eaf4ee;
+    --destination-shadow: 0 24px 60px rgba(16, 59, 41, 0.08);
+}
+
+.destination-hero,
+.destination-filter,
+.destination-stat,
+.destination-card,
+.destination-map-card,
+.destination-side-card,
+.destination-detail-hero {
+    border-radius: 28px;
+    box-shadow: var(--destination-shadow);
+}
+
+.destination-hero {
+    overflow: hidden;
+    background:
+        radial-gradient(circle at top right, rgba(126, 211, 170, 0.28), transparent 32%),
+        linear-gradient(135deg, #123e2f, #1e6a44 58%, #e6f2ea 170%);
+    color: #fff;
+}
+
+.destination-hero .card-body,
+.destination-detail-hero .card-body {
+    padding: 2rem;
+}
+
+.destination-hero__content,
+.destination-detail-hero__head,
+.destination-section-title,
+.destination-side-head,
+.destination-grid-head,
+.destination-filter__actions,
+.destination-card__actions,
+.destination-hero__actions {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.destination-hero h1,
+.destination-detail-hero h1 {
+    margin: 0 0 0.75rem;
+    font-size: clamp(2rem, 3vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.05;
+}
+
+.destination-hero__lead {
+    max-width: 56rem;
+    margin: 0;
+    font-size: 1.05rem;
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.destination-eyebrow {
+    margin: 0 0 0.45rem;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: inherit;
+}
+
+.destination-filter .card-body,
+.destination-stat .card-body,
+.destination-card .card-body,
+.destination-map-card .card-body,
+.destination-side-card .card-body {
+    padding: 1.5rem;
+}
+
+.destination-section-title h2,
+.destination-grid-head h2,
+.destination-side-head h2 {
+    margin: 0;
+    color: var(--destination-ink);
+    font-size: 1.55rem;
+    font-weight: 800;
+}
+
+.destination-section-title p.text-muted,
+.destination-grid-head p.text-muted,
+.destination-side-head p.text-muted {
+    max-width: 28rem;
+}
+
+.destination-filter {
+    background: linear-gradient(180deg, rgba(247, 250, 248, 0.96), rgba(240, 247, 243, 0.96));
+}
+
+.destination-filter .form-label {
+    margin-bottom: 0.4rem;
+    color: var(--destination-ink);
+    font-size: 0.92rem;
+    font-weight: 700;
+}
+
+.destination-filter .form-control,
+.destination-filter .form-select {
+    min-height: 3.2rem;
+    border-radius: 16px;
+    border-color: var(--destination-line);
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.destination-chip-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.destination-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--destination-line);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--destination-ink);
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.destination-chip strong {
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    background: var(--destination-chip);
+    font-size: 0.82rem;
+}
+
+.destination-chip:hover,
+.destination-chip.is-active {
+    transform: translateY(-1px);
+    border-color: rgba(31, 122, 69, 0.3);
+    box-shadow: 0 18px 36px rgba(16, 59, 41, 0.08);
+}
+
+.destination-chip.is-active {
+    background: linear-gradient(135deg, #1c7544, #256f53);
+    color: #fff;
+}
+
+.destination-chip.is-active strong {
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
+}
+
+.destination-stat {
+    background: #fff;
+}
+
+.destination-stat p {
+    margin: 0 0 0.45rem;
+    color: var(--destination-ink-soft);
+    font-size: 0.83rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.destination-stat h2 {
+    margin: 0;
+    color: var(--destination-ink);
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.destination-stat span {
+    color: var(--destination-ink-soft);
+    font-size: 0.95rem;
+}
+
+.destination-stat__compact {
+    font-size: 1.05rem;
+    line-height: 1.35;
+}
+
+.destination-side-stack,
+.destination-detail-stack {
+    display: grid;
+    gap: 1.25rem;
+}
+
+.destination-card {
+    overflow: hidden;
+    background: #fff;
+}
+
+.destination-card__media {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 10rem;
+    padding: 1.35rem;
+    color: #fff;
+    background: linear-gradient(135deg, #315f46, #5b9077);
+}
+
+.destination-card__media--beaches {
+    background: linear-gradient(135deg, #0f4c81, #49b6c3);
+}
+
+.destination-card__media--nature {
+    background: linear-gradient(135deg, #1e5d33, #72b37e);
+}
+
+.destination-card__media--historical {
+    background: linear-gradient(135deg, #5f3b1e, #c28d56);
+}
+
+.destination-card__media--religious {
+    background: linear-gradient(135deg, #573769, #a284d6);
+}
+
+.destination-card__media--hills {
+    background: linear-gradient(135deg, #395b8a, #89a9c7);
+}
+
+.destination-card__media--camps {
+    background: linear-gradient(135deg, #5d4725, #b98b47);
+}
+
+.destination-card__media--parks {
+    background: linear-gradient(135deg, #1c6241, #9cd08f);
+}
+
+.destination-card__media--islands {
+    background: linear-gradient(135deg, #14516b, #4cb8d3);
+}
+
+.destination-card__media--landmarks {
+    background: linear-gradient(135deg, #2a4a6c, #7fa0c2);
+}
+
+.destination-card__media-icon {
+    width: 3.4rem;
+    height: 3.4rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1.2rem;
+    background: rgba(255, 255, 255, 0.18);
+    font-size: 1.4rem;
+}
+
+.destination-card__media-text {
+    display: grid;
+    gap: 0.15rem;
+    flex: 1 1 auto;
+}
+
+.destination-card__media-text span {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+.destination-card__media-text strong {
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+.destination-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.38rem 0.7rem;
+    border-radius: 999px;
+    background: #eef6f0;
+    color: var(--destination-accent-deep);
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.destination-badge--saved {
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
+}
+
+.destination-card__topline,
+.destination-card__metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+}
+
+.destination-card h3 {
+    margin: 0.9rem 0 0.45rem;
+    color: var(--destination-ink);
+    font-size: 1.42rem;
+    font-weight: 800;
+}
+
+.destination-card__location,
+.destination-card__summary {
+    color: var(--destination-ink-soft);
+}
+
+.destination-card__location {
+    margin-bottom: 0.85rem;
+    font-size: 0.96rem;
+}
+
+.destination-card__metrics span {
+    color: var(--destination-ink);
+    font-size: 0.88rem;
+    font-weight: 700;
+}
+
+.destination-card__summary {
+    margin: 1rem 0 0;
+    line-height: 1.6;
+}
+
+.destination-card__actions {
+    flex-wrap: wrap;
+}
+
+.destination-card__actions form {
+    margin: 0;
+}
+
+.destination-map-card,
+.destination-side-card {
+    background: #fff;
+}
+
+.destination-map-canvas {
+    width: 100%;
+    min-height: 20rem;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #dce9df;
+}
+
+.destination-map-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 0.9rem 0 0.75rem;
+    color: var(--destination-ink-soft);
+    font-size: 0.9rem;
+}
+
+.destination-dot {
+    width: 0.7rem;
+    height: 0.7rem;
+    display: inline-block;
+    margin-right: 0.35rem;
+    border-radius: 999px;
+}
+
+.destination-dot--visited {
+    background: #1f9d55;
+}
+
+.destination-dot--saved {
+    background: #2563eb;
+}
+
+.destination-dot--unexplored {
+    background: #94a3b8;
+}
+
+.destination-list {
+    display: grid;
+    gap: 0.85rem;
+}
+
+.destination-list__item {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.95rem 1rem;
+    border-radius: 18px;
+    border: 1px solid var(--destination-line);
+    background: var(--destination-panel);
+    color: inherit;
+    text-decoration: none;
+}
+
+.destination-list__item strong {
+    display: block;
+    color: var(--destination-ink);
+}
+
+.destination-list__item span,
+.destination-list__copy,
+.destination-list__meta {
+    color: var(--destination-ink-soft);
+    font-size: 0.92rem;
+}
+
+.destination-list__meta {
+    display: grid;
+    gap: 0.2rem;
+    text-align: right;
+}
+
+.destination-empty {
+    border-radius: 28px;
+    box-shadow: var(--destination-shadow);
+}
+
+.destination-empty .card-body {
+    padding: 3.4rem 1.5rem;
+}
+
+.destination-empty i {
+    display: inline-flex;
+    margin-bottom: 0.9rem;
+    color: var(--destination-accent);
+    font-size: 2rem;
+}
+
+.destination-map-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+    padding: 1rem;
+    color: var(--destination-ink-soft);
+    text-align: center;
+}
+
+.destination-map-popup {
+    display: grid;
+    gap: 0.25rem;
+    min-width: 11rem;
+}
+
+.destination-map-popup strong {
+    color: var(--destination-ink);
+}
+
+.destination-map-popup span,
+.destination-map-popup small {
+    color: var(--destination-ink-soft);
+}
+
+.destination-map-popup__actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.35rem;
+}
+
+.destination-map-popup__actions a {
+    color: var(--destination-accent);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.destination-detail-hero {
+    overflow: hidden;
+    background: #fff;
+}
+
+.destination-detail-hero .destination-card__media {
+    min-height: 12rem;
+}
+
+.destination-backlink {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    color: var(--destination-accent);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.destination-photo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.destination-photo-tile {
+    margin: 0;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #eef5f1;
+}
+
+.destination-photo-tile img {
+    width: 100%;
+    height: 14rem;
+    object-fit: cover;
+    display: block;
+}
+
+.destination-photo-tile figcaption {
+    padding: 0.75rem 0.9rem 0.9rem;
+    color: var(--destination-ink);
+    font-weight: 700;
+}
+
+.destination-detail-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.destination-detail-metrics div {
+    padding: 1rem;
+    border-radius: 18px;
+    background: var(--destination-panel);
+    border: 1px solid var(--destination-line);
+}
+
+.destination-detail-metrics span {
+    display: block;
+    margin-bottom: 0.3rem;
+    color: var(--destination-ink-soft);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.destination-detail-metrics strong {
+    color: var(--destination-ink);
+    font-size: 1.1rem;
+}
+
+@media (max-width: 1199.98px) {
+    .destination-hero__content,
+    .destination-detail-hero__head,
+    .destination-section-title,
+    .destination-side-head,
+    .destination-grid-head,
+    .destination-filter__actions,
+    .destination-card__actions,
+    .destination-hero__actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .destination-hero .card-body,
+    .destination-detail-hero .card-body,
+    .destination-filter .card-body,
+    .destination-stat .card-body,
+    .destination-card .card-body,
+    .destination-map-card .card-body,
+    .destination-side-card .card-body {
+        padding: 1.2rem;
+    }
+
+    .destination-card__media {
+        min-height: 8.6rem;
+    }
+
+    .destination-photo-grid,
+    .destination-detail-metrics {
+        grid-template-columns: 1fr;
+    }
+
+    .destination-map-canvas {
+        min-height: 16rem;
+    }
+}

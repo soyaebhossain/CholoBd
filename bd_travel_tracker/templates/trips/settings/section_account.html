@@ -1,0 +1,51 @@
+<div class="settings-section-body">
+    <div class="settings-status-grid">
+        <article class="settings-status-card">
+            <span class="settings-status-label">Email verification</span>
+            <strong>{% if settings_bundle.security.email_verified %}Verified{% else %}Pending{% endif %}</strong>
+            <p class="mb-0 text-muted small">Email changes reset verification until delivery flow is connected.</p>
+        </article>
+        <article class="settings-status-card">
+            <span class="settings-status-label">Recovery status</span>
+            <strong>{% if settings_bundle.security.recovery_email or settings_bundle.security.recovery_phone %}Configured{% else %}Incomplete{% endif %}</strong>
+            <p class="mb-0 text-muted small">Recovery details help future password reset and account recovery flow.</p>
+        </article>
+        <article class="settings-status-card">
+            <span class="settings-status-label">Data access</span>
+            <strong>Available</strong>
+            <p class="mb-0 text-muted small">Use export request when you need a packaged copy of account-linked data.</p>
+        </article>
+    </div>
+
+    <form method="post" class="row g-3 mt-1">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="save_section">
+        {% if form.non_field_errors %}
+        <div class="col-12">
+            <div class="alert alert-danger mb-0">{{ form.non_field_errors }}</div>
+        </div>
+        {% endif %}
+
+        <div class="col-md-6">
+            <label class="form-label" for="{{ form.email.id_for_label }}"><i class="bi bi-envelope me-1"></i>Email</label>
+            {{ form.email }}
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="{{ form.phone.id_for_label }}"><i class="bi bi-telephone me-1"></i>Phone</label>
+            {{ form.phone }}
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="{{ form.recovery_email.id_for_label }}"><i class="bi bi-envelope-check me-1"></i>Recovery email</label>
+            {{ form.recovery_email }}
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="{{ form.recovery_phone.id_for_label }}"><i class="bi bi-shield-check me-1"></i>Recovery phone</label>
+            {{ form.recovery_phone }}
+        </div>
+        <div class="col-12 settings-actions">
+            <button class="btn btn-primary" type="submit"><i class="bi bi-check2-circle me-1"></i>Save Account Settings</button>
+            <button class="btn btn-outline-primary" type="submit" name="action" value="resend_verification"><i class="bi bi-envelope-check me-1"></i>Resend Verification</button>
+            <button class="btn btn-outline-secondary" type="submit" name="action" value="request_export"><i class="bi bi-download me-1"></i>Request Data Export</button>
+        </div>
+    </form>
+</div>

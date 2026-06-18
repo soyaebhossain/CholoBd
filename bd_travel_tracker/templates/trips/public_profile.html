@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block content %}
+<section class="mb-4">
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+            <div class="row g-4 align-items-center">
+                <div class="col-md-auto text-center">
+                    {% if profile.avatar %}
+                    <img src="{{ profile.avatar }}" alt="{{ target_user.username }}" class="rounded-circle border" width="120" height="120">
+                    {% else %}
+                    <div class="rounded-circle bg-light d-inline-flex align-items-center justify-content-center border" style="width: 120px; height: 120px;">
+                        <i class="bi bi-person fs-1 text-muted"></i>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="col">
+                    <div class="d-flex flex-wrap justify-content-between gap-3 align-items-start">
+                        <div>
+                            <h1 class="h3 mb-1">{{ profile.full_name|default:target_user.username }}</h1>
+                            <p class="text-muted mb-2">@{{ target_user.username }}</p>
+                            <p class="mb-3">{{ profile.bio|default:"Travel community member exploring Bangladesh." }}</p>
+                            <div class="d-flex flex-wrap gap-2 small text-muted">
+                                {% if profile.location %}<span><i class="bi bi-geo-alt me-1"></i>{{ profile.location }}</span>{% endif %}
+                                {% if profile.website %}<span><i class="bi bi-globe2 me-1"></i><a href="{{ profile.website }}" target="_blank" rel="noopener">{{ profile.website }}</a></span>{% endif %}
+                                <span><i class="bi bi-calendar-event me-1"></i>Joined {{ target_user.date_joined|date:"F Y" }}</span>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-wrap gap-2">
+                            {% if relationship.can_follow %}
+                            <form method="post" action="{% url 'community_toggle_follow' target_user.id %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                                <button type="submit" class="btn {% if relationship.is_following %}btn-outline-secondary{% else %}btn-primary{% endif %}">
+                                    <i class="bi {% if relationship.is_following %}bi-person-dash{% else %}bi-person-plus{% endif %} me-1"></i>
+                                    {% if relationship.is_following %}Following{% else %}Follow{% endif %}
+                                </button>
+                            </form>
+                            {% endif %}
+                            {% if relationship.can_message %}
+                            <a href="{{ relationship.message_url }}" class="btn btn-outline-primary">
+                                <i class="bi bi-chat-dots me-1"></i>Message
+                            </a>
+                            {% else %}
+                            <button type="button" class="btn btn-outline-secondary" disabled>
+                                <i class="bi bi-chat-dots me-1"></i>Message Locked
+                            </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-3 mt-1">
+                <div class="col-6 col-lg-3">
+                    <div class="border rounded-3 p-3 h-100">
+                        <div class="text-muted small">Followers</div>
+                        <div class="h4 mb-0">{{ relationship.follower_count|intcomma }}</div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="border rounded-3 p-3 h-100">
+                        <div class="text-muted small">Following</div>
+                        <div class="h4 mb-0">{{ relationship.following_count|intcomma }}</div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="border rounded-3 p-3 h-100">
+                        <div class="text-muted small">Trips</div>
+                        <div class="h4 mb-0">{{ total_trips|intcomma }}</div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="border rounded-3 p-3 h-100">
+                        <div class="text-muted small">Districts</div>
+                        <div class="h4 mb-0">{{ visited_districts|intcomma }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="row g-3">
+    <div class="col-lg-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h2 class="h5 mb-3"><i class="bi bi-person-badge me-2"></i>Profile Snapshot</h2>
+                <ul class="list-unstyled mb-0 small">
+                    <li class="py-2 border-bottom d-flex justify-content-between gap-3"><span>Spots Explored</span><strong>{{ visited_spots|intcomma }}</strong></li>
+                    <li class="py-2 border-bottom d-flex justify-content-between gap-3"><span>Community Posts</span><strong>{{ post_count|intcomma }}</strong></li>
+                    <li class="py-2 d-flex justify-content-between gap-3"><span>Direct Messages</span><strong>{% if relationship.can_message %}Open{% else %}Restricted{% endif %}</strong></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="h5 mb-0"><i class="bi bi-chat-square-text me-2"></i>Recent Community Posts</h2>
+                    <a href="{% url 'community' %}" class="btn btn-sm btn-outline-secondary">Open Community</a>
+                </div>
+                {% for post in recent_posts %}
+                <article class="border rounded-3 p-3 mb-3">
+                    <div class="d-flex justify-content-between gap-3 mb-2">
+                        <strong>{{ post.title }}</strong>
+                        <span class="small text-muted">{{ post.created_at|naturaltime }}</span>
+                    </div>
+                    {% if post.image_file %}
+                    <img src="{{ post.image_file.url }}" alt="{{ post.title }}" class="img-fluid rounded mb-3">
+                    {% endif %}
+                    {% if post.content %}<p class="mb-2">{{ post.content|truncatechars:180 }}</p>{% endif %}
+                    <div class="small text-muted d-flex flex-wrap gap-3">
+                        {% if post.district %}<span><i class="bi bi-building me-1"></i>{{ post.district.name }}</span>{% endif %}
+                        {% if post.spot %}<span><i class="bi bi-pin-map me-1"></i>{{ post.spot.name }}</span>{% endif %}
+                    </div>
+                </article>
+                {% empty %}
+                <div class="text-muted text-center py-5">No public community activity yet.</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

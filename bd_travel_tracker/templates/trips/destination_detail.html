@@ -1,0 +1,271 @@
+{% extends 'base.html' %}
+{% load static humanize %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/destinations.css' %}">
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+>
+{% endblock %}
+
+{% block content %}
+<section class="destination-detail-hero card border-0 mb-4">
+    <div class="destination-detail-hero__media destination-card__media destination-card__media--{{ destination.category_key }}">
+        <div class="destination-card__media-icon">
+            <i class="bi {{ destination.category_icon }}"></i>
+        </div>
+        <div class="destination-card__media-text">
+            <span>{{ destination.category_label }}</span>
+            <strong>{{ destination.division }}</strong>
+        </div>
+    </div>
+    <div class="card-body">
+        <a href="{% url 'destinations' %}" class="destination-backlink">
+            <i class="bi bi-arrow-left me-1"></i>Back to explorer
+        </a>
+        <div class="destination-detail-hero__head">
+            <div>
+                <p class="destination-eyebrow"><i class="bi bi-pin-map me-2"></i>Destination Details</p>
+                <h1>{{ destination.name }}</h1>
+                <p class="destination-card__location mb-3">
+                    <i class="bi bi-geo-alt me-1"></i>{{ destination.upazila }}, {{ destination.district }}, {{ destination.division }}
+                </p>
+                <div class="destination-card__metrics">
+                    <span><i class="bi bi-star-fill me-1"></i>{{ destination.traveler_score }} traveler score</span>
+                    <span><i class="bi bi-eye me-1"></i>{{ destination.total_visits|intcomma }} visits</span>
+                    <span><i class="bi bi-people me-1"></i>{{ destination.unique_visitors|intcomma }} travelers</span>
+                    <span><i class="bi bi-bookmark-heart me-1"></i>{{ destination.saved_count|intcomma }} saves</span>
+                </div>
+            </div>
+            <div class="destination-detail-hero__actions">
+                <a href="{{ destination.trip_url }}" class="btn btn-primary">
+                    <i class="bi bi-journal-plus me-2"></i>Add Trip
+                </a>
+                {% if destination.is_saved %}
+                <a href="{% url 'saved_spots' %}" class="btn btn-outline-secondary">
+                    <i class="bi bi-bookmark-heart-fill me-2"></i>Saved
+                </a>
+                {% else %}
+                <form method="post" action="{% url 'saved_spots' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="spot" value="{{ destination.id }}">
+                    <input type="hidden" name="note" value="">
+                    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                    <button type="submit" class="btn btn-outline-secondary">
+                        <i class="bi bi-bookmark-plus me-2"></i>Save Spot
+                    </button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="row g-4">
+    <div class="col-12 col-xl-8">
+        <div class="destination-detail-stack">
+            <article class="card border-0 destination-side-card">
+                <div class="card-body">
+                    <div class="destination-section-title">
+                        <div>
+                            <p class="destination-eyebrow"><i class="bi bi-card-text me-2"></i>Description</p>
+                            <h2>Why travelers explore this destination</h2>
+                        </div>
+                    </div>
+                    <p class="mb-0">{{ destination.description|default:destination.summary }}</p>
+                </div>
+            </article>
+
+            <article class="card border-0 destination-side-card">
+                <div class="card-body">
+                    <div class="destination-section-title">
+                        <div>
+                            <p class="destination-eyebrow"><i class="bi bi-images me-2"></i>Photos</p>
+                            <h2>Community media around this spot</h2>
+                        </div>
+                    </div>
+                    {% if photo_posts %}
+                    <div class="destination-photo-grid">
+                        {% for post in photo_posts %}
+                        <figure class="destination-photo-tile">
+                            <img src="{{ post.image_file.url }}" alt="{{ post.title }}">
+                            <figcaption>{{ post.title }}</figcaption>
+                        </figure>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p class="text-muted mb-0">No community photos yet. The destination is still available for trips, saves, and map-based planning.</p>
+                    {% endif %}
+                </div>
+            </article>
+
+            <article class="card border-0 destination-side-card">
+                <div class="card-body">
+                    <div class="destination-section-title">
+                        <div>
+                            <p class="destination-eyebrow"><i class="bi bi-lightbulb me-2"></i>Travel Tips</p>
+                            <h2>Recent traveler notes</h2>
+                        </div>
+                    </div>
+                    <div class="destination-list">
+                        {% for trip in travel_tips %}
+                        <div class="destination-list__item">
+                            <div>
+                                <strong>{{ trip.user.username }}</strong>
+                                <span>{{ trip.from_date|date:"d M Y" }}</span>
+                            </div>
+                            <div class="destination-list__copy">{{ trip.notes|truncatechars:160 }}</div>
+                        </div>
+                        {% empty %}
+                        <p class="text-muted mb-0">No travel tips added yet. The first travelers who log trips here will start building this section.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </article>
+
+            <article class="card border-0 destination-side-card">
+                <div class="card-body">
+                    <div class="destination-section-title">
+                        <div>
+                            <p class="destination-eyebrow"><i class="bi bi-people me-2"></i>Trips by Community</p>
+                            <h2>Recent activity around {{ destination.name }}</h2>
+                        </div>
+                    </div>
+                    <div class="destination-list">
+                        {% for trip in recent_trips %}
+                        <div class="destination-list__item">
+                            <div>
+                                <strong>{{ trip.user.username }}</strong>
+                                <span>{{ trip.from_date|date:"d M Y" }}{% if trip.hotel_name %} | {{ trip.hotel_name }}{% endif %}</span>
+                            </div>
+                            <div class="destination-list__meta">
+                                <span><i class="bi bi-cash-coin me-1"></i>Tk {{ trip.total_cost|intcomma }}</span>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p class="text-muted mb-0">No trip log has been added for this spot yet.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </article>
+
+            <article class="card border-0 destination-side-card">
+                <div class="card-body">
+                    <div class="destination-section-title">
+                        <div>
+                            <p class="destination-eyebrow"><i class="bi bi-chat-square-dots me-2"></i>Community Discussions</p>
+                            <h2>Posts linked with this destination</h2>
+                        </div>
+                    </div>
+                    <div class="destination-list">
+                        {% for post in community_posts %}
+                        <a href="{% url 'community' %}" class="destination-list__item">
+                            <div>
+                                <strong>{{ post.title }}</strong>
+                                <span>{{ post.user.username }} | {{ post.created_at|timesince }} ago</span>
+                            </div>
+                            <div class="destination-list__meta">
+                                <span><i class="bi bi-chat-left-text me-1"></i>{{ post.comment_count }}</span>
+                                <span><i class="bi bi-hand-thumbs-up me-1"></i>{{ post.reaction_count }}</span>
+                            </div>
+                        </a>
+                        {% empty %}
+                        <p class="text-muted mb-0">No community posts linked with this destination yet.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <div class="col-12 col-xl-4">
+        <div class="destination-detail-stack">
+            <article class="card border-0 destination-map-card">
+                <div class="card-body">
+                    <div class="destination-side-head">
+                        <div>
+                            <p class="destination-eyebrow"><i class="bi bi-map me-2"></i>Location</p>
+                            <h2>Map preview</h2>
+                        </div>
+                    </div>
+                    <div id="destinationDetailMap" class="destination-map-canvas"></div>
+                    {% if destination.has_coordinates %}
+                    <p class="small text-muted mb-0">Mapped point for {{ destination.name }}.</p>
+                    {% else %}
+                    <p class="small text-muted mb-0">Coordinates are not available yet for this destination.</p>
+                    {% endif %}
+                </div>
+            </article>
+
+            <article class="card border-0 destination-side-card">
+                <div class="card-body">
+                    <div class="destination-section-title">
+                        <div>
+                            <p class="destination-eyebrow"><i class="bi bi-graph-up-arrow me-2"></i>Snapshot</p>
+                            <h2>Current travel signal</h2>
+                        </div>
+                    </div>
+                    <div class="destination-detail-metrics">
+                        <div>
+                            <span>Category</span>
+                            <strong>{{ destination.category }}</strong>
+                        </div>
+                        <div>
+                            <span>Traveler score</span>
+                            <strong>{{ destination.traveler_score }}</strong>
+                        </div>
+                        <div>
+                            <span>Trips logged</span>
+                            <strong>{{ destination.total_visits|intcomma }}</strong>
+                        </div>
+                        <div>
+                            <span>Traveler saves</span>
+                            <strong>{{ destination.saved_count|intcomma }}</strong>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="card border-0 destination-side-card">
+                <div class="card-body">
+                    <div class="destination-section-title">
+                        <div>
+                            <p class="destination-eyebrow"><i class="bi bi-signpost-2 me-2"></i>Nearby Spots</p>
+                            <h2>Continue exploring this district</h2>
+                        </div>
+                    </div>
+                    <div class="destination-list">
+                        {% for row in nearby_rows %}
+                        <a href="{{ row.detail_url }}" class="destination-list__item">
+                            <div>
+                                <strong>{{ row.name }}</strong>
+                                <span>{{ row.upazila }} | {{ row.category_label }}</span>
+                            </div>
+                            <div class="destination-list__meta">
+                                <span><i class="bi bi-eye me-1"></i>{{ row.total_visits|intcomma }}</span>
+                            </div>
+                        </a>
+                        {% empty %}
+                        <p class="text-muted mb-0">No nearby destinations are available in the current district.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+{{ detail_map_json|json_script:'destination-detail-map-data' }}
+{% endblock %}
+
+{% block extra_js %}
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+></script>
+<script src="{% static 'js/destinations.js' %}"></script>
+{% endblock %}

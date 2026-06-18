@@ -1,0 +1,28 @@
+<div class="settings-section-body">
+    <form method="post" class="row g-3">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="save_section">
+        <div class="col-md-4">
+            <div class="settings-toggle-card">
+                {{ form.backup_enabled }}
+                <label for="{{ form.backup_enabled.id_for_label }}">Backup preferences enabled</label>
+                <small>Store how future export scheduling should behave.</small>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label" for="{{ form.export_format.id_for_label }}">Export format</label>
+            {{ form.export_format }}
+        </div>
+        <div class="col-md-4">
+            <div class="settings-toggle-card">
+                {{ form.include_media_in_exports }}
+                <label for="{{ form.include_media_in_exports.id_for_label }}">Include media in exports</label>
+                <small>Controls future export package composition.</small>
+            </div>
+        </div>
+        <div class="col-12 settings-actions">
+            <button class="btn btn-primary" type="submit"><i class="bi bi-check2-circle me-1"></i>Save Data Settings</button>
+            <button class="btn btn-outline-primary" type="submit" name="action" value="request_export"><i class="bi bi-download me-1"></i>Request Export</button>
+        </div>
+    </form>
+</div>

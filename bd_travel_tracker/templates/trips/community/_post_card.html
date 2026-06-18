@@ -1,0 +1,295 @@
+{% load humanize %}
+<article class="card h-100 community-post-card" id="post-{{ post.id }}">
+    <div class="card-body">
+        <div class="community-post-header mb-3">
+            <div class="community-post-author">
+                {% if post.can_view_profile %}
+                <div class="community-avatar-wrap">
+                    <button type="button" class="btn p-0 border-0 bg-transparent js-mini-profile" data-user-id="{{ post.user.id }}" aria-label="View profile">
+                        {% if post.author_avatar %}
+                        <img class="community-avatar" src="{{ post.author_avatar }}" alt="{{ post.author_name }}">
+                        {% else %}
+                        <span class="community-avatar-placeholder"><i class="bi bi-person"></i></span>
+                        {% endif %}
+                    </button>
+                    {% if post.author_is_online %}<span class="community-online-dot"></span>{% endif %}
+                </div>
+                {% else %}
+                <span class="community-avatar-placeholder"><i class="bi bi-person-lock"></i></span>
+                {% endif %}
+                <div class="community-post-author-meta">
+                    <h3 class="h6 mb-0 community-post-author-name">
+                        {% if post.can_view_profile %}
+                        <a href="{% url 'traveler_profile' post.user.id %}" class="text-decoration-none text-reset">{{ post.author_name }}</a>
+                        {% else %}
+                        {{ post.author_name }}
+                        {% endif %}
+                    </h3>
+                    <div class="community-post-author-line">
+                        <span>{{ post.created_at|naturaltime }}</span>
+                        {% if post.location_name %}<span><i class="bi bi-geo-alt me-1"></i>{{ post.location_name }}</span>{% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="community-post-state text-end">
+                <span class="badge text-bg-primary-subtle border border-primary-subtle">{{ post.get_post_type_display }}</span>
+                {% if post.is_resolved %}
+                <div class="mt-1"><span class="badge text-bg-success">Resolved</span></div>
+                {% endif %}
+            </div>
+        </div>
+
+        <h4 class="h6 mb-2 community-post-title">{{ post.title }}</h4>
+        {% if post.content %}
+        <div class="community-post-content mb-3">{{ post.content|linebreaksbr }}</div>
+        {% endif %}
+
+        <div class="community-post-meta">
+            {% if post.location_name %}<span><i class="bi bi-geo-alt me-1"></i>{{ post.location_name }}</span>{% endif %}
+            {% if post.district %}<span><i class="bi bi-building me-1"></i>{{ post.district.name }}</span>{% endif %}
+            {% if post.spot %}<span><i class="bi bi-pin-map me-1"></i>{{ post.spot.name }}</span>{% endif %}
+        </div>
+
+        {% if post.hashtag_tokens %}
+        <div class="community-post-tags">
+            {% for tag in post.hashtag_tokens %}
+            <a class="badge rounded-pill text-bg-light border text-decoration-none" href="{{ request.path }}?hashtag={{ tag|cut:'#' }}">{{ tag }}</a>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if post.display_media_items %}
+        <div class="d-grid gap-2 mb-3">
+            {% for media in post.display_media_items %}
+                {% if media.media_type == 'image' %}
+                <img class="img-fluid rounded community-post-image" src="{{ media.preview_url }}" alt="{{ media.caption|default:post.title }}">
+                {% elif media.media_type == 'video' %}
+                <video class="w-100 rounded" controls preload="metadata">
+                    <source src="{{ media.preview_url }}">
+                </video>
+                {% elif media.media_type == 'audio' %}
+                <audio class="w-100" controls preload="metadata">
+                    <source src="{{ media.preview_url }}">
+                </audio>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if post.poll_question and post.poll_options %}
+        <div class="community-poll-box mb-3">
+            <p class="fw-semibold mb-1"><i class="bi bi-bar-chart me-1"></i>{{ post.poll_question }}</p>
+            <ul class="mb-0 small">
+                {% for option in post.poll_options.splitlines %}
+                {% if option.strip %}<li>{{ option }}</li>{% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <div class="community-post-summary">
+            <div class="community-reaction-overview">
+                <span class="js-reaction-overview-icons">
+                    {% for reaction in post.reaction_summary|slice:":2" %}
+                    <span class="community-reaction-chip community-reaction-chip-{{ reaction.color }}">{{ reaction.emoji }}</span>
+                    {% endfor %}
+                </span>
+                <span class="community-summary-text"><span class="js-reaction-total">{{ post.like_count }}</span> reactions</span>
+            </div>
+            <div class="community-summary-stats">
+                <span><span class="js-comment-total">{{ post.comment_count }}</span> comments</span>
+                <span>{{ post.view_count }} views</span>
+                <span><span class="js-save-total">{{ post.save_count }}</span> saves</span>
+            </div>
+        </div>
+
+        <div class="community-post-actions">
+            <div class="community-reaction-action">
+                <button
+                    class="btn btn-sm btn-outline-primary js-like-btn"
+                    data-post-id="{{ post.id }}"
+                    data-liked="{% if post.is_liked_by_me %}1{% else %}0{% endif %}"
+                    data-reaction="{{ post.current_reaction }}"
+                >
+                    <span class="community-reaction-button-symbol js-reaction-symbol">{{ post.current_reaction_meta.emoji }}</span>
+                    <span class="js-reaction-label">{% if post.current_reaction %}{{ post.current_reaction_meta.label }}{% else %}Like{% endif %}</span>
+                    <span class="js-like-count">{{ post.like_count }}</span>
+                </button>
+                <div class="community-reaction-picker" role="menu" aria-label="Post reactions">
+                    {% for reaction in community_reaction_choices %}
+                    <button
+                        type="button"
+                        class="community-reaction-picker-btn js-reaction-option"
+                        data-post-id="{{ post.id }}"
+                        data-reaction="{{ reaction.key }}"
+                        title="{{ reaction.label }}"
+                        aria-label="{{ reaction.label }}"
+                    >
+                        <span class="community-reaction-picker-emoji">{{ reaction.emoji }}</span>
+                        <span class="community-reaction-picker-label">{{ reaction.label }}</span>
+                    </button>
+                    {% endfor %}
+                </div>
+            </div>
+            <a class="btn btn-sm btn-outline-secondary js-focus-comment-btn" href="#comments-{{ post.id }}">
+                <i class="bi bi-chat-left me-1"></i>Comment <span class="js-comment-action-count">{{ post.comment_count }}</span>
+            </a>
+            <button class="btn btn-sm btn-outline-secondary js-share-btn" data-share-url="{{ request.build_absolute_uri }}#post-{{ post.id }}">
+                <i class="bi bi-share me-1"></i>Share
+            </button>
+            <button class="btn btn-sm btn-outline-primary js-save-btn" data-post-id="{{ post.id }}" data-saved="{% if post.is_saved_by_me %}1{% else %}0{% endif %}">
+                <i class="bi {% if post.is_saved_by_me %}bi-bookmark-check-fill{% else %}bi-bookmark{% endif %} me-1"></i>
+                Save <span class="js-save-count">{{ post.save_count }}</span>
+            </button>
+        </div>
+
+        <div
+            id="comments-{{ post.id }}"
+            class="community-comments"
+            data-post-id="{{ post.id }}"
+            data-post-type="{{ post.post_type }}"
+            data-post-title="{{ post.title }}"
+            data-post-location="{% if post.location_name %}{{ post.location_name }}{% elif post.spot %}{{ post.spot.name }}{% elif post.district %}{{ post.district.name }}{% endif %}"
+            data-post-author="{{ post.author_name }}"
+        >
+            <div class="community-comments-header">
+                <h5 class="h6 mb-0"><i class="bi bi-chat-dots me-1"></i>Comments</h5>
+                <span class="community-comments-sort">Most relevant</span>
+            </div>
+
+            <div class="community-comment-thread">
+                {% for comment in post.comments.all %}
+                <article class="community-comment-item">
+                    <div class="community-comment-avatar-slot">
+                        {% if comment.can_view_profile %}
+                        <a href="{% url 'traveler_profile' comment.user.id %}" class="text-decoration-none">
+                            {% if comment.author_avatar %}
+                            <img class="community-avatar community-avatar-sm" src="{{ comment.author_avatar }}" alt="{{ comment.author_name }}">
+                            {% else %}
+                            <span class="community-avatar-placeholder community-avatar-placeholder-sm">{{ comment.author_initial }}</span>
+                            {% endif %}
+                        </a>
+                        {% else %}
+                            {% if comment.author_avatar %}
+                            <img class="community-avatar community-avatar-sm" src="{{ comment.author_avatar }}" alt="{{ comment.author_name }}">
+                            {% else %}
+                            <span class="community-avatar-placeholder community-avatar-placeholder-sm">{{ comment.author_initial }}</span>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    <div class="community-comment-main">
+                        <div class="community-comment-bubble">
+                            <div class="community-comment-head">
+                                <strong class="community-comment-author">
+                                    {% if comment.can_view_profile %}
+                                    <a href="{% url 'traveler_profile' comment.user.id %}" class="text-decoration-none text-reset">{{ comment.author_name }}</a>
+                                    {% else %}
+                                    {{ comment.author_name }}
+                                    {% endif %}
+                                </strong>
+                                <span class="community-comment-time">{{ comment.created_at|naturaltime }}</span>
+                            </div>
+                            <div class="community-comment-text">{{ comment.content|default:'(Media reply)'|linebreaksbr }}</div>
+                            {% if comment.image_file or comment.audio_file or comment.video_file %}
+                            <div class="community-comment-media">
+                                {% if comment.image_file %}<a href="{{ comment.image_file.url }}" target="_blank" rel="noopener"><i class="bi bi-image me-1"></i>Image</a>{% endif %}
+                                {% if comment.audio_file %}<a href="{{ comment.audio_file.url }}" target="_blank" rel="noopener"><i class="bi bi-mic me-1"></i>Audio</a>{% endif %}
+                                {% if comment.video_file %}<a href="{{ comment.video_file.url }}" target="_blank" rel="noopener"><i class="bi bi-camera-video me-1"></i>Video</a>{% endif %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="community-comment-footer">
+                            {% if comment.is_edited %}<span class="community-comment-state">Edited</span>{% endif %}
+                            {% if comment.can_edit %}
+                            <details class="community-comment-edit">
+                                <summary class="small">Edit</summary>
+                                <form method="post" action="{% url 'community_edit_comment' comment.id %}" enctype="multipart/form-data" class="community-comment-edit-form row g-2">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="next" value="{{ current_path_with_query }}">
+                                    <div class="col-12">{{ comment.edit_form.content }}</div>
+                                    <div class="col-md-4">{{ comment.edit_form.image_file }}</div>
+                                    <div class="col-md-4">{{ comment.edit_form.audio_file }}</div>
+                                    <div class="col-md-4">{{ comment.edit_form.video_file }}</div>
+                                    <div class="col-12">
+                                        <button class="btn btn-sm btn-outline-primary" type="submit"><i class="bi bi-pencil-square me-1"></i>Update Comment</button>
+                                    </div>
+                                </form>
+                            </details>
+                            {% endif %}
+                        </div>
+
+                        {% if comment.history_entries.all %}
+                        <details class="community-comment-history">
+                            <summary class="small">Edit History ({{ comment.history_entries.count }})</summary>
+                            <div class="mt-2 d-grid gap-2">
+                                {% for history in comment.history_entries.all %}
+                                <div class="community-comment-history-item">
+                                    <p class="small text-muted mb-1">{{ history.created_at|naturaltime }}</p>
+                                    <p class="small mb-1">{{ history.previous_content|default:'(Media reply)' }}</p>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </details>
+                        {% endif %}
+                    </div>
+                </article>
+                {% empty %}
+                <div class="community-comment-empty">
+                    <i class="bi bi-chat-left-dots"></i>
+                    <span>No comments yet.</span>
+                </div>
+                {% endfor %}
+            </div>
+
+            <form method="post" action="{% url 'community_add_comment' post.id %}" enctype="multipart/form-data" class="community-comment-composer">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ current_path_with_query }}">
+                <div class="community-comment-suggestions">
+                    <div class="community-comment-suggestions-head">
+                        <span class="community-comment-suggestions-label"><i class="bi bi-stars me-1"></i>AI reply suggestions</span>
+                        <button type="button" class="btn btn-sm btn-link p-0 community-comment-suggestions-refresh js-refresh-comment-suggestions">Refresh</button>
+                    </div>
+                    <div class="community-comment-suggestions-list js-comment-suggestions"></div>
+                </div>
+                <div class="community-comment-composer-shell">
+                    <div class="community-comment-avatar-slot">
+                        {% if user.profile.avatar %}
+                        <img class="community-avatar community-avatar-sm" src="{{ user.profile.avatar }}" alt="{{ user.username }}">
+                        {% else %}
+                        <span class="community-avatar-placeholder community-avatar-placeholder-sm"><i class="bi bi-person"></i></span>
+                        {% endif %}
+                    </div>
+                    <div class="community-comment-compose-main">
+                        <span class="community-comment-input-label">Comment as {{ user.profile.full_name|default:user.username }}:</span>
+                        <div class="community-comment-compose-box">
+                            <div class="community-comment-textarea">
+                                {{ comment_form.content }}
+                            </div>
+                            <div class="community-comment-compose-footer">
+                                <div class="community-comment-tools">
+                                    <button type="button" class="community-tool-icon js-insert-comment-emoji" data-emoji="&#128522;" aria-label="Add emoji">
+                                        <i class="bi bi-emoji-smile"></i>
+                                    </button>
+                                    <label class="community-upload-chip">
+                                        <i class="bi bi-image"></i>
+                                        {{ comment_form.image_file }}
+                                    </label>
+                                    <label class="community-upload-chip">
+                                        <i class="bi bi-mic"></i>
+                                        {{ comment_form.audio_file }}
+                                    </label>
+                                    <label class="community-upload-chip">
+                                        <i class="bi bi-camera-video"></i>
+                                        {{ comment_form.video_file }}
+                                    </label>
+                                </div>
+                                <button class="btn btn-sm btn-primary community-comment-submit" type="submit"><i class="bi bi-send me-1"></i>Comment</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</article>

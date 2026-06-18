@@ -1,0 +1,51 @@
+<form method="post" enctype="multipart/form-data" class="row g-3 settings-section-body">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="save_section">
+    {% if form.non_field_errors %}
+    <div class="col-12"><div class="alert alert-danger mb-0">{{ form.non_field_errors }}</div></div>
+    {% endif %}
+
+    <div class="col-md-6">
+        <label class="form-label" for="{{ form.full_name.id_for_label }}"><i class="bi bi-person-vcard me-1"></i>Full name</label>
+        {{ form.full_name }}
+    </div>
+    <div class="col-md-6">
+        <label class="form-label" for="{{ form.username.id_for_label }}"><i class="bi bi-at me-1"></i>Username</label>
+        {{ form.username }}
+    </div>
+    <div class="col-md-6">
+        <label class="form-label" for="{{ form.avatar_file.id_for_label }}"><i class="bi bi-person-circle me-1"></i>Profile photo</label>
+        {{ form.avatar_file }}
+    </div>
+    <div class="col-md-6">
+        <label class="form-label" for="{{ form.cover_photo.id_for_label }}"><i class="bi bi-image me-1"></i>Cover photo</label>
+        {{ form.cover_photo }}
+    </div>
+    <div class="col-md-6">
+        <label class="form-label" for="{{ form.location.id_for_label }}"><i class="bi bi-geo-alt me-1"></i>Location</label>
+        {{ form.location }}
+    </div>
+    <div class="col-md-6">
+        <label class="form-label" for="{{ form.website.id_for_label }}"><i class="bi bi-globe2 me-1"></i>Website</label>
+        {{ form.website }}
+    </div>
+    <div class="col-md-6">
+        <label class="form-label" for="{{ form.avatar_url.id_for_label }}"><i class="bi bi-link-45deg me-1"></i>External avatar URL</label>
+        {{ form.avatar_url }}
+    </div>
+    <div class="col-md-6">
+        <label class="form-label" for="{{ form.social_links.id_for_label }}"><i class="bi bi-share me-1"></i>Social links</label>
+        {{ form.social_links }}
+        <div class="form-text">{{ form.social_links.help_text }}</div>
+    </div>
+    <div class="col-12">
+        <label class="form-label" for="{{ form.bio.id_for_label }}"><i class="bi bi-chat-square-quote me-1"></i>Bio</label>
+        {{ form.bio }}
+    </div>
+    <div class="col-12 settings-inline-note">
+        <i class="bi bi-eye me-2"></i>These fields define your public travel identity. The profile page shows them; settings is only the edit surface.
+    </div>
+    <div class="col-12 settings-actions">
+        <button class="btn btn-primary" type="submit"><i class="bi bi-check2-circle me-1"></i>Save Profile Settings</button>
+    </div>
+</form>

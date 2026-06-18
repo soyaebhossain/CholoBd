@@ -1,0 +1,290 @@
+.settings-shell {
+    display: grid;
+    gap: 1.25rem;
+}
+
+.settings-header {
+    padding: 0.25rem 0 0.15rem;
+}
+
+.settings-kicker {
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #5e7768;
+}
+
+.settings-title {
+    margin: 0 0 0.35rem;
+    font-size: clamp(2rem, 4vw, 2.6rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+.settings-layout {
+    display: grid;
+    grid-template-columns: minmax(260px, 300px) minmax(0, 1fr);
+    gap: 1rem;
+    align-items: start;
+}
+
+.settings-sidebar,
+.settings-panel {
+    border: 1px solid var(--app-border);
+    border-radius: 20px;
+    box-shadow: 0 18px 40px rgba(25, 55, 36, 0.08);
+}
+
+.settings-sidebar {
+    position: sticky;
+    top: 88px;
+}
+
+.settings-sidebar-user {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--app-border);
+}
+
+.settings-sidebar-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 18px;
+    overflow: hidden;
+    background: linear-gradient(145deg, #edf6ef 0%, #dcebdd 100%);
+    color: var(--app-primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    border: 1px solid #d6e5d8;
+    flex-shrink: 0;
+}
+
+.settings-sidebar-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.settings-nav {
+    display: grid;
+    gap: 0.35rem;
+}
+
+.settings-nav-link {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: start;
+    padding: 0.8rem 0.85rem;
+    border-radius: 16px;
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid transparent;
+    transition: 0.18s ease;
+}
+
+.settings-nav-link:hover,
+.settings-nav-link:focus {
+    background: #f5faf6;
+    border-color: #d9e8dc;
+    color: inherit;
+}
+
+.settings-nav-link.is-active {
+    background: linear-gradient(145deg, rgba(37, 95, 61, 0.14) 0%, rgba(78, 164, 110, 0.12) 100%);
+    border-color: #bfd5c5;
+}
+
+.settings-nav-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #edf6ef;
+    color: var(--app-primary);
+    border: 1px solid #dbe9de;
+    font-size: 1rem;
+}
+
+.settings-nav-link strong,
+.settings-nav-link small {
+    display: block;
+}
+
+.settings-nav-link strong {
+    font-size: 0.97rem;
+}
+
+.settings-nav-link small {
+    margin-top: 0.16rem;
+    color: var(--app-muted);
+    line-height: 1.35;
+}
+
+.settings-panel .card-body {
+    padding: 1.35rem;
+}
+
+.settings-panel-head {
+    margin-bottom: 1.15rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--app-border);
+}
+
+.settings-section-body {
+    display: grid;
+    gap: 1rem;
+}
+
+.settings-status-grid,
+.danger-zone-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.9rem;
+}
+
+.settings-status-card,
+.danger-zone-card {
+    border: 1px solid #d7e5d9;
+    border-radius: 16px;
+    padding: 1rem;
+    background: linear-gradient(145deg, #fbfdfb 0%, #f2f8f3 100%);
+}
+
+.settings-status-label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #62786a;
+    margin-bottom: 0.35rem;
+}
+
+.settings-toggle-card {
+    height: 100%;
+    border: 1px solid #d7e5d9;
+    border-radius: 16px;
+    padding: 0.95rem 1rem;
+    background: #f8fbf8;
+}
+
+.settings-toggle-card label {
+    display: inline-block;
+    margin-left: 0.55rem;
+    font-weight: 700;
+}
+
+.settings-toggle-card small {
+    display: block;
+    margin-top: 0.45rem;
+    color: var(--app-muted);
+    line-height: 1.45;
+}
+
+.settings-inline-note {
+    display: flex;
+    align-items: flex-start;
+    padding: 0.85rem 1rem;
+    border-radius: 14px;
+    border: 1px solid #d7e5d9;
+    background: #f5faf6;
+    color: #335543;
+}
+
+.settings-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    padding-top: 0.15rem;
+}
+
+.settings-panel .form-label i,
+.settings-toggle-card label i {
+    color: var(--app-primary);
+}
+
+.danger-zone-card h3 {
+    font-size: 1.05rem;
+    margin-bottom: 0.45rem;
+}
+
+.danger-zone-card.is-danger {
+    border-color: #f0c4c4;
+    background: linear-gradient(145deg, #fff8f8 0%, #fff1f1 100%);
+}
+
+.danger-zone-card.is-danger h3 {
+    color: #8e1d1d;
+}
+
+body.theme-dark .settings-sidebar,
+body.theme-dark .settings-panel,
+body.theme-night .settings-sidebar,
+body.theme-night .settings-panel {
+    background: var(--app-surface);
+    border-color: var(--app-border);
+    box-shadow: none;
+}
+
+body.theme-dark .settings-nav-link:hover,
+body.theme-dark .settings-nav-link:focus,
+body.theme-night .settings-nav-link:hover,
+body.theme-night .settings-nav-link:focus {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: var(--app-border);
+}
+
+body.theme-dark .settings-nav-link.is-active,
+body.theme-night .settings-nav-link.is-active {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--app-border);
+}
+
+body.theme-dark .settings-nav-icon,
+body.theme-night .settings-nav-icon,
+body.theme-dark .settings-inline-note,
+body.theme-night .settings-inline-note,
+body.theme-dark .settings-status-card,
+body.theme-night .settings-status-card,
+body.theme-dark .settings-toggle-card,
+body.theme-night .settings-toggle-card,
+body.theme-dark .danger-zone-card,
+body.theme-night .danger-zone-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: var(--app-border);
+}
+
+@media (max-width: 991.98px) {
+    .settings-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .settings-sidebar {
+        position: static;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .settings-status-grid,
+    .danger-zone-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .settings-nav-link {
+        grid-template-columns: 38px minmax(0, 1fr);
+        padding: 0.72rem;
+    }
+
+    .settings-panel .card-body {
+        padding: 1rem;
+    }
+}

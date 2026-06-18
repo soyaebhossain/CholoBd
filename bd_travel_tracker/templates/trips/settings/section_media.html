@@ -1,0 +1,32 @@
+<div class="settings-section-body">
+    <div class="settings-inline-note mb-3">
+        <i class="bi bi-cloud-arrow-up me-2"></i>Storage provider is currently a saved preference. Direct Google Photos / Drive connection can be attached later without changing this UI.
+    </div>
+
+    <form method="post" class="row g-3">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="save_section">
+        <div class="col-md-4">
+            <label class="form-label" for="{{ form.image_upload_quality.id_for_label }}">Image upload quality</label>
+            {{ form.image_upload_quality }}
+        </div>
+        <div class="col-md-4">
+            <label class="form-label" for="{{ form.video_upload_limit.id_for_label }}">Video upload limit</label>
+            {{ form.video_upload_limit }}
+        </div>
+        <div class="col-md-4">
+            <label class="form-label" for="{{ form.external_storage_provider.id_for_label }}">External storage preference</label>
+            {{ form.external_storage_provider }}
+        </div>
+        <div class="col-md-6">
+            <div class="settings-toggle-card">
+                {{ form.auto_image_compression }}
+                <label for="{{ form.auto_image_compression.id_for_label }}">Auto image compression</label>
+                <small>Applies optimized upload rules while keeping existing server-side size validation.</small>
+            </div>
+        </div>
+        <div class="col-12 settings-actions">
+            <button class="btn btn-primary" type="submit"><i class="bi bi-check2-circle me-1"></i>Save Media Settings</button>
+        </div>
+    </form>
+</div>

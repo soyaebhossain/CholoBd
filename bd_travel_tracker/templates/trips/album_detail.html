@@ -1,0 +1,80 @@
+﻿{% extends 'base.html' %}
+
+{% block content %}
+<section class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+    <div>
+        <h1 class="h3 mb-1"><i class="bi bi-images me-2"></i>{{ album.title }}</h1>
+        <p class="text-muted mb-0">{{ album.trip_date }}{% if album.spot %} | {{ album.spot.name }}{% endif %}</p>
+    </div>
+    <a href="{% url 'albums' %}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Back to Albums</a>
+</section>
+
+<div class="row g-3 mb-4">
+    <div class="col-lg-5">
+        <div class="card h-100">
+            <div class="card-header bg-white"><h2 class="h5 mb-0"><i class="bi bi-upload me-2"></i>Add Photo/Media</h2></div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data" class="row g-2">
+                    {% csrf_token %}
+                    {% if item_form.non_field_errors %}
+                    <div class="col-12 alert alert-danger">{{ item_form.non_field_errors }}</div>
+                    {% endif %}
+                    <div class="col-12">
+                        <label class="form-label" for="{{ item_form.file.id_for_label }}">File Upload</label>
+                        {{ item_form.file }}
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label" for="{{ item_form.external_url.id_for_label }}">Or External URL (Google Photos)</label>
+                        {{ item_form.external_url }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="{{ item_form.taken_at.id_for_label }}">Taken Date</label>
+                        {{ item_form.taken_at }}
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label" for="{{ item_form.caption.id_for_label }}">Caption</label>
+                        {{ item_form.caption }}
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-check2-circle me-1"></i>Add to Album</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-7">
+        <div class="card h-100">
+            <div class="card-header bg-white"><h2 class="h5 mb-0"><i class="bi bi-clock-history me-2"></i>Album Timeline</h2></div>
+            <div class="card-body">
+                <form method="get" class="row g-2 mb-3">
+                    <div class="col-md-5"><input type="date" class="form-control" name="item_date" value="{{ item_date }}"></div>
+                    <div class="col-md-2 d-grid"><button class="btn btn-outline-primary" type="submit">Filter</button></div>
+                </form>
+
+                <div class="row g-3">
+                    {% for item in items %}
+                    <div class="col-12">
+                        <article class="timeline-item">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <strong>{{ item.taken_at|default:album.trip_date }}</strong>
+                                <small class="text-muted">Added {{ item.created_at|date:'Y-m-d H:i' }}</small>
+                            </div>
+                            {% if item.file %}
+                            <p class="mb-2 small"><a href="{{ item.file.url }}" target="_blank" rel="noopener"><i class="bi bi-paperclip me-1"></i>Open uploaded file</a></p>
+                            {% endif %}
+                            {% if item.external_url %}
+                            <p class="mb-2 small"><a href="{{ item.external_url }}" target="_blank" rel="noopener"><i class="bi bi-link-45deg me-1"></i>Open external photo link</a></p>
+                            {% endif %}
+                            <p class="mb-0 small">{{ item.caption|default:'No caption' }}</p>
+                        </article>
+                    </div>
+                    {% empty %}
+                    <div class="col-12 text-muted">No media items added yet.</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

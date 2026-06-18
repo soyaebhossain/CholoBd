@@ -1,0 +1,341 @@
+{% extends 'base.html' %}
+{% load static humanize %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/destinations.css' %}">
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+>
+{% endblock %}
+
+{% block content %}
+<section class="destination-hero card border-0 mb-4">
+    <div class="card-body">
+        <div class="destination-hero__content">
+            <div>
+                <p class="destination-eyebrow"><i class="bi bi-compass me-2"></i>Destinations Explorer</p>
+                <h1>Discover Bangladesh faster with search, map, and community insights.</h1>
+                <p class="destination-hero__lead">
+                    Search destinations, refine by location hierarchy, explore categories, and jump straight into trip logging.
+                </p>
+            </div>
+            <div class="destination-hero__actions">
+                <a href="{% url 'travel_map' %}" class="btn btn-primary">
+                    <i class="bi bi-map me-2"></i>Open Interactive Map
+                </a>
+                <button type="button" class="btn btn-outline-light" data-nearby-trigger>
+                    <i class="bi bi-crosshair2 me-2"></i>Near Me
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="destination-filter card border-0 mb-4">
+    <div class="card-body">
+        <div class="destination-section-title">
+            <div>
+                <p class="destination-eyebrow"><i class="bi bi-funnel me-2"></i>Smart Search + Filters</p>
+                <h2>Find the right spot in a few clicks</h2>
+            </div>
+            <p class="text-muted mb-0">Search by name, narrow by hierarchy, and sort by popularity or traveler score.</p>
+        </div>
+
+        <form
+            id="destinationFilterForm"
+            class="row g-3"
+            method="get"
+            data-district-url="{% url 'api_districts' %}"
+            data-upazila-url="{% url 'api_upazilas' %}"
+        >
+            <div class="col-12 col-xl-4">
+                <label class="form-label" for="destinationSearch"><i class="bi bi-search me-1"></i>Search destination</label>
+                <input
+                    id="destinationSearch"
+                    type="search"
+                    name="q"
+                    value="{{ search_query }}"
+                    class="form-control"
+                    placeholder="Search destination..."
+                >
+            </div>
+            <div class="col-6 col-md-4 col-xl-2">
+                <label class="form-label" for="destinationDivision"><i class="bi bi-diagram-3 me-1"></i>Division</label>
+                <select id="destinationDivision" name="division" class="form-select">
+                    <option value="">All divisions</option>
+                    {% for division in division_options %}
+                    <option value="{{ division.id }}" {% if selected_division == division.id|stringformat:'s' %}selected{% endif %}>{{ division.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-6 col-md-4 col-xl-2">
+                <label class="form-label" for="destinationDistrict"><i class="bi bi-building me-1"></i>District</label>
+                <select id="destinationDistrict" name="district" class="form-select" {% if not district_options %}disabled{% endif %}>
+                    <option value="">All districts</option>
+                    {% for district in district_options %}
+                    <option value="{{ district.id }}" {% if selected_district == district.id|stringformat:'s' %}selected{% endif %}>{{ district.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-6 col-md-4 col-xl-2">
+                <label class="form-label" for="destinationUpazila"><i class="bi bi-signpost-split me-1"></i>Upazila</label>
+                <select id="destinationUpazila" name="upazila" class="form-select" {% if not upazila_options %}disabled{% endif %}>
+                    <option value="">All upazilas</option>
+                    {% for upazila in upazila_options %}
+                    <option value="{{ upazila.id }}" {% if selected_upazila == upazila.id|stringformat:'s' %}selected{% endif %}>{{ upazila.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-6 col-md-4 col-xl-2">
+                <label class="form-label" for="destinationSort"><i class="bi bi-sort-down me-1"></i>Popularity</label>
+                <select id="destinationSort" name="sort" class="form-select">
+                    {% for sort_key, sort_label in sort_choices %}
+                    <option value="{{ sort_key }}" {% if selected_sort == sort_key %}selected{% endif %}>{{ sort_label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <input type="hidden" name="category" value="{{ selected_category }}">
+            <div class="col-12 destination-filter__actions">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-funnel-fill me-2"></i>Filter
+                </button>
+                <a href="{{ reset_url }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-counterclockwise me-2"></i>Reset
+                </a>
+                <button type="button" class="btn btn-outline-success" data-nearby-trigger>
+                    <i class="bi bi-geo-alt me-2"></i>Nearby
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<section class="destination-chip-strip mb-4" aria-label="Explore by category">
+    {% for chip in category_chips %}
+    <a href="{{ chip.url }}" class="destination-chip {% if chip.is_active %}is-active{% endif %}">
+        <i class="bi {{ chip.icon }}"></i>
+        <span>{{ chip.label }}</span>
+        <strong>{{ chip.count|intcomma }}</strong>
+    </a>
+    {% endfor %}
+</section>
+
+<section class="row g-3 mb-4">
+    <div class="col-6 col-xl">
+        <article class="destination-stat card border-0 h-100">
+            <div class="card-body">
+                <p><i class="bi bi-pin-map me-2"></i>Total Spots</p>
+                <h2>{{ spot_count|intcomma }}</h2>
+            </div>
+        </article>
+    </div>
+    <div class="col-6 col-xl">
+        <article class="destination-stat card border-0 h-100">
+            <div class="card-body">
+                <p><i class="bi bi-geo-alt me-2"></i>Mapped Coordinates</p>
+                <h2>{{ mapped_spot_count|intcomma }}</h2>
+            </div>
+        </article>
+    </div>
+    <div class="col-6 col-xl">
+        <article class="destination-stat card border-0 h-100">
+            <div class="card-body">
+                <p><i class="bi bi-building me-2"></i>District Coverage</p>
+                <h2>{{ district_count|intcomma }}</h2>
+            </div>
+        </article>
+    </div>
+    <div class="col-6 col-xl">
+        <article class="destination-stat card border-0 h-100">
+            <div class="card-body">
+                <p><i class="bi bi-people me-2"></i>Community Trips</p>
+                <h2>{{ community_trip_count|intcomma }}</h2>
+            </div>
+        </article>
+    </div>
+    <div class="col-12 col-xl">
+        <article class="destination-stat card border-0 h-100">
+            <div class="card-body">
+                <p><i class="bi bi-fire me-2"></i>Most Visited Spot</p>
+                <h2 class="destination-stat__compact">{{ top_spot_name }}</h2>
+                <span>{{ top_spot_visits|intcomma }} visits</span>
+            </div>
+        </article>
+    </div>
+</section>
+
+<section class="row g-4 align-items-start">
+    <div class="col-12 col-xl-8">
+        <div class="destination-grid-head mb-3">
+            <div>
+                <p class="destination-eyebrow"><i class="bi bi-grid-1x2 me-2"></i>Destination Grid</p>
+                <h2>{{ result_count|intcomma }} matching destinations</h2>
+            </div>
+            <p class="text-muted mb-0">Rich cards with location, category, traveler score, visit activity, and quick actions.</p>
+        </div>
+
+        <div class="row g-4">
+            {% for row in destination_rows %}
+            <div class="col-12 col-md-6">
+                <article class="destination-card card border-0 h-100">
+                    <div class="destination-card__media destination-card__media--{{ row.category_key }}">
+                        <div class="destination-card__media-icon">
+                            <i class="bi {{ row.category_icon }}"></i>
+                        </div>
+                        <div class="destination-card__media-text">
+                            <span>{{ row.category_label }}</span>
+                            <strong>{{ row.division }}</strong>
+                        </div>
+                        {% if row.is_saved %}
+                        <span class="destination-badge destination-badge--saved"><i class="bi bi-bookmark-check-fill me-1"></i>Saved</span>
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <div class="destination-card__topline">
+                            <span class="destination-badge"><i class="bi bi-stars me-1"></i>{{ row.category }}</span>
+                            {% if row.has_coordinates %}
+                            <span class="destination-badge"><i class="bi bi-geo me-1"></i>Mapped</span>
+                            {% endif %}
+                        </div>
+                        <h3>{{ row.name }}</h3>
+                        <p class="destination-card__location">
+                            <i class="bi bi-geo-alt me-1"></i>{{ row.district }} | {{ row.upazila }}
+                        </p>
+                        <div class="destination-card__metrics">
+                            <span><i class="bi bi-star-fill me-1"></i>{{ row.traveler_score }} traveler score</span>
+                            <span><i class="bi bi-eye me-1"></i>{{ row.total_visits|intcomma }} visits</span>
+                            <span><i class="bi bi-people me-1"></i>{{ row.unique_visitors|intcomma }} travelers</span>
+                        </div>
+                        <p class="destination-card__summary">{{ row.summary|truncatechars:120 }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 pt-0">
+                        <div class="destination-card__actions">
+                            <a href="{{ row.detail_url }}" class="btn btn-primary btn-sm">
+                                <i class="bi bi-arrow-up-right-circle me-1"></i>View Details
+                            </a>
+                            <a href="{{ row.trip_url }}" class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-journal-plus me-1"></i>Add Trip
+                            </a>
+                            {% if row.is_saved %}
+                            <a href="{% url 'saved_spots' %}" class="btn btn-outline-secondary btn-sm">
+                                <i class="bi bi-bookmark-heart-fill me-1"></i>Saved
+                            </a>
+                            {% else %}
+                            <form method="post" action="{% url 'saved_spots' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="spot" value="{{ row.id }}">
+                                <input type="hidden" name="note" value="">
+                                <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                                <button type="submit" class="btn btn-outline-secondary btn-sm">
+                                    <i class="bi bi-bookmark-plus me-1"></i>Save Spot
+                                </button>
+                            </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </article>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="destination-empty card border-0">
+                    <div class="card-body text-center">
+                        <i class="bi bi-search-heart"></i>
+                        <h3>No destinations matched this filter</h3>
+                        <p>Try a broader search, clear one filter, or switch to a different category.</p>
+                        <a href="{{ reset_url }}" class="btn btn-primary">
+                            <i class="bi bi-arrow-counterclockwise me-2"></i>Reset Explorer
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="col-12 col-xl-4">
+        <div class="destination-side-stack">
+            <section class="card border-0 destination-map-card">
+                <div class="card-body">
+                    <div class="destination-side-head">
+                        <div>
+                            <p class="destination-eyebrow"><i class="bi bi-map me-2"></i>Interactive Map Preview</p>
+                            <h2>Explore markers before opening the full map</h2>
+                        </div>
+                        <a href="{% url 'travel_map' %}" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-box-arrow-up-right me-1"></i>Open
+                        </a>
+                    </div>
+                    <div id="destinationsMap" class="destination-map-canvas"></div>
+                    <div class="destination-map-legend">
+                        <span><i class="destination-dot destination-dot--visited"></i>Visited</span>
+                        <span><i class="destination-dot destination-dot--saved"></i>Saved</span>
+                        <span><i class="destination-dot destination-dot--unexplored"></i>Unexplored</span>
+                    </div>
+                    {% if has_more_map_results %}
+                    <p class="small text-muted mb-0">Map preview currently shows the first {{ map_preview_count }} matched destinations for performance.</p>
+                    {% elif not map_preview_count %}
+                    <p class="small text-muted mb-0">This result set has no mapped coordinates yet. Use the destination cards to continue exploring.</p>
+                    {% endif %}
+                </div>
+            </section>
+
+            <section class="card border-0 destination-side-card">
+                <div class="card-body">
+                    <div class="destination-side-head">
+                        <div>
+                            <p class="destination-eyebrow"><i class="bi bi-fire me-2"></i>Trending Destinations</p>
+                            <h2>Most active right now</h2>
+                        </div>
+                    </div>
+                    <div class="destination-list">
+                        {% for row in trending_rows %}
+                        <a href="{{ row.detail_url }}" class="destination-list__item">
+                            <div>
+                                <strong>{{ row.name }}</strong>
+                                <span>{{ row.district }} | {{ row.upazila }}</span>
+                            </div>
+                            <div class="destination-list__meta">
+                                <span><i class="bi bi-star-fill me-1"></i>{{ row.traveler_score }}</span>
+                                <span><i class="bi bi-eye me-1"></i>{{ row.total_visits|intcomma }}</span>
+                            </div>
+                        </a>
+                        {% empty %}
+                        <p class="text-muted mb-0">Trending destinations will appear after more spots are logged.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+
+            <section class="card border-0 destination-side-card" id="nearbyPanel">
+                <div class="card-body">
+                    <div class="destination-side-head">
+                        <div>
+                            <p class="destination-eyebrow"><i class="bi bi-crosshair2 me-2"></i>Nearby Destinations</p>
+                            <h2>Location-based suggestions</h2>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-success" data-nearby-trigger>
+                            <i class="bi bi-geo-alt me-1"></i>Use Location
+                        </button>
+                    </div>
+                    <p class="small text-muted" id="nearbyStatus">Allow location access to see the closest matched destinations.</p>
+                    <div id="nearbyDestinations" class="destination-list destination-list--nearby"></div>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+
+{{ map_spots_json|json_script:'destinations-map-data' }}
+{% endblock %}
+
+{% block extra_js %}
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+></script>
+<script src="{% static 'js/destinations.js' %}"></script>
+{% endblock %}

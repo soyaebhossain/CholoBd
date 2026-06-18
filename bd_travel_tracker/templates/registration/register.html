@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-7 col-xl-6">
+        <div class="card p-4 auth-card">
+            <h1 class="h4 mb-3"><i class="bi bi-person-plus me-2"></i>Create Account</h1>
+            <p class="text-muted small mb-4">Choose whether this is a personal traveler account or a company/agency account. Company accounts stay pending until verification is completed.</p>
+            <form method="post" id="registerForm">
+                {% csrf_token %}
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+                {% endif %}
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label" for="{{ form.username.id_for_label }}">Username</label>
+                        {{ form.username }}
+                        {% if form.username.errors %}<div class="text-danger small mt-1">{{ form.username.errors }}</div>{% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="{{ form.email.id_for_label }}">Email</label>
+                        {{ form.email }}
+                        {% if form.email.errors %}<div class="text-danger small mt-1">{{ form.email.errors }}</div>{% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="{{ form.password1.id_for_label }}">Password</label>
+                        {{ form.password1 }}
+                        {% if form.password1.errors %}<div class="text-danger small mt-1">{{ form.password1.errors }}</div>{% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="{{ form.password2.id_for_label }}">Confirm Password</label>
+                        {{ form.password2 }}
+                        {% if form.password2.errors %}<div class="text-danger small mt-1">{{ form.password2.errors }}</div>{% endif %}
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label" for="{{ form.account_type.id_for_label }}">Account Type</label>
+                        {{ form.account_type }}
+                        {% if form.account_type.errors %}<div class="text-danger small mt-1">{{ form.account_type.errors }}</div>{% endif %}
+                    </div>
+                </div>
+
+                <div id="companyFields" class="mt-4" {% if form.account_type.value != 'company' %}hidden{% endif %}>
+                    <div class="border rounded-3 p-3 bg-light-subtle">
+                        <h2 class="h6 mb-3"><i class="bi bi-buildings me-2"></i>Agency Verification Details</h2>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label" for="{{ form.agency_name.id_for_label }}">Agency Name</label>
+                                {{ form.agency_name }}
+                                {% if form.agency_name.errors %}<div class="text-danger small mt-1">{{ form.agency_name.errors }}</div>{% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="{{ form.agency_license_number.id_for_label }}">Trade License / Registration No.</label>
+                                {{ form.agency_license_number }}
+                                {% if form.agency_license_number.errors %}<div class="text-danger small mt-1">{{ form.agency_license_number.errors }}</div>{% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="{{ form.agency_contact_person.id_for_label }}">Authorized Person</label>
+                                {{ form.agency_contact_person }}
+                                {% if form.agency_contact_person.errors %}<div class="text-danger small mt-1">{{ form.agency_contact_person.errors }}</div>{% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="{{ form.agency_contact_phone.id_for_label }}">Agency Phone</label>
+                                {{ form.agency_contact_phone }}
+                                {% if form.agency_contact_phone.errors %}<div class="text-danger small mt-1">{{ form.agency_contact_phone.errors }}</div>{% endif %}
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label" for="{{ form.agency_email.id_for_label }}">Agency Email</label>
+                                {{ form.agency_email }}
+                                {% if form.agency_email.errors %}<div class="text-danger small mt-1">{{ form.agency_email.errors }}</div>{% endif %}
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label" for="{{ form.agency_address.id_for_label }}">Registered Address</label>
+                                {{ form.agency_address }}
+                                {% if form.agency_address.errors %}<div class="text-danger small mt-1">{{ form.agency_address.errors }}</div>{% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                <button type="submit" class="btn btn-primary w-100"><i class="bi bi-check2-circle me-1"></i>Create Account</button>
+                </div>
+            </form>
+            <p class="text-muted mt-3 mb-0">Already registered? <a href="{% url 'login' %}">Login</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    (function () {
+        const accountType = document.getElementById("id_account_type");
+        const companyFields = document.getElementById("companyFields");
+        const companyFieldIds = [
+            "id_agency_name",
+            "id_agency_license_number",
+            "id_agency_contact_person",
+            "id_agency_contact_phone",
+            "id_agency_email",
+            "id_agency_address",
+        ];
+
+        if (!accountType || !companyFields) {
+            return;
+        }
+
+        function syncCompanyFields() {
+            const isCompany = accountType.value === "company";
+            companyFields.hidden = !isCompany;
+            companyFieldIds.forEach(function (fieldId) {
+                const field = document.getElementById(fieldId);
+                if (!field) {
+                    return;
+                }
+                field.required = isCompany;
+                if (!isCompany) {
+                    field.value = "";
+                }
+            });
+        }
+
+        accountType.addEventListener("change", syncCompanyFields);
+        syncCompanyFields();
+    })();
+</script>
+{% endblock %}

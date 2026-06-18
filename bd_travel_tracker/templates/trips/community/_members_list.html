@@ -1,0 +1,64 @@
+<div class="card mb-3">
+    <div class="card-body">
+        <form method="get" class="row g-2 align-items-end">
+            <div class="col-md-9">
+                <label class="form-label" for="communityMemberSearch"><i class="bi bi-search me-1"></i>Search members</label>
+                <input id="communityMemberSearch" type="text" name="member_q" class="form-control" value="{{ member_search }}" placeholder="Name or username">
+            </div>
+            <div class="col-md-3 d-grid">
+                <button type="submit" class="btn btn-primary"><i class="bi bi-search me-1"></i>Search</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if members %}
+<div class="row g-3">
+    {% for member in members %}
+    <div class="col-12">
+        <div class="card community-member-directory-card">
+            <div class="card-body d-flex flex-wrap justify-content-between align-items-center gap-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="community-avatar-wrap">
+                        {% if member.avatar %}
+                        <img class="community-avatar" src="{{ member.avatar }}" alt="{{ member.display_name }}">
+                        {% else %}
+                        <span class="community-avatar-placeholder"><i class="bi bi-person"></i></span>
+                        {% endif %}
+                        {% if member.is_online %}<span class="community-online-dot"></span>{% endif %}
+                    </div>
+                    <div>
+                        <h3 class="h6 mb-0">
+                            {% if member.can_view_profile %}
+                            <a href="{% url 'traveler_profile' member.user.id %}" class="text-decoration-none">{{ member.display_name }}</a>
+                            {% else %}
+                            {{ member.display_name }}
+                            {% endif %}
+                        </h3>
+                        <div class="small text-muted">@{{ member.user.username }}</div>
+                        <div class="small text-muted">Joined {{ member.joined_at|date:"M d, Y" }}</div>
+                    </div>
+                </div>
+                <div class="d-flex flex-wrap gap-3 text-center">
+                    <div>
+                        <div class="fw-semibold">{{ member.post_count }}</div>
+                        <div class="small text-muted">Posts</div>
+                    </div>
+                    <div>
+                        <div class="fw-semibold">{{ member.trip_count }}</div>
+                        <div class="small text-muted">Trips</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="card">
+    <div class="card-body text-center text-muted py-5">
+        <i class="bi bi-people fs-2 d-block mb-2"></i>
+        No community members matched your search.
+    </div>
+</div>
+{% endif %}

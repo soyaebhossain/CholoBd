@@ -1,0 +1,366 @@
+{% extends 'base.html' %}
+{% load static humanize %}
+
+{% block main_class %}container py-3 messages-page-main{% endblock %}
+{% block global_footer %}{% endblock %}
+
+{% block content %}
+<section class="message-page-shell">
+    <aside class="message-sidebar">
+        <div class="message-sidebar-header">
+            <div>
+                <p class="message-sidebar-kicker">Direct chat</p>
+                <h1 class="message-sidebar-title">Messages</h1>
+                <p class="message-sidebar-copy mb-0">Followed travelers and approved contacts can chat here.</p>
+            </div>
+            <a href="{% url 'community' %}" class="message-sidebar-link" title="Open community">
+                <i class="bi bi-people-fill"></i>
+            </a>
+        </div>
+
+        <div class="message-conversations" aria-label="Conversation list">
+            {% for conversation in conversations %}
+            <a href="{% url 'direct_messages' %}?conversation={{ conversation.id }}" class="conversation-item-card {% if selected_conversation and selected_conversation.id == conversation.id %}active{% endif %}">
+                <span class="message-avatar">
+                    {% if conversation.partner.profile.avatar %}
+                    <img src="{{ conversation.partner.profile.avatar }}" alt="{{ conversation.partner.username }}">
+                    {% else %}
+                    <i class="bi bi-person-fill"></i>
+                    {% endif %}
+                    {% if conversation.partner.profile.is_online %}
+                    <span class="message-avatar-status"></span>
+                    {% endif %}
+                </span>
+                <span class="conversation-copy min-w-0">
+                    <span class="conversation-row is-stacked">
+                        <span class="conversation-name">{{ conversation.partner.profile.full_name|default:conversation.partner.username }}</span>
+                        {% if conversation.last_message %}
+                        <span class="conversation-time">{{ conversation.last_message.created_at|naturaltime }}</span>
+                        {% endif %}
+                    </span>
+                    <span class="conversation-row">
+                        <span class="conversation-preview">
+                            {% if conversation.last_message %}
+                                {% if conversation.last_message.sender_id == user.id %}You: {% endif %}
+                                {% if conversation.last_message.is_deleted %}
+                                Message removed
+                                {% elif conversation.last_message.content %}
+                                {{ conversation.last_message.content|truncatechars:52 }}
+                                {% elif conversation.last_message.attachments.all %}
+                                Sent an attachment
+                                {% endif %}
+                            {% else %}
+                            No messages yet.
+                            {% endif %}
+                        </span>
+                        {% if conversation.unread_count %}
+                        <span class="conversation-badge">{{ conversation.unread_count }}</span>
+                        {% endif %}
+                    </span>
+                </span>
+            </a>
+            {% empty %}
+            <div class="message-empty-card">
+                <i class="bi bi-chat-square-text"></i>
+                <p class="mb-0">No conversations yet.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </aside>
+
+    <div class="message-stage">
+        {% if incoming_call_session and incoming_call_session.id != selected_call_session.id %}
+        <div class="message-global-call-banner">
+            <div>
+                <strong>{{ incoming_call_session.initiator.profile.full_name|default:incoming_call_session.initiator.username }}</strong>
+                is calling you.
+            </div>
+            <a href="{% url 'direct_messages' %}?conversation={{ incoming_call_session.conversation_id }}#call-{{ incoming_call_session.id }}" class="message-call-banner-link">
+                Open call
+            </a>
+        </div>
+        {% endif %}
+
+        {% if selected_conversation %}
+        <article class="message-room">
+            <header class="message-room-header">
+                <div class="message-room-contact min-w-0">
+                    <span class="message-avatar is-large">
+                        {% if selected_partner.profile.avatar %}
+                        <img src="{{ selected_partner.profile.avatar }}" alt="{{ selected_partner.username }}">
+                        {% else %}
+                        <i class="bi bi-person-fill"></i>
+                        {% endif %}
+                        {% if selected_partner.profile.is_online %}
+                        <span class="message-avatar-status"></span>
+                        {% endif %}
+                    </span>
+                    <div class="min-w-0">
+                        <a href="{% url 'traveler_profile' selected_partner.id %}" class="message-room-name">
+                            {{ selected_partner.profile.full_name|default:selected_partner.username }}
+                        </a>
+                        <div class="message-room-status">
+                            {% if selected_partner.profile.is_online %}
+                            Active now
+                            {% elif selected_partner.profile.last_active_at %}
+                            Active {{ selected_partner.profile.last_active_at|timesince }} ago
+                            {% else %}
+                            Recently active
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="message-room-actions">
+                    <form method="post" action="{% url 'direct_message_call_request' selected_conversation.id %}" class="m-0">
+                        {% csrf_token %}
+                        <input type="hidden" name="mode" value="audio">
+                        <button type="submit" class="message-room-icon" title="Audio call">
+                            <i class="bi bi-telephone-fill"></i>
+                        </button>
+                    </form>
+                    <form method="post" action="{% url 'direct_message_call_request' selected_conversation.id %}" class="m-0">
+                        {% csrf_token %}
+                        <input type="hidden" name="mode" value="video">
+                        <button type="submit" class="message-room-icon" title="Video call">
+                            <i class="bi bi-camera-video-fill"></i>
+                        </button>
+                    </form>
+                    <a href="{% url 'traveler_profile' selected_partner.id %}" class="message-room-icon" title="View profile">
+                        <i class="bi bi-info-circle-fill"></i>
+                    </a>
+                </div>
+            </header>
+
+            {% if selected_call_session %}
+            <section class="message-call-banner {% if selected_call_session.status == 'accepted' %}is-live{% else %}is-pending{% endif %}" id="call-{{ selected_call_session.id }}">
+                <div class="message-call-banner-copy">
+                    {% if selected_call_session.status == "pending" and selected_call_session.recipient_id == user.id %}
+                    <strong>{{ selected_call_session.initiator.profile.full_name|default:selected_call_session.initiator.username }}</strong>
+                    is inviting you to an {{ selected_call_session.get_mode_display|lower }} call.
+                    {% elif selected_call_session.status == "pending" %}
+                    Your {{ selected_call_session.get_mode_display|lower }} call request is waiting for {{ selected_partner.profile.full_name|default:selected_partner.username }}.
+                    {% else %}
+                    {{ selected_call_session.get_mode_display }} call is ready. Join the room to start talking.
+                    {% endif %}
+                </div>
+
+                <div class="message-call-banner-actions">
+                    {% if selected_call_session.status == "pending" and selected_call_session.recipient_id == user.id %}
+                    <form method="post" action="{% url 'direct_call_update' selected_call_session.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="accept">
+                        <button type="submit" class="message-call-action is-accept">
+                            <i class="bi bi-telephone-inbound-fill"></i>
+                            <span>Accept</span>
+                        </button>
+                    </form>
+                    <form method="post" action="{% url 'direct_call_update' selected_call_session.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="decline">
+                        <button type="submit" class="message-call-action is-decline">
+                            <i class="bi bi-telephone-x-fill"></i>
+                            <span>Decline</span>
+                        </button>
+                    </form>
+                    {% else %}
+                    <a href="{% url 'direct_call_room' selected_call_session.id %}" class="message-call-action is-join">
+                        <i class="bi bi-box-arrow-up-right"></i>
+                        <span>{% if selected_call_session.status == 'accepted' %}Join call{% else %}Open room{% endif %}</span>
+                    </a>
+                    <form method="post" action="{% url 'direct_call_update' selected_call_session.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="end">
+                        <button type="submit" class="message-call-action is-decline">
+                            <i class="bi bi-telephone-x-fill"></i>
+                            <span>{% if selected_call_session.status == 'accepted' %}End{% else %}Cancel{% endif %}</span>
+                        </button>
+                    </form>
+                    {% endif %}
+                </div>
+            </section>
+            {% endif %}
+
+            <div class="message-thread" id="messageThread">
+                {% for message in selected_conversation.message_list %}
+                <div class="message-row {% if message.sender_id == user.id %}is-own{% else %}is-other{% endif %}">
+                    {% if message.sender_id != user.id %}
+                    <span class="message-bubble-avatar">
+                        {% if message.sender.profile.avatar %}
+                        <img src="{{ message.sender.profile.avatar }}" alt="{{ message.sender.username }}">
+                        {% else %}
+                        <i class="bi bi-person-fill"></i>
+                        {% endif %}
+                    </span>
+                    {% endif %}
+
+                    <div class="message-bubble-shell">
+                        <div class="message-bubble {% if message.sender_id == user.id %}is-own{% else %}is-other{% endif %}">
+                            <div class="message-bubble-body">
+                                {% if message.is_deleted %}
+                                <em>Message removed.</em>
+                                {% elif message.content %}
+                                {{ message.content|linebreaksbr }}
+                                {% endif %}
+                            </div>
+
+                            {% if not message.is_deleted and message.attachments.all %}
+                            <div class="message-attachments">
+                                {% for attachment in message.attachments.all %}
+                                    {% if attachment.kind == "image" %}
+                                    <a href="{{ attachment.file.url }}" target="_blank" rel="noopener" class="message-attachment-card">
+                                        <img src="{{ attachment.file.url }}" alt="message media" class="img-fluid rounded-4">
+                                    </a>
+                                    {% elif attachment.kind == "video" %}
+                                    <div class="message-attachment-card">
+                                        <video class="w-100 rounded-4" controls preload="metadata">
+                                            <source src="{{ attachment.file.url }}">
+                                        </video>
+                                    </div>
+                                    {% elif attachment.kind == "audio" %}
+                                    <div class="message-attachment-card">
+                                        <audio class="w-100" controls preload="metadata">
+                                            <source src="{{ attachment.file.url }}">
+                                        </audio>
+                                    </div>
+                                    {% else %}
+                                    <a href="{{ attachment.file.url }}" target="_blank" rel="noopener" class="message-file-link {% if message.sender_id == user.id %}is-own{% endif %}">
+                                        <i class="bi bi-paperclip"></i>
+                                        <span>{{ attachment.file.name|cut:'chat/' }}</span>
+                                    </a>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="message-bubble-meta {% if message.sender_id == user.id %}is-own{% endif %}">
+                            <span>{{ message.created_at|time:"g:i A" }}</span>
+                            {% if message.edited_at %}<span>Edited</span>{% endif %}
+                            {% if message.sender_id == user.id %}
+                            <span>{% if message.is_read %}Seen{% else %}Sent{% endif %}</span>
+                            {% endif %}
+                            {% if message.sender_id == user.id and not message.is_deleted %}
+                            <form method="post" action="{% url 'direct_message_delete' message.id %}" class="message-delete-form">
+                                {% csrf_token %}
+                                <button type="submit" class="message-delete-button" title="Delete message">
+                                    <i class="bi bi-trash3"></i>
+                                </button>
+                            </form>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% if message.sender_id == user.id %}
+                    <span class="message-bubble-avatar is-own">
+                        {% if user.profile.avatar %}
+                        <img src="{{ user.profile.avatar }}" alt="{{ user.username }}">
+                        {% else %}
+                        <i class="bi bi-person-fill"></i>
+                        {% endif %}
+                    </span>
+                    {% endif %}
+                </div>
+                {% empty %}
+                <div class="message-thread-empty">
+                    <i class="bi bi-chat-heart"></i>
+                    <p class="mb-0">Start the conversation with a short message.</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            <footer class="message-composer">
+                <form method="post" action="{% url 'direct_message_send' selected_conversation.id %}" enctype="multipart/form-data" class="message-composer-form">
+                    {% csrf_token %}
+                    {{ message_form.attachment }}
+                    <div class="message-composer-toolbar">
+                        <div class="message-composer-actions">
+                            <button type="button" class="message-icon-button" title="Attach audio" data-attachment-trigger="audio" aria-label="Attach audio">
+                                <i class="bi bi-mic-fill"></i>
+                            </button>
+                            <button type="button" class="message-icon-button message-file-trigger" title="Attach photo or video" data-attachment-trigger="media" aria-label="Attach photo or video">
+                                <i class="bi bi-image-fill"></i>
+                            </button>
+                            <button type="button" class="message-icon-button" title="Open quick replies" data-picker-open="replies" aria-label="Open quick replies">
+                                <i class="bi bi-stars"></i>
+                            </button>
+                            <button type="button" class="message-icon-button is-gif" title="Open celebration picker" data-picker-open="gifts" aria-label="Open celebration picker">
+                                <span>GIF</span>
+                            </button>
+                        </div>
+
+                        <div class="message-composer-input">
+                            {{ message_form.content }}
+                            <button type="button" class="message-composer-emoji" title="Open emoji picker" data-picker-open="emoji" aria-label="Open emoji picker">
+                                <i class="bi bi-emoji-smile-fill"></i>
+                            </button>
+                        </div>
+
+                        <button type="submit" class="message-send-button" title="Send quick like" data-send-button data-send-icon="bi-send-fill" data-like-icon="bi-hand-thumbs-up-fill">
+                            <i class="bi bi-hand-thumbs-up-fill"></i>
+                        </button>
+                    </div>
+
+                    <section class="message-picker" data-message-picker hidden aria-hidden="true">
+                        <div class="message-picker-header">
+                            <div>
+                                <strong>Emoji and more</strong>
+                                <p class="mb-0">Local picker for reactions, travel moods, gifts, and quick replies.</p>
+                            </div>
+                            <button type="button" class="message-picker-close" data-picker-close aria-label="Close picker">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        </div>
+
+                        <div class="message-picker-tabs" role="tablist" aria-label="Emoji picker categories">
+                            <button type="button" class="message-picker-tab is-active" data-picker-tab="recent" title="Recent">
+                                <i class="bi bi-clock-history"></i>
+                            </button>
+                            <button type="button" class="message-picker-tab" data-picker-tab="emoji" title="Emoji">
+                                <i class="bi bi-emoji-smile"></i>
+                            </button>
+                            <button type="button" class="message-picker-tab" data-picker-tab="reactions" title="Reactions">
+                                <i class="bi bi-hand-thumbs-up"></i>
+                            </button>
+                            <button type="button" class="message-picker-tab" data-picker-tab="travel" title="Travel">
+                                <i class="bi bi-airplane"></i>
+                            </button>
+                            <button type="button" class="message-picker-tab" data-picker-tab="gifts" title="Gifts and celebration">
+                                <i class="bi bi-gift"></i>
+                            </button>
+                            <button type="button" class="message-picker-tab" data-picker-tab="replies" title="Quick replies">
+                                <i class="bi bi-chat-heart"></i>
+                            </button>
+                        </div>
+
+                        <label class="message-picker-search">
+                            <i class="bi bi-search"></i>
+                            <input type="search" placeholder="Search emojis or quick replies" data-picker-search>
+                        </label>
+
+                        <div class="message-picker-label" data-picker-label>Recently used</div>
+                        <div class="message-picker-grid" data-picker-grid></div>
+                        <div class="message-picker-empty" data-picker-empty hidden>No matches found.</div>
+                    </section>
+
+                    <div class="message-composer-meta">
+                        <span class="message-selected-file" data-selected-file hidden></span>
+                        <span class="message-read-note">Read receipt updates when the other user opens this chat.</span>
+                    </div>
+                </form>
+            </footer>
+        </article>
+        {% else %}
+        <div class="message-empty-stage">
+            <i class="bi bi-chat-square-dots-fill"></i>
+            <h2>Open a conversation</h2>
+            <p class="mb-0">Open a traveler profile or community mini-profile to start messaging.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/messages.js' %}"></script>
+{% endblock %}

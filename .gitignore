@@ -1,0 +1,38 @@
+# Python / Django
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local database and backups
+*.sqlite3
+*.sqlite3.*
+*.db
+*.bak
+
+# Logs and local server output
+*.log
+*.out
+*.err
+
+# Local media/uploads
+media/
+
+# Browser/test artifacts
+%temp%/
+tmp-chrome-cdp/
+tmp-edge-cdp/
+*.png
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

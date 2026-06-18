@@ -1,0 +1,2989 @@
+{
+  "divisions": [
+    {
+      "name": "খুলনা",
+      "districts": [
+        {
+          "name": "কুষ্টিয়া",
+          "upazilas": [
+            {
+              "name": "কুমারখালী",
+              "spots": []
+            },
+            {
+              "name": "কুষ্টিয়া সদর",
+              "spots": [
+                {
+                  "name": "লালন আখড়া",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "খোকসা",
+              "spots": []
+            },
+            {
+              "name": "দৌলতপুর",
+              "spots": []
+            },
+            {
+              "name": "ভেড়ামারা",
+              "spots": []
+            },
+            {
+              "name": "মিরপুর",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "খুলনা",
+          "upazilas": [
+            {
+              "name": "কয়রা",
+              "spots": []
+            },
+            {
+              "name": "ডুমুরিয়া",
+              "spots": []
+            },
+            {
+              "name": "তেরখাদা",
+              "spots": []
+            },
+            {
+              "name": "দাকোপ",
+              "spots": []
+            },
+            {
+              "name": "দিঘলিয়া",
+              "spots": []
+            },
+            {
+              "name": "পাইকগাছা",
+              "spots": [
+                {
+                  "name": "সুন্দরবন",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "ফুলতলা",
+              "spots": []
+            },
+            {
+              "name": "বটিয়াঘাটা",
+              "spots": []
+            },
+            {
+              "name": "রূপসা",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "চুয়াডাঙ্গা",
+          "upazilas": [
+            {
+              "name": "আলমডাঙ্গা",
+              "spots": []
+            },
+            {
+              "name": "চুয়াডাঙ্গা সদর",
+              "spots": []
+            },
+            {
+              "name": "জীবননগর",
+              "spots": []
+            },
+            {
+              "name": "দামুড়হুদা",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "ঝিনাইদহ",
+          "upazilas": [
+            {
+              "name": "কালীগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "কোটচাঁদপুর",
+              "spots": []
+            },
+            {
+              "name": "ঝিনাইদহ সদর",
+              "spots": [
+                {
+                  "name": "শৈলকুপা জমিদার বাড়ি",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "মহেশপুর",
+              "spots": []
+            },
+            {
+              "name": "শৈলকুপা",
+              "spots": []
+            },
+            {
+              "name": "হরিণাকুন্ডু",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "নড়াইল",
+          "upazilas": [
+            {
+              "name": "কালিয়া",
+              "spots": []
+            },
+            {
+              "name": "নড়াইল সদর",
+              "spots": [
+                {
+                  "name": "চিত্রা নদী",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "লোহাগড়া",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "বাগেরহাট",
+          "upazilas": [
+            {
+              "name": "কচুয়া",
+              "spots": []
+            },
+            {
+              "name": "চিতলমারী",
+              "spots": []
+            },
+            {
+              "name": "ফকিরহাট",
+              "spots": []
+            },
+            {
+              "name": "বাগেরহাট সদর",
+              "spots": [
+                {
+                  "name": "ষাট গম্বুজ মসজিদ",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "মোংলা",
+              "spots": []
+            },
+            {
+              "name": "মোল্লাহাট",
+              "spots": []
+            },
+            {
+              "name": "মোড়েলগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "রামপাল",
+              "spots": []
+            },
+            {
+              "name": "শরণখোলা",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "মাগুরা",
+          "upazilas": [
+            {
+              "name": "মহম্মদপুর",
+              "spots": []
+            },
+            {
+              "name": "মাগুরা সদর",
+              "spots": [
+                {
+                  "name": "নবগঙ্গা নদী",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "শালিখা",
+              "spots": []
+            },
+            {
+              "name": "শ্রীপুর",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "মেহেরপুর",
+          "upazilas": [
+            {
+              "name": "গাংনী",
+              "spots": []
+            },
+            {
+              "name": "মুজিবনগর",
+              "spots": [
+                {
+                  "name": "মুজিবনগর স্মৃতি কমপ্লেক্স",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "মেহেরপুর সদর",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "যশোর",
+          "upazilas": [
+            {
+              "name": "অভয়নগর",
+              "spots": []
+            },
+            {
+              "name": "কেশবপুর",
+              "spots": []
+            },
+            {
+              "name": "চৌগাছা",
+              "spots": []
+            },
+            {
+              "name": "ঝিকরগাছা",
+              "spots": []
+            },
+            {
+              "name": "বাঘারপাড়া",
+              "spots": []
+            },
+            {
+              "name": "মণিরামপুর",
+              "spots": [
+                {
+                  "name": "মাইকেল মধুসূদন দত্ত বাড়ি",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "যশোর সদর",
+              "spots": []
+            },
+            {
+              "name": "শার্শা",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "সাতক্ষীরা",
+          "upazilas": [
+            {
+              "name": "আশাশুনি",
+              "spots": [
+                {
+                  "name": "মুন্সিগঞ্জ",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "সুন্দরবন",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "কলারোয়া",
+              "spots": []
+            },
+            {
+              "name": "কালিগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "তালা",
+              "spots": []
+            },
+            {
+              "name": "দেবহাটা",
+              "spots": []
+            },
+            {
+              "name": "শ্যামনগর",
+              "spots": []
+            },
+            {
+              "name": "সাতক্ষীরা সদর",
+              "spots": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "চট্টগ্রাম",
+      "districts": [
+        {
+          "name": "কক্সবাজার",
+          "upazilas": [
+            {
+              "name": "ঈদগাঁও",
+              "spots": []
+            },
+            {
+              "name": "উখিয়া",
+              "spots": []
+            },
+            {
+              "name": "কক্সবাজার সদর",
+              "spots": [
+                {
+                  "name": "ইনানী বিচ",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "কক্সবাজার সমুদ্র সৈকত",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "সেন্ট মার্টিন",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "কুতুবদিয়া",
+              "spots": []
+            },
+            {
+              "name": "চকরিয়া",
+              "spots": []
+            },
+            {
+              "name": "টেকনাফ",
+              "spots": []
+            },
+            {
+              "name": "পেকুয়া",
+              "spots": []
+            },
+            {
+              "name": "মহেশখালী",
+              "spots": []
+            },
+            {
+              "name": "রামু",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "কুমিল্লা",
+          "upazilas": [
+            {
+              "name": "কুমিল্লা সদর",
+              "spots": []
+            },
+            {
+              "name": "চান্দিনা",
+              "spots": []
+            },
+            {
+              "name": "চৌদ্দগ্রাম",
+              "spots": []
+            },
+            {
+              "name": "তিতাস",
+              "spots": []
+            },
+            {
+              "name": "দাউদকান্দি",
+              "spots": []
+            },
+            {
+              "name": "দেবিদ্বার",
+              "spots": [
+                {
+                  "name": "ময়নামতি",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "নাঙ্গলকোট",
+              "spots": []
+            },
+            {
+              "name": "বরুড়া",
+              "spots": []
+            },
+            {
+              "name": "বুড়িচং",
+              "spots": []
+            },
+            {
+              "name": "ব্রাহ্মণপাড়া",
+              "spots": []
+            },
+            {
+              "name": "মনোহরগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "মুরাদনগর",
+              "spots": []
+            },
+            {
+              "name": "মেঘনা",
+              "spots": []
+            },
+            {
+              "name": "লাকসাম",
+              "spots": []
+            },
+            {
+              "name": "লালমাই",
+              "spots": []
+            },
+            {
+              "name": "সদর দক্ষিণ",
+              "spots": []
+            },
+            {
+              "name": "হোমনা",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "খাগড়াছড়ি",
+          "upazilas": [
+            {
+              "name": "খাগড়াছড়ি সদর",
+              "spots": [
+                {
+                  "name": "আলুটিলা গুহা",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "সাজেক ভ্যালি",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "গুইমারা",
+              "spots": []
+            },
+            {
+              "name": "দিঘীনালা",
+              "spots": []
+            },
+            {
+              "name": "পানছড়ি",
+              "spots": []
+            },
+            {
+              "name": "মহালছড়ি",
+              "spots": []
+            },
+            {
+              "name": "মাটিরাঙ্গা",
+              "spots": []
+            },
+            {
+              "name": "মানিকছড়ি",
+              "spots": []
+            },
+            {
+              "name": "রামগড়",
+              "spots": []
+            },
+            {
+              "name": "লক্ষীছড়ি",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "চট্টগ্রাম",
+          "upazilas": [
+            {
+              "name": "আনোয়ারা",
+              "spots": []
+            },
+            {
+              "name": "কর্ণফুলী",
+              "spots": []
+            },
+            {
+              "name": "চন্দনাইশ",
+              "spots": []
+            },
+            {
+              "name": "পটিয়া",
+              "spots": []
+            },
+            {
+              "name": "ফটিকছড়ি",
+              "spots": []
+            },
+            {
+              "name": "বাঁশখালী",
+              "spots": []
+            },
+            {
+              "name": "বোয়ালখালী",
+              "spots": []
+            },
+            {
+              "name": "মীরসরাই",
+              "spots": []
+            },
+            {
+              "name": "রাউজান",
+              "spots": []
+            },
+            {
+              "name": "রাঙ্গুনিয়া",
+              "spots": [
+                {
+                  "name": "পতেঙ্গা সমুদ্র সৈকত",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "ফয়েজ লেক",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "লোহাগাড়া",
+              "spots": []
+            },
+            {
+              "name": "সন্দ্বীপ",
+              "spots": []
+            },
+            {
+              "name": "সাতকানিয়া",
+              "spots": []
+            },
+            {
+              "name": "সীতাকুন্ড",
+              "spots": []
+            },
+            {
+              "name": "হাটহাজারী",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "চাঁদপুর",
+          "upazilas": [
+            {
+              "name": "কচুয়া",
+              "spots": []
+            },
+            {
+              "name": "চাঁদপুর সদর",
+              "spots": []
+            },
+            {
+              "name": "ফরিদগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "মতলব উত্তর",
+              "spots": []
+            },
+            {
+              "name": "মতলব দক্ষিণ",
+              "spots": []
+            },
+            {
+              "name": "শাহরাস্তি",
+              "spots": []
+            },
+            {
+              "name": "হাইমচর",
+              "spots": [
+                {
+                  "name": "মোহনা (মেঘনা-ডাকাতিয়া মিলনস্থল)",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "হাজীগঞ্জ",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "নোয়াখালী",
+          "upazilas": [
+            {
+              "name": "কবিরহাট",
+              "spots": []
+            },
+            {
+              "name": "কোম্পানীগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "চাটখিল",
+              "spots": []
+            },
+            {
+              "name": "নোয়াখালী সদর",
+              "spots": [
+                {
+                  "name": "হাতিয়া দ্বীপ",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "বেগমগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "সুবর্ণচর",
+              "spots": []
+            },
+            {
+              "name": "সেনবাগ",
+              "spots": []
+            },
+            {
+              "name": "সোনাইমুড়ী",
+              "spots": []
+            },
+            {
+              "name": "হাতিয়া",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "ফেনী",
+          "upazilas": [
+            {
+              "name": "ছাগলনাইয়া",
+              "spots": []
+            },
+            {
+              "name": "দাগনভূঞা",
+              "spots": []
+            },
+            {
+              "name": "পরশুরাম",
+              "spots": []
+            },
+            {
+              "name": "ফুলগাজী",
+              "spots": []
+            },
+            {
+              "name": "ফেনী সদর",
+              "spots": [
+                {
+                  "name": "মুহুরী প্রকল্প",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "সোনাগাজী",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "বান্দরবান",
+          "upazilas": [
+            {
+              "name": "আলীকদম",
+              "spots": []
+            },
+            {
+              "name": "থানচি",
+              "spots": []
+            },
+            {
+              "name": "নাইক্ষ্যংছড়ি",
+              "spots": []
+            },
+            {
+              "name": "বান্দরবান সদর",
+              "spots": [
+                {
+                  "name": "নাফাখুম",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "নীলগিরি",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "বগালেক",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "রুমা",
+              "spots": []
+            },
+            {
+              "name": "রোয়াংছড়ি",
+              "spots": []
+            },
+            {
+              "name": "লামা",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "ব্রাহ্মণবাড়িয়া",
+          "upazilas": [
+            {
+              "name": "আখাউড়া",
+              "spots": []
+            },
+            {
+              "name": "আশুগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "কসবা",
+              "spots": []
+            },
+            {
+              "name": "নবীনগর",
+              "spots": []
+            },
+            {
+              "name": "নাসিরনগর",
+              "spots": []
+            },
+            {
+              "name": "বাঞ্ছারামপুর",
+              "spots": []
+            },
+            {
+              "name": "বিজয়নগর",
+              "spots": []
+            },
+            {
+              "name": "ব্রাহ্মণবাড়িয়া সদর",
+              "spots": [
+                {
+                  "name": "বিজয়নগর মেঘনা পাড়",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "সরাইল",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "রাঙ্গামাটি",
+          "upazilas": [
+            {
+              "name": "কাউখালী",
+              "spots": []
+            },
+            {
+              "name": "কাপ্তাই",
+              "spots": [
+                {
+                  "name": "কাপ্তাই লেক",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "জুরাছড়ি",
+              "spots": []
+            },
+            {
+              "name": "নানিয়ারচর",
+              "spots": []
+            },
+            {
+              "name": "বরকল",
+              "spots": []
+            },
+            {
+              "name": "বাঘাইছড়ি",
+              "spots": []
+            },
+            {
+              "name": "বিলাইছড়ি",
+              "spots": []
+            },
+            {
+              "name": "রাঙ্গামাটি সদর",
+              "spots": [
+                {
+                  "name": "শুভলং ঝর্ণা",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "রাজস্থলী",
+              "spots": []
+            },
+            {
+              "name": "লংগদু",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "লক্ষ্মীপুর",
+          "upazilas": [
+            {
+              "name": "কমলনগর",
+              "spots": []
+            },
+            {
+              "name": "রামগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "রামগতি",
+              "spots": []
+            },
+            {
+              "name": "রায়পুর",
+              "spots": []
+            },
+            {
+              "name": "লক্ষ্মীপুর সদর",
+              "spots": [
+                {
+                  "name": "মেঘনা নদী",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ঢাকা",
+      "districts": [
+        {
+          "name": "কিশোরগঞ্জ",
+          "upazilas": [
+            {
+              "name": "অষ্টগ্রাম",
+              "spots": []
+            },
+            {
+              "name": "ইটনা",
+              "spots": []
+            },
+            {
+              "name": "কটিয়াদী",
+              "spots": []
+            },
+            {
+              "name": "করিমগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "কিশোরগঞ্জ সদর",
+              "spots": []
+            },
+            {
+              "name": "কুলিয়ারচর",
+              "spots": []
+            },
+            {
+              "name": "তাড়াইল",
+              "spots": []
+            },
+            {
+              "name": "নিকলী",
+              "spots": [
+                {
+                  "name": "নিকলী হাওর",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "পাকুন্দিয়া",
+              "spots": []
+            },
+            {
+              "name": "বাজিতপুর",
+              "spots": []
+            },
+            {
+              "name": "ভৈরব",
+              "spots": []
+            },
+            {
+              "name": "মিঠামইন",
+              "spots": []
+            },
+            {
+              "name": "হোসেনপুর",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "গাজীপুর",
+          "upazilas": [
+            {
+              "name": "কাপাসিয়া",
+              "spots": []
+            },
+            {
+              "name": "কালিয়াকৈর",
+              "spots": []
+            },
+            {
+              "name": "কালীগঞ্জ",
+              "spots": [
+                {
+                  "name": "ভাওয়াল জাতীয় উদ্যান",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "গাজীপুর সদর",
+              "spots": [
+                {
+                  "name": "নুহাশ পল্লী",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "শ্রীপুর",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "গোপালগঞ্জ",
+          "upazilas": [
+            {
+              "name": "কাশিয়ানী",
+              "spots": []
+            },
+            {
+              "name": "কোটালীপাড়া",
+              "spots": []
+            },
+            {
+              "name": "গোপালগঞ্জ সদর",
+              "spots": [
+                {
+                  "name": "বঙ্গবন্ধু সমাধি (টুঙ্গিপাড়া)",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "টুংগীপাড়া",
+              "spots": []
+            },
+            {
+              "name": "মুকসুদপুর",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "টাঙ্গাইল",
+          "upazilas": [
+            {
+              "name": "কালিহাতী",
+              "spots": []
+            },
+            {
+              "name": "গোপালপুর",
+              "spots": []
+            },
+            {
+              "name": "ঘাটাইল",
+              "spots": []
+            },
+            {
+              "name": "টাঙ্গাইল সদর",
+              "spots": []
+            },
+            {
+              "name": "দেলদুয়ার",
+              "spots": []
+            },
+            {
+              "name": "ধনবাড়ী",
+              "spots": []
+            },
+            {
+              "name": "নাগরপুর",
+              "spots": []
+            },
+            {
+              "name": "বাসাইল",
+              "spots": [
+                {
+                  "name": "করটিয়া মসজিদ",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "মহেরা জমিদার বাড়ি",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "ভুয়াপুর",
+              "spots": []
+            },
+            {
+              "name": "মধুপুর",
+              "spots": []
+            },
+            {
+              "name": "মির্জাপুর",
+              "spots": []
+            },
+            {
+              "name": "সখিপুর",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "ঢাকা",
+          "upazilas": [
+            {
+              "name": "কেরাণীগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "দোহার",
+              "spots": []
+            },
+            {
+              "name": "ধামরাই",
+              "spots": []
+            },
+            {
+              "name": "নবাবগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "সাভার",
+              "spots": [
+                {
+                  "name": "আহসান মঞ্জিল",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "জাতীয় সংসদ ভবন",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "লালবাগ কেল্লা",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "নরসিংদী",
+          "upazilas": [
+            {
+              "name": "নরসিংদী সদর",
+              "spots": []
+            },
+            {
+              "name": "পলাশ",
+              "spots": []
+            },
+            {
+              "name": "বেলাবো",
+              "spots": [
+                {
+                  "name": "উয়ারী-বটেশ্বর",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "মনোহরদী",
+              "spots": []
+            },
+            {
+              "name": "রায়পুরা",
+              "spots": []
+            },
+            {
+              "name": "শিবপুর",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "নারায়ণগঞ্জ",
+          "upazilas": [
+            {
+              "name": "আড়াইহাজার",
+              "spots": [
+                {
+                  "name": "পানাম নগর",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "সোনারগাঁও",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "নারায়নগঞ্জ সদর",
+              "spots": []
+            },
+            {
+              "name": "বন্দর",
+              "spots": []
+            },
+            {
+              "name": "রূপগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "সোনারগাঁ",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "ফরিদপুর",
+          "upazilas": [
+            {
+              "name": "আলফাডাঙ্গা",
+              "spots": []
+            },
+            {
+              "name": "চরভদ্রাসন",
+              "spots": []
+            },
+            {
+              "name": "নগরকান্দা",
+              "spots": []
+            },
+            {
+              "name": "ফরিদপুর সদর",
+              "spots": [
+                {
+                  "name": "মধুমতি নদী",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "রাজবাড়ি জমিদার বাড়ি",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "বোয়ালমারী",
+              "spots": []
+            },
+            {
+              "name": "ভাঙ্গা",
+              "spots": []
+            },
+            {
+              "name": "মধুখালী",
+              "spots": []
+            },
+            {
+              "name": "সদরপুর",
+              "spots": []
+            },
+            {
+              "name": "সালথা",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "মাদারীপুর",
+          "upazilas": [
+            {
+              "name": "কালকিনি",
+              "spots": []
+            },
+            {
+              "name": "ডাসার",
+              "spots": []
+            },
+            {
+              "name": "মাদারীপুর সদর",
+              "spots": [
+                {
+                  "name": "কুতুবপুর দরগাহ",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "রাজৈর",
+              "spots": []
+            },
+            {
+              "name": "শিবচর",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "মানিকগঞ্জ",
+          "upazilas": [
+            {
+              "name": "ঘিওর",
+              "spots": []
+            },
+            {
+              "name": "দৌলতপুর",
+              "spots": []
+            },
+            {
+              "name": "মানিকগঞ্জ সদর",
+              "spots": [
+                {
+                  "name": "পদ্মা রিসোর্ট",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "শিবালয়",
+              "spots": []
+            },
+            {
+              "name": "সাটুরিয়া",
+              "spots": []
+            },
+            {
+              "name": "সিংগাইর",
+              "spots": []
+            },
+            {
+              "name": "হরিরামপুর",
+              "spots": [
+                {
+                  "name": "ঝিটকা জমিদার বাড়ি",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "মুন্সিগঞ্জ",
+          "upazilas": [
+            {
+              "name": "গজারিয়া",
+              "spots": []
+            },
+            {
+              "name": "টংগীবাড়ি",
+              "spots": []
+            },
+            {
+              "name": "মুন্সিগঞ্জ সদর",
+              "spots": [
+                {
+                  "name": "ইদ্রাকপুর কেল্লা",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "বিক্রমপুর জাদুঘর",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "লৌহজং",
+              "spots": []
+            },
+            {
+              "name": "শ্রীনগর",
+              "spots": []
+            },
+            {
+              "name": "সিরাজদিখান",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "রাজবাড়ী",
+          "upazilas": [
+            {
+              "name": "কালুখালী",
+              "spots": []
+            },
+            {
+              "name": "গোয়ালন্দ",
+              "spots": []
+            },
+            {
+              "name": "পাংশা",
+              "spots": []
+            },
+            {
+              "name": "বালিয়াকান্দি",
+              "spots": []
+            },
+            {
+              "name": "রাজবাড়ী সদর",
+              "spots": [
+                {
+                  "name": "গোয়ালন্দ ঘাট",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "পদ্মা নদী",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "শরীয়তপুর",
+          "upazilas": [
+            {
+              "name": "গোসাইরহাট",
+              "spots": []
+            },
+            {
+              "name": "জাজিরা",
+              "spots": []
+            },
+            {
+              "name": "ডামুড্যা",
+              "spots": []
+            },
+            {
+              "name": "নড়িয়া",
+              "spots": []
+            },
+            {
+              "name": "ভেদরগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "শরিয়তপুর সদর",
+              "spots": [
+                {
+                  "name": "পদ্মা নদী চর এলাকা",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "বরিশাল",
+      "districts": [
+        {
+          "name": "ঝালকাঠি",
+          "upazilas": [
+            {
+              "name": "কাঠালিয়া",
+              "spots": []
+            },
+            {
+              "name": "ঝালকাঠি সদর",
+              "spots": [
+                {
+                  "name": "সুগন্ধা নদী",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "নলছিটি",
+              "spots": []
+            },
+            {
+              "name": "রাজাপুর",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "পটুয়াখালী",
+          "upazilas": [
+            {
+              "name": "কলাপাড়া",
+              "spots": []
+            },
+            {
+              "name": "গলাচিপা",
+              "spots": []
+            },
+            {
+              "name": "দশমিনা",
+              "spots": []
+            },
+            {
+              "name": "দুমকি",
+              "spots": []
+            },
+            {
+              "name": "পটুয়াখালী সদর",
+              "spots": []
+            },
+            {
+              "name": "বাউফল",
+              "spots": [
+                {
+                  "name": "কুয়াকাটা",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "মির্জাগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "রাঙ্গাবালী",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "পিরোজপুর",
+          "upazilas": [
+            {
+              "name": "কাউখালী",
+              "spots": []
+            },
+            {
+              "name": "জিয়ানগর",
+              "spots": []
+            },
+            {
+              "name": "নাজিরপুর",
+              "spots": []
+            },
+            {
+              "name": "নেছারাবাদ",
+              "spots": []
+            },
+            {
+              "name": "পিরোজপুর সদর",
+              "spots": [
+                {
+                  "name": "স্বরূপকাঠি",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "ভান্ডারিয়া",
+              "spots": []
+            },
+            {
+              "name": "মঠবাড়ীয়া",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "বরগুনা",
+          "upazilas": [
+            {
+              "name": "আমতলী",
+              "spots": []
+            },
+            {
+              "name": "তালতলি",
+              "spots": []
+            },
+            {
+              "name": "পাথরঘাটা",
+              "spots": []
+            },
+            {
+              "name": "বরগুনা সদর",
+              "spots": [
+                {
+                  "name": "ফাতরার বন",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "বামনা",
+              "spots": []
+            },
+            {
+              "name": "বেতাগী",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "বরিশাল",
+          "upazilas": [
+            {
+              "name": "আগৈলঝাড়া",
+              "spots": []
+            },
+            {
+              "name": "উজিরপুর",
+              "spots": []
+            },
+            {
+              "name": "গৌরনদী",
+              "spots": []
+            },
+            {
+              "name": "বরিশাল সদর",
+              "spots": [
+                {
+                  "name": "দুর্গাসাগর",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "বাকেরগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "বানারীপাড়া",
+              "spots": []
+            },
+            {
+              "name": "বাবুগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "মুলাদী",
+              "spots": []
+            },
+            {
+              "name": "মেহেন্দিগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "হিজলা",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "ভোলা",
+          "upazilas": [
+            {
+              "name": "চরফ্যাশন",
+              "spots": []
+            },
+            {
+              "name": "তজুমদ্দিন",
+              "spots": []
+            },
+            {
+              "name": "দৌলতখান",
+              "spots": []
+            },
+            {
+              "name": "বোরহান উদ্দিন",
+              "spots": []
+            },
+            {
+              "name": "ভোলা সদর",
+              "spots": [
+                {
+                  "name": "চর কুকরি মুকরি",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "মনপুরা",
+              "spots": []
+            },
+            {
+              "name": "লালমোহন",
+              "spots": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ময়মনসিংহ",
+      "districts": [
+        {
+          "name": "জামালপুর",
+          "upazilas": [
+            {
+              "name": "ইসলামপুর",
+              "spots": []
+            },
+            {
+              "name": "জামালপুর সদর",
+              "spots": [
+                {
+                  "name": "গারো পাহাড়",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "দেওয়ানগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "বকশীগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "মাদারগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "মেলান্দহ",
+              "spots": []
+            },
+            {
+              "name": "সরিষাবাড়ী",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "নেত্রকোণা",
+          "upazilas": [
+            {
+              "name": "আটপাড়া",
+              "spots": []
+            },
+            {
+              "name": "কলমাকান্দা",
+              "spots": []
+            },
+            {
+              "name": "কেন্দুয়া",
+              "spots": []
+            },
+            {
+              "name": "খালিয়াজুরী",
+              "spots": []
+            },
+            {
+              "name": "দুর্গাপুর",
+              "spots": []
+            },
+            {
+              "name": "নেত্রকোণা সদর",
+              "spots": []
+            },
+            {
+              "name": "পূর্বধলা",
+              "spots": []
+            },
+            {
+              "name": "বারহাট্টা",
+              "spots": [
+                {
+                  "name": "বিরিশিরি",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "মদন",
+              "spots": []
+            },
+            {
+              "name": "মোহনগঞ্জ",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "ময়মনসিংহ",
+          "upazilas": [
+            {
+              "name": "ঈশ্বরগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "গফরগাঁও",
+              "spots": []
+            },
+            {
+              "name": "গৌরীপুর",
+              "spots": []
+            },
+            {
+              "name": "তারাকান্দা",
+              "spots": []
+            },
+            {
+              "name": "ত্রিশাল",
+              "spots": []
+            },
+            {
+              "name": "ধোবাউড়া",
+              "spots": []
+            },
+            {
+              "name": "নান্দাইল",
+              "spots": []
+            },
+            {
+              "name": "ফুলপুর",
+              "spots": []
+            },
+            {
+              "name": "ফুলবাড়ীয়া",
+              "spots": [
+                {
+                  "name": "মুক্তাগাছা জমিদার বাড়ি",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                },
+                {
+                  "name": "শশী লজ",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "ভালুকা",
+              "spots": []
+            },
+            {
+              "name": "মুক্তাগাছা",
+              "spots": []
+            },
+            {
+              "name": "ময়মনসিংহ সদর",
+              "spots": []
+            },
+            {
+              "name": "হালুয়াঘাট",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "শেরপুর",
+          "upazilas": [
+            {
+              "name": "ঝিনাইগাতী",
+              "spots": []
+            },
+            {
+              "name": "নকলা",
+              "spots": []
+            },
+            {
+              "name": "নালিতাবাড়ী",
+              "spots": []
+            },
+            {
+              "name": "শেরপুর সদর",
+              "spots": [
+                {
+                  "name": "মধুটিলা ইকো পার্ক",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "শ্রীবরদী",
+              "spots": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "রংপুর",
+      "districts": [
+        {
+          "name": "কুড়িগ্রাম",
+          "upazilas": [
+            {
+              "name": "উলিপুর",
+              "spots": []
+            },
+            {
+              "name": "কুড়িগ্রাম সদর",
+              "spots": []
+            },
+            {
+              "name": "চর রাজিবপুর",
+              "spots": []
+            },
+            {
+              "name": "চিলমারী",
+              "spots": [
+                {
+                  "name": "চিলমারী নদী বন্দর",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "নাগেশ্বরী",
+              "spots": []
+            },
+            {
+              "name": "ফুলবাড়ী",
+              "spots": []
+            },
+            {
+              "name": "ভুরুঙ্গামারী",
+              "spots": []
+            },
+            {
+              "name": "রাজারহাট",
+              "spots": []
+            },
+            {
+              "name": "রৌমারী",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "গাইবান্ধা",
+          "upazilas": [
+            {
+              "name": "গাইবান্ধা সদর",
+              "spots": [
+                {
+                  "name": "ব্রহ্মপুত্র নদী",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "গোবিন্দগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "পলাশবাড়ী",
+              "spots": []
+            },
+            {
+              "name": "ফুলছড়ি",
+              "spots": []
+            },
+            {
+              "name": "সাঘাটা",
+              "spots": []
+            },
+            {
+              "name": "সাদুল্লাপুর",
+              "spots": []
+            },
+            {
+              "name": "সুন্দরগঞ্জ",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "ঠাকুরগাঁও",
+          "upazilas": [
+            {
+              "name": "ঠাকুরগাঁও সদর",
+              "spots": [
+                {
+                  "name": "রানীশংকৈল জমিদার বাড়ি",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "পীরগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "বালিয়াডাঙ্গী",
+              "spots": []
+            },
+            {
+              "name": "রাণীশংকৈল",
+              "spots": []
+            },
+            {
+              "name": "হরিপুর",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "দিনাজপুর",
+          "upazilas": [
+            {
+              "name": "কাহারোল",
+              "spots": []
+            },
+            {
+              "name": "খানসামা",
+              "spots": []
+            },
+            {
+              "name": "ঘোড়াঘাট",
+              "spots": []
+            },
+            {
+              "name": "চিরিরবন্দর",
+              "spots": []
+            },
+            {
+              "name": "দিনাজপুর সদর",
+              "spots": [
+                {
+                  "name": "কান্তজিউ মন্দির",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "নবাবগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "পার্বতীপুর",
+              "spots": []
+            },
+            {
+              "name": "ফুলবাড়ী",
+              "spots": []
+            },
+            {
+              "name": "বিরল",
+              "spots": []
+            },
+            {
+              "name": "বিরামপুর",
+              "spots": []
+            },
+            {
+              "name": "বীরগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "বোচাগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "হাকিমপুর",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "নীলফামারী",
+          "upazilas": [
+            {
+              "name": "কিশোরগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "জলঢাকা",
+              "spots": []
+            },
+            {
+              "name": "ডিমলা",
+              "spots": []
+            },
+            {
+              "name": "ডোমার",
+              "spots": []
+            },
+            {
+              "name": "নীলফামারী সদর",
+              "spots": []
+            },
+            {
+              "name": "সৈয়দপুর",
+              "spots": [
+                {
+                  "name": "সৈয়দপুর",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "পঞ্চগড়",
+          "upazilas": [
+            {
+              "name": "আটোয়ারী",
+              "spots": []
+            },
+            {
+              "name": "তেতুলিয়া",
+              "spots": []
+            },
+            {
+              "name": "দেবীগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "পঞ্চগড় সদর",
+              "spots": [
+                {
+                  "name": "বাংলাবান্ধা",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "বোদা",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "রংপুর",
+          "upazilas": [
+            {
+              "name": "কাউনিয়া",
+              "spots": []
+            },
+            {
+              "name": "গংগাচড়া",
+              "spots": []
+            },
+            {
+              "name": "তারাগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "পীরগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "পীরগাছা",
+              "spots": []
+            },
+            {
+              "name": "বদরগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "মিঠাপুকুর",
+              "spots": []
+            },
+            {
+              "name": "রংপুর সদর",
+              "spots": [
+                {
+                  "name": "তাজহাট জমিদার বাড়ি",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "লালমনিরহাট",
+          "upazilas": [
+            {
+              "name": "আদিতমারী",
+              "spots": []
+            },
+            {
+              "name": "কালীগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "পাটগ্রাম",
+              "spots": []
+            },
+            {
+              "name": "লালমনিরহাট সদর",
+              "spots": [
+                {
+                  "name": "তিস্তা ব্যারেজ",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "হাতীবান্ধা",
+              "spots": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "রাজশাহী",
+      "districts": [
+        {
+          "name": "চাঁপাইনবাবগঞ্জ",
+          "upazilas": [
+            {
+              "name": "গোমস্তাপুর",
+              "spots": []
+            },
+            {
+              "name": "চাঁপাইনবাবগঞ্জ সদর",
+              "spots": [
+                {
+                  "name": "ছোট সোনা মসজিদ",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "নাচোল",
+              "spots": []
+            },
+            {
+              "name": "ভোলাহাট",
+              "spots": []
+            },
+            {
+              "name": "শিবগঞ্জ",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "জয়পুরহাট",
+          "upazilas": [
+            {
+              "name": "আক্কেলপুর",
+              "spots": [
+                {
+                  "name": "পাহাড়পুর",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "কালাই",
+              "spots": []
+            },
+            {
+              "name": "ক্ষেতলাল",
+              "spots": []
+            },
+            {
+              "name": "জয়পুরহাট সদর",
+              "spots": []
+            },
+            {
+              "name": "পাঁচবিবি",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "নওগাঁ",
+          "upazilas": [
+            {
+              "name": "আত্রাই",
+              "spots": []
+            },
+            {
+              "name": "ধামইরহাট",
+              "spots": []
+            },
+            {
+              "name": "নওগাঁ সদর",
+              "spots": []
+            },
+            {
+              "name": "নিয়ামতপুর",
+              "spots": []
+            },
+            {
+              "name": "পত্নিতলা",
+              "spots": []
+            },
+            {
+              "name": "পোরশা",
+              "spots": []
+            },
+            {
+              "name": "বদলগাছী",
+              "spots": []
+            },
+            {
+              "name": "মহাদেবপুর",
+              "spots": [
+                {
+                  "name": "পাহাড়পুর বৌদ্ধ বিহার",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "মান্দা",
+              "spots": []
+            },
+            {
+              "name": "রাণীনগর",
+              "spots": []
+            },
+            {
+              "name": "সাপাহার",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "নাটোর",
+          "upazilas": [
+            {
+              "name": "গুরুদাসপুর",
+              "spots": []
+            },
+            {
+              "name": "নলডাঙ্গা",
+              "spots": []
+            },
+            {
+              "name": "নাটোর সদর",
+              "spots": [
+                {
+                  "name": "উত্তরা গণভবন",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "বড়াইগ্রাম",
+              "spots": []
+            },
+            {
+              "name": "বাগাতিপাড়া",
+              "spots": []
+            },
+            {
+              "name": "লালপুর",
+              "spots": []
+            },
+            {
+              "name": "সিংড়া",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "পাবনা",
+          "upazilas": [
+            {
+              "name": "আটঘরিয়া",
+              "spots": []
+            },
+            {
+              "name": "ঈশ্বরদী",
+              "spots": []
+            },
+            {
+              "name": "চাটমোহর",
+              "spots": []
+            },
+            {
+              "name": "পাবনা সদর",
+              "spots": []
+            },
+            {
+              "name": "ফরিদপুর",
+              "spots": []
+            },
+            {
+              "name": "বেড়া",
+              "spots": []
+            },
+            {
+              "name": "ভাঙ্গুড়া",
+              "spots": []
+            },
+            {
+              "name": "সাঁথিয়া",
+              "spots": []
+            },
+            {
+              "name": "সুজানগর",
+              "spots": [
+                {
+                  "name": "হার্ডিঞ্জ ব্রিজ",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "বগুড়া",
+          "upazilas": [
+            {
+              "name": "আদমদিঘি",
+              "spots": []
+            },
+            {
+              "name": "কাহালু",
+              "spots": [
+                {
+                  "name": "মহাস্থানগড়",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "গাবতলী",
+              "spots": []
+            },
+            {
+              "name": "দুপচাচিঁয়া",
+              "spots": []
+            },
+            {
+              "name": "ধুনট",
+              "spots": []
+            },
+            {
+              "name": "নন্দিগ্রাম",
+              "spots": []
+            },
+            {
+              "name": "বগুড়া সদর",
+              "spots": []
+            },
+            {
+              "name": "শাজাহানপুর",
+              "spots": []
+            },
+            {
+              "name": "শিবগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "শেরপুর",
+              "spots": []
+            },
+            {
+              "name": "সারিয়াকান্দি",
+              "spots": []
+            },
+            {
+              "name": "সোনাতলা",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "রাজশাহী",
+          "upazilas": [
+            {
+              "name": "গোদাগাড়ী",
+              "spots": []
+            },
+            {
+              "name": "চারঘাট",
+              "spots": []
+            },
+            {
+              "name": "তানোর",
+              "spots": []
+            },
+            {
+              "name": "দুর্গাপুর",
+              "spots": []
+            },
+            {
+              "name": "পবা",
+              "spots": [
+                {
+                  "name": "পদ্মা নদীর পাড়",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "পুঠিয়া",
+              "spots": []
+            },
+            {
+              "name": "বাগমারা",
+              "spots": []
+            },
+            {
+              "name": "বাঘা",
+              "spots": []
+            },
+            {
+              "name": "মোহনপুর",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "সিরাজগঞ্জ",
+          "upazilas": [
+            {
+              "name": "উল্লাপাড়া",
+              "spots": []
+            },
+            {
+              "name": "কাজীপুর",
+              "spots": []
+            },
+            {
+              "name": "কামারখন্দ",
+              "spots": []
+            },
+            {
+              "name": "চৌহালি",
+              "spots": []
+            },
+            {
+              "name": "তাড়াশ",
+              "spots": []
+            },
+            {
+              "name": "বেলকুচি",
+              "spots": [
+                {
+                  "name": "যমুনা সেতু",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "রায়গঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "শাহজাদপুর",
+              "spots": []
+            },
+            {
+              "name": "সিরাজগঞ্জ সদর",
+              "spots": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "সিলেট",
+      "districts": [
+        {
+          "name": "মৌলভীবাজার",
+          "upazilas": [
+            {
+              "name": "কমলগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "কুলাউড়া",
+              "spots": []
+            },
+            {
+              "name": "জুড়ী",
+              "spots": []
+            },
+            {
+              "name": "বড়লেখা",
+              "spots": [
+                {
+                  "name": "লাউয়াছড়া জাতীয় উদ্যান",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "মৌলভীবাজার সদর",
+              "spots": [
+                {
+                  "name": "মাধবকুণ্ড",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "রাজনগর",
+              "spots": []
+            },
+            {
+              "name": "শ্রীমঙ্গল",
+              "spots": []
+            }
+          ]
+        },
+        {
+          "name": "সিলেট",
+          "upazilas": [
+            {
+              "name": "ওসমানী নগর",
+              "spots": []
+            },
+            {
+              "name": "কানাইঘাট",
+              "spots": []
+            },
+            {
+              "name": "কোম্পানীগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "গোলাপগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "গোয়াইনঘাট",
+              "spots": []
+            },
+            {
+              "name": "জকিগঞ্জ",
+              "spots": [
+                {
+                  "name": "জাফলং",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "জৈন্তাপুর",
+              "spots": []
+            },
+            {
+              "name": "দক্ষিণ সুরমা",
+              "spots": []
+            },
+            {
+              "name": "ফেঞ্চুগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "বালাগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "বিশ্বনাথ",
+              "spots": []
+            },
+            {
+              "name": "বিয়ানীবাজার",
+              "spots": []
+            },
+            {
+              "name": "সিলেট সদর",
+              "spots": [
+                {
+                  "name": "রত্নারঘাট",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "সুনামগঞ্জ",
+          "upazilas": [
+            {
+              "name": "ছাতক",
+              "spots": []
+            },
+            {
+              "name": "জগন্নাথপুর",
+              "spots": []
+            },
+            {
+              "name": "জামালগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "তাহিরপুর",
+              "spots": []
+            },
+            {
+              "name": "দক্ষিণ সুনামগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "দিরাই",
+              "spots": []
+            },
+            {
+              "name": "দোয়ারাবাজার",
+              "spots": []
+            },
+            {
+              "name": "ধর্মপাশা",
+              "spots": []
+            },
+            {
+              "name": "বিশ্বম্ভরপুর",
+              "spots": []
+            },
+            {
+              "name": "মধ্যনগর",
+              "spots": []
+            },
+            {
+              "name": "শাল্লা",
+              "spots": []
+            },
+            {
+              "name": "সুনামগঞ্জ সদর",
+              "spots": [
+                {
+                  "name": "টাঙ্গুয়ার হাওর",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "হবিগঞ্জ",
+          "upazilas": [
+            {
+              "name": "আজমিরীগঞ্জ",
+              "spots": []
+            },
+            {
+              "name": "চুনারুঘাট",
+              "spots": []
+            },
+            {
+              "name": "নবীগঞ্জ",
+              "spots": [
+                {
+                  "name": "সাতছড়ি জাতীয় উদ্যান",
+                  "category": "",
+                  "description": "",
+                  "latitude": null,
+                  "longitude": null
+                }
+              ]
+            },
+            {
+              "name": "বানিয়াচং",
+              "spots": []
+            },
+            {
+              "name": "বাহুবল",
+              "spots": []
+            },
+            {
+              "name": "মাধবপুর",
+              "spots": []
+            },
+            {
+              "name": "লাখাই",
+              "spots": []
+            },
+            {
+              "name": "হবিগঞ্জ সদর",
+              "spots": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

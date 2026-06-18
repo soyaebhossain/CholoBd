@@ -1,0 +1,28 @@
+<form method="post" class="row g-3 settings-section-body">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="save_section">
+    <div class="col-md-3">
+        <label class="form-label" for="{{ form.default_currency.id_for_label }}">Default currency</label>
+        {{ form.default_currency }}
+    </div>
+    <div class="col-md-3">
+        <label class="form-label" for="{{ form.default_trip_visibility.id_for_label }}">Default trip visibility</label>
+        {{ form.default_trip_visibility }}
+    </div>
+    <div class="col-md-3">
+        <label class="form-label" for="{{ form.preferred_map_view.id_for_label }}">Preferred map view</label>
+        {{ form.preferred_map_view }}
+    </div>
+    <div class="col-md-3">
+        <label class="form-label" for="{{ form.distance_unit.id_for_label }}">Distance unit</label>
+        {{ form.distance_unit }}
+    </div>
+    <div class="col-12">
+        <label class="form-label" for="{{ form.default_expense_categories.id_for_label }}">Default expense categories</label>
+        {{ form.default_expense_categories }}
+        <div class="form-text">{{ form.default_expense_categories.help_text }}</div>
+    </div>
+    <div class="col-12 settings-actions">
+        <button class="btn btn-primary" type="submit"><i class="bi bi-check2-circle me-1"></i>Save Travel Preferences</button>
+    </div>
+</form>

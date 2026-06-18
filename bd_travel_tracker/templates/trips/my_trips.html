@@ -1,0 +1,464 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+>
+{% endblock %}
+
+{% block content %}
+<section class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+    <div>
+        <h1 class="h3 mb-1"><i class="bi bi-journal-check me-2"></i>My Trips</h1>
+        <p class="text-muted mb-0">Trip summary, reminders, and full travel log in one place.</p>
+    </div>
+    <div class="d-flex gap-2">
+        <a href="{% url 'trip_create' %}" class="btn btn-primary"><i class="bi bi-plus-circle me-1"></i>Add New Trip</a>
+        <a href="{% url 'travel_map' %}" class="btn btn-outline-primary"><i class="bi bi-geo-alt me-1"></i>Open Travel Map</a>
+    </div>
+</section>
+
+<section class="row g-3 mb-4">
+    <div class="col-6 col-lg-2">
+        <div class="card summary-card h-100">
+            <div class="card-body">
+                <p class="summary-label"><i class="bi bi-journal-check me-1"></i>Total Trips</p>
+                <h2 class="summary-number">{{ total_trips }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-2">
+        <div class="card summary-card h-100">
+            <div class="card-body">
+                <p class="summary-label"><i class="bi bi-cash-coin me-1"></i>Total Spent</p>
+                <h2 class="summary-number">{{ total_spent|floatformat:2 }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-2">
+        <div class="card summary-card h-100">
+            <div class="card-body">
+                <p class="summary-label"><i class="bi bi-diagram-3 me-1"></i>Divisions</p>
+                <h2 class="summary-number">{{ visited_divisions }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-2">
+        <div class="card summary-card h-100">
+            <div class="card-body">
+                <p class="summary-label"><i class="bi bi-building me-1"></i>Districts</p>
+                <h2 class="summary-number">{{ visited_districts }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-2">
+        <div class="card summary-card h-100">
+            <div class="card-body">
+                <p class="summary-label"><i class="bi bi-pin-map me-1"></i>Spots</p>
+                <h2 class="summary-number">{{ visited_spots }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-2">
+        <div class="card personal-cta-card h-100">
+            <div class="card-body d-flex flex-column">
+                <p class="summary-label text-white-50 mb-2">Personal CTA</p>
+                <h2 class="h6 fw-bold mb-2"><i class="bi bi-stars me-1"></i>{{ cta_title }}</h2>
+                <p class="small mb-3 flex-grow-1">{{ cta_text }}</p>
+                <a href="{% url cta_url_name %}" class="btn btn-sm btn-light fw-semibold"><i class="bi bi-arrow-right-circle me-1"></i>{{ cta_button }}</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="card next-trip-card mb-4"
+    {% if upcoming_reminder %}
+    data-next-reminder
+    data-reminder-at="{{ upcoming_reminder_iso }}"
+    data-reminder-title="{{ upcoming_reminder.title }}"
+    {% endif %}>
+    <div class="card-body">
+        <div class="row g-3 align-items-stretch">
+            <div class="col-lg-5 d-flex">
+                <div class="next-alert-box w-100">
+                    <div class="next-alert-header">
+                        <h2 class="next-alert-title mb-2"><i class="bi bi-bell-fill me-2"></i>Next Trip Alert</h2>
+                        {% if upcoming_reminder %}
+                        <div class="d-flex align-items-center gap-2 flex-wrap mb-2">
+                            <span class="badge text-bg-success px-3 py-2">{{ upcoming_reminder.title }}</span>
+                            <span class="badge text-bg-light border px-3 py-2">{{ upcoming_reminder.get_trip_source_display }}</span>
+                            <strong>{{ upcoming_reminder.reminder_date|date:"d/m/Y" }}</strong>
+                            <span class="next-trip-time"><i class="bi bi-alarm me-1"></i>{{ upcoming_reminder.reminder_time|time:"h:i A" }}</span>
+                        </div>
+                        {% if upcoming_reminder.agency_name %}
+                        <p class="small fw-semibold mb-1">
+                            <i class="bi bi-buildings me-1"></i>{{ upcoming_reminder.agency_name }}
+                        </p>
+                        {% endif %}
+                        {% if upcoming_reminder.spot %}
+                        <p class="small fw-semibold mb-1">
+                            <i class="bi bi-pin-map me-1"></i>{{ upcoming_reminder.spot.name }}, {{ upcoming_reminder.spot.district.name }}
+                        </p>
+                        {% endif %}
+                        <p class="text-muted small mb-1">{{ upcoming_reminder.note|default:"Reminder active for your next plan." }}</p>
+                        <p class="small text-muted mb-2">Time left: <span id="nextTripCountdown">calculating...</span></p>
+                        <div class="d-flex gap-2 flex-wrap">
+                            <button type="button" class="btn btn-sm btn-outline-primary" id="enableReminderAlerts">
+                                <i class="bi bi-bell me-1"></i>Enable Browser Alert
+                            </button>
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="action" value="clear_next_trip">
+                                <input type="hidden" name="reminder_id" value="{{ upcoming_reminder.id }}">
+                                <button type="submit" class="btn btn-sm btn-outline-secondary"><i class="bi bi-x-circle me-1"></i>Clear</button>
+                            </form>
+                        </div>
+                        {% else %}
+                        <p class="mb-2 text-muted small next-alert-empty">No reminder set yet. Add date and time to activate next trip alert.</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="next-alert-tracker mt-3">
+                        {% if upcoming_route_data %}
+                        {% if google_maps_embed_api_key %}
+                        <iframe
+                            id="nextTripGoogleMap"
+                            class="next-trip-google-map"
+                            loading="lazy"
+                            allowfullscreen
+                            referrerpolicy="no-referrer-when-downgrade"
+                            src="https://www.google.com/maps/embed/v1/place?key={{ google_maps_embed_api_key }}&q={{ upcoming_route_data.destination_query|urlencode }}"
+                        ></iframe>
+                        {% else %}
+                        <div class="next-trip-route-map-shell">
+                            <div id="nextTripRouteMap" class="next-trip-route-map"></div>
+                            <iframe
+                                id="nextTripRouteFallbackMap"
+                                class="next-trip-google-map next-trip-route-fallback d-none"
+                                loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"
+                                title="Next trip live map"
+                            ></iframe>
+                        </div>
+                        {% endif %}
+                        <div class="next-route-inline-meta mt-3">
+                            <div class="next-route-inline-stat">
+                                <span class="next-route-stat-label">Tracking</span>
+                                <strong id="nextTripTrackingStatus">Requesting live location...</strong>
+                            </div>
+                            <div class="next-route-inline-stat">
+                                <span class="next-route-stat-label">Distance</span>
+                                <strong id="nextTripDistance">Waiting for GPS permission</strong>
+                            </div>
+                            <div class="next-route-inline-stat">
+                                <span class="next-route-stat-label">Current location</span>
+                                <strong id="nextTripCurrentLocation">Not available yet</strong>
+                            </div>
+                        </div>
+                        <p class="small text-muted mt-2 mb-0" id="nextTripRouteNote">
+                            Live location updates happen on this page. Exact route time and fastest path open in Google Maps.
+                        </p>
+                        <div class="d-flex flex-wrap gap-2 mt-3">
+                            <a
+                                href="https://www.google.com/maps/dir/?api=1&destination={{ upcoming_route_data.destination_query|urlencode }}"
+                                class="btn btn-outline-primary btn-sm"
+                                id="nextTripFastestRoute"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                <i class="bi bi-lightning-charge me-1"></i>Fastest Route
+                            </a>
+                            <a
+                                href="https://www.google.com/maps/dir/?api=1&destination={{ upcoming_route_data.destination_query|urlencode }}&travelmode=driving"
+                                class="btn btn-outline-primary btn-sm"
+                                id="nextTripDrivingRoute"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                <i class="bi bi-car-front me-1"></i>Drive
+                            </a>
+                            <a
+                                href="https://www.google.com/maps/dir/?api=1&destination={{ upcoming_route_data.destination_query|urlencode }}&travelmode=transit"
+                                class="btn btn-outline-secondary btn-sm"
+                                id="nextTripTransitRoute"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                <i class="bi bi-train-front me-1"></i>Transit
+                            </a>
+                        </div>
+                        {% else %}
+                        <div class="next-alert-tracker-empty">
+                            <div class="next-trip-route-map-shell w-100 mb-3">
+                                <div id="nextTripSelectionMap" class="next-trip-route-map"></div>
+                            </div>
+                            <div class="next-alert-tracker-empty-icon"><i class="bi bi-map"></i></div>
+                            <p class="mb-1">Destination spot select করলে এখানেই map preview show করবে.</p>
+                            <p class="small mb-0" id="nextTripSelectionNote">এখন Bangladesh overview map দেখানো হচ্ছে.</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <form
+                    method="post"
+                    class="row g-2 align-items-end"
+                    id="trip-reminder-form"
+                    data-district-url="{% url 'api_districts' %}"
+                    data-upazila-url="{% url 'api_upazilas' %}"
+                    data-spot-url="{% url 'api_spots' %}"
+                >
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="set_next_trip">
+                    <div class="col-md-3">
+                        <label class="form-label" for="{{ reminder_form.reminder_date.id_for_label }}">Date</label>
+                        {{ reminder_form.reminder_date }}
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" for="{{ reminder_form.reminder_time.id_for_label }}">Time</label>
+                        {{ reminder_form.reminder_time }}
+                    </div>
+                    <div class="col-md-2 d-grid">
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-bell me-1"></i>Set</button>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label" for="{{ reminder_form.trip_source.id_for_label }}">Trip Source</label>
+                        {{ reminder_form.trip_source }}
+                    </div>
+                    <div class="col-md-4" data-agency-name-group {% if reminder_form.trip_source.value != 'agency' %}hidden{% endif %}>
+                        <label class="form-label" for="{{ reminder_form.agency_name.id_for_label }}">Agency Name</label>
+                        {{ reminder_form.agency_name }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="{{ reminder_form.division.id_for_label }}">Division</label>
+                        {{ reminder_form.division }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="{{ reminder_form.district.id_for_label }}">District</label>
+                        {{ reminder_form.district }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="{{ reminder_form.upazila.id_for_label }}">Upazila</label>
+                        {{ reminder_form.upazila }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="{{ reminder_form.spot.id_for_label }}">Destination Spot</label>
+                        {{ reminder_form.spot }}
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label" for="{{ reminder_form.title.id_for_label }}">Label</label>
+                        {{ reminder_form.title }}
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label" for="{{ reminder_form.note.id_for_label }}">Note</label>
+                        {{ reminder_form.note }}
+                    </div>
+                </form>
+                {% if reminder_form.errors %}
+                <div class="alert alert-danger mt-3 mb-0 py-2">
+                    {% for field in reminder_form %}
+                        {% for error in field.errors %}
+                        <div>{{ error }}</div>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in reminder_form.non_field_errors %}
+                    <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if upcoming_route_data %}
+{{ upcoming_route_data|json_script:'next-trip-route-data' }}
+{% endif %}
+{{ route_districts_json|json_script:'trip-reminder-districts' }}
+{{ route_upazilas_json|json_script:'trip-reminder-upazilas' }}
+{{ route_spots_json|json_script:'trip-reminder-spots' }}
+
+<section class="card">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+        <h2 class="h5 mb-0"><i class="bi bi-list-ul me-2"></i>Trip Log</h2>
+        <span class="text-muted small">{{ trips|length }} records</span>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+            <tr>
+                <th>Date</th>
+                <th>Trip Type</th>
+                <th>Division</th>
+                <th>District</th>
+                <th>Upazila</th>
+                <th>Spot</th>
+                <th>Hotel/Stay</th>
+                <th>Total Cost</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for trip in trips %}
+                <tr>
+                    <td>
+                        {{ trip.from_date }}
+                        {% if trip.to_date %}<br><small class="text-muted">to {{ trip.to_date }}</small>{% endif %}
+                    </td>
+                    <td>
+                        {{ trip.get_trip_source_display }}
+                        {% if trip.agency_name %}<br><small class="text-muted">{{ trip.agency_name }}</small>{% endif %}
+                    </td>
+                    <td>{{ trip.division.name }}</td>
+                    <td>{{ trip.district.name }}</td>
+                    <td>{{ trip.upazila.name }}</td>
+                    <td>{{ trip.spot.name }}</td>
+                    <td>{{ trip.hotel_name|default:'-' }}</td>
+                    <td>{{ trip.total_cost|floatformat:2 }}</td>
+                    <td class="d-flex gap-2">
+                        <a href="{% url 'trip_detail' trip.id %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye me-1"></i>Details</a>
+                        <a href="{% url 'trip_edit' trip.id %}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil-square me-1"></i>Edit</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="9" class="text-center py-4 text-muted">No trips added yet.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="tripReminderToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body" id="tripReminderToastBody">Trip reminder</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+></script>
+<script src="{% static 'js/my-trips.js' %}?v=20260309c"></script>
+<script>
+    (function () {
+        const form = document.getElementById("trip-reminder-form");
+        if (!form) {
+            return;
+        }
+
+        const divisionSelect = form.querySelector("[name='division']");
+        const districtSelect = form.querySelector("[name='district']");
+        const upazilaSelect = form.querySelector("[name='upazila']");
+        const spotSelect = form.querySelector("[name='spot']");
+        const tripSourceSelect = form.querySelector("[name='trip_source']");
+        const agencyNameField = form.querySelector("[name='agency_name']");
+        const agencyNameGroup = agencyNameField ? agencyNameField.closest("[data-agency-name-group]") : null;
+        const districtsNode = document.getElementById("trip-reminder-districts");
+        const upazilasNode = document.getElementById("trip-reminder-upazilas");
+        const spotsNode = document.getElementById("trip-reminder-spots");
+
+        if (!divisionSelect || !districtSelect || !upazilaSelect || !spotSelect || !districtsNode || !upazilasNode || !spotsNode) {
+            return;
+        }
+
+        const districts = JSON.parse(districtsNode.textContent || "[]");
+        const upazilas = JSON.parse(upazilasNode.textContent || "[]");
+        const spots = JSON.parse(spotsNode.textContent || "[]");
+
+        function fillSelect(select, items, placeholder, selectedValue) {
+            select.innerHTML = "";
+            const emptyOption = document.createElement("option");
+            emptyOption.value = "";
+            emptyOption.textContent = placeholder;
+            select.appendChild(emptyOption);
+
+            items.forEach(function (item) {
+                const option = document.createElement("option");
+                option.value = String(item.id);
+                option.textContent = item.name;
+                select.appendChild(option);
+            });
+
+            if (selectedValue) {
+                select.value = String(selectedValue);
+            }
+
+            select.disabled = items.length === 0;
+        }
+
+        function syncDistricts(keepValue) {
+            const items = districts.filter(function (item) {
+                return String(item.division_id) === String(divisionSelect.value);
+            });
+            fillSelect(districtSelect, items, "-----", keepValue);
+            fillSelect(upazilaSelect, [], "-----", "");
+            fillSelect(spotSelect, [], "-----", "");
+        }
+
+        function syncUpazilas(keepValue) {
+            const items = upazilas.filter(function (item) {
+                return String(item.district_id) === String(districtSelect.value);
+            });
+            fillSelect(upazilaSelect, items, "-----", keepValue);
+            fillSelect(spotSelect, [], "-----", "");
+        }
+
+        function syncSpots(keepValue) {
+            const items = spots.filter(function (item) {
+                return String(item.upazila_id) === String(upazilaSelect.value);
+            });
+            fillSelect(spotSelect, items, "-----", keepValue);
+        }
+
+        function syncAgencyField() {
+            if (!tripSourceSelect || !agencyNameGroup || !agencyNameField) {
+                return;
+            }
+            const isAgency = tripSourceSelect.value === "agency";
+            agencyNameGroup.hidden = !isAgency;
+            agencyNameField.required = isAgency;
+            if (!isAgency) {
+                agencyNameField.value = "";
+            }
+        }
+
+        divisionSelect.addEventListener("change", function () {
+            syncDistricts("");
+        });
+        districtSelect.addEventListener("change", function () {
+            syncUpazilas("");
+        });
+        upazilaSelect.addEventListener("change", function () {
+            syncSpots("");
+        });
+        if (tripSourceSelect) {
+            tripSourceSelect.addEventListener("change", syncAgencyField);
+        }
+
+        if (divisionSelect.value && districtSelect.options.length <= 1) {
+            syncDistricts(districtSelect.value);
+            if (districtSelect.value) {
+                syncUpazilas(upazilaSelect.value);
+            }
+            if (upazilaSelect.value) {
+                syncSpots(spotSelect.value);
+            }
+        }
+
+        syncAgencyField();
+    })();
+</script>
+{% endblock %}

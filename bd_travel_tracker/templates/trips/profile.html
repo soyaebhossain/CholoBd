@@ -1,0 +1,738 @@
+{% extends 'base.html' %}
+{% load static humanize %}
+
+{% block main_class %}profile-main-shell py-0{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-page" id="profilePage" data-default-tab="{% if form.errors or onboarding_required %}about{% else %}posts{% endif %}" data-editor-open="{% if form.errors or onboarding_required %}true{% else %}false{% endif %}">
+    <section class="profile-hero">
+        <div class="container">
+            <div class="profile-cover-card">
+                {% if profile.cover_photo %}
+                <img src="{{ profile.cover_photo.url }}" alt="Profile cover" class="profile-cover-image">
+                {% else %}
+                <div class="profile-cover-fallback" aria-hidden="true">
+                    <span class="cover-glow glow-one"></span>
+                    <span class="cover-glow glow-two"></span>
+                    <span class="cover-grid"></span>
+                </div>
+                {% endif %}
+
+                <div class="profile-cover-overlay"></div>
+
+                <div class="profile-cover-topbar">
+                    <span class="profile-cover-badge">
+                        <i class="bi bi-compass me-1"></i>Bangladesh Travel Profile
+                    </span>
+                    <div class="profile-cover-actions">
+                        <label for="{{ cover_upload_form.cover_photo.id_for_label }}" class="btn btn-light btn-sm">
+                            <i class="bi bi-image me-1"></i>Edit Cover
+                        </label>
+                        <a href="#profileEditCard" class="btn btn-primary btn-sm" data-profile-tab-link="about" data-profile-editor-open>
+                            <i class="bi bi-pencil-square me-1"></i>Edit Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <form method="post" enctype="multipart/form-data" class="profile-media-upload-form" data-auto-upload-form>
+                {% csrf_token %}
+                <input type="hidden" name="action" value="update_cover">
+                {{ cover_upload_form.cover_photo }}
+            </form>
+
+            <form method="post" enctype="multipart/form-data" class="profile-media-upload-form" data-auto-upload-form>
+                {% csrf_token %}
+                <input type="hidden" name="action" value="update_avatar">
+                {{ avatar_upload_form.avatar_file }}
+            </form>
+
+            <section class="profile-summary-card">
+                <div class="profile-avatar-column">
+                    <div class="profile-avatar-frame">
+                        {% if profile.avatar %}
+                        <img src="{{ profile.avatar }}" alt="{{ user.username }}" class="profile-avatar-image">
+                        {% else %}
+                        <div class="profile-avatar-image profile-avatar-fallback">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        {% endif %}
+                        <label for="{{ avatar_upload_form.avatar_file.id_for_label }}" class="profile-avatar-edit" aria-label="Edit profile photo">
+                            <i class="bi bi-camera-fill"></i>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="profile-summary-main">
+                    <h1 class="profile-name">{{ profile.full_name|default:user.username }}</h1>
+                    <div class="profile-identity-row">
+                        <p class="profile-handle">@{{ user.username }}</p>
+                        <div class="profile-summary-meta">
+                            <span class="profile-meta-pill {% if profile.public_profile %}is-public{% else %}is-private{% endif %}">
+                                <i class="bi {% if profile.public_profile %}bi-globe2{% else %}bi-lock-fill{% endif %} me-1"></i>
+                                {% if profile.public_profile %}Public Profile{% else %}Private Profile{% endif %}
+                            </span>
+                            <span class="profile-meta-pill">
+                                <i class="bi bi-calendar-event me-1"></i>Joined {{ user.date_joined|date:"F Y" }}
+                            </span>
+                            {% for badge in profile_badges %}
+                            <span class="profile-meta-pill"><i class="bi bi-patch-check me-1"></i>{{ badge }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <p class="profile-bio">{{ profile.bio|default:"Shape a strong travel identity with trips, stories, albums, and trusted community activity." }}</p>
+
+                    <div class="profile-highlights">
+                        <span><i class="bi bi-geo-alt me-1"></i>{{ profile.location|default:"Location not added" }}</span>
+                        <span><i class="bi bi-globe2 me-1"></i>{% if profile.website %}<a href="{{ profile.website }}" target="_blank" rel="noopener">{{ profile.website }}</a>{% else %}Website not added{% endif %}</span>
+                        <span><i class="bi bi-people me-1"></i>{{ follower_count }} followers</span>
+                        <span><i class="bi bi-person-check me-1"></i>{{ following_count }} following</span>
+                    </div>
+                </div>
+
+                <div class="profile-summary-actions">
+                    <a href="#profileEditCard" class="btn btn-primary profile-summary-btn" data-profile-tab-link="about" data-profile-editor-open>
+                        <i class="bi bi-sliders me-1"></i>Edit Details
+                    </a>
+                    <a href="{% url 'direct_messages' %}" class="btn btn-outline-secondary profile-summary-btn">
+                        <i class="bi bi-chat-left-text me-1"></i>Messages
+                    </a>
+                    <a href="{% url 'community' %}" class="btn btn-outline-secondary profile-summary-btn">
+                        <i class="bi bi-people me-1"></i>Community
+                    </a>
+                </div>
+            </section>
+
+            <section class="profile-metric-row" aria-label="Travel statistics">
+                <article class="profile-metric-card">
+                    <span><i class="bi bi-signpost-2 me-1"></i>Total Trips</span>
+                    <strong>{{ total_trips|intcomma }}</strong>
+                </article>
+                <article class="profile-metric-card">
+                    <span><i class="bi bi-building me-1"></i>Districts Visited</span>
+                    <strong>{{ visited_districts|intcomma }}</strong>
+                </article>
+                <article class="profile-metric-card">
+                    <span><i class="bi bi-pin-map me-1"></i>Spots Explored</span>
+                    <strong>{{ visited_spots|intcomma }}</strong>
+                </article>
+                <article class="profile-metric-card">
+                    <span><i class="bi bi-cash-stack me-1"></i>Total Travel Cost</span>
+                    <strong>Tk {{ total_spent|floatformat:0|intcomma }}</strong>
+                </article>
+            </section>
+        </div>
+    </section>
+
+    {% if onboarding_required %}
+    <div class="container profile-alert-wrap">
+        <div class="alert alert-warning d-flex align-items-center gap-2 mb-0">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            <span>Complete your profile with full name, email, and phone for a fully usable account experience.</span>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if cover_upload_form.non_field_errors or cover_upload_form.cover_photo.errors or avatar_upload_form.non_field_errors or avatar_upload_form.avatar_file.errors %}
+    <div class="container profile-alert-wrap">
+        <div class="alert alert-danger mb-0">
+            {{ cover_upload_form.non_field_errors }}
+            {{ cover_upload_form.cover_photo.errors }}
+            {{ avatar_upload_form.non_field_errors }}
+            {{ avatar_upload_form.avatar_file.errors }}
+        </div>
+    </div>
+    {% endif %}
+
+    <section class="profile-tabs-shell">
+        <div class="container">
+            <nav class="profile-tab-nav" aria-label="Profile sections">
+                <button type="button" class="profile-tab-button" data-profile-tab="posts"><i class="bi bi-chat-square-text me-1"></i>Posts <span>{{ post_count }}</span></button>
+                <button type="button" class="profile-tab-button" data-profile-tab="trips"><i class="bi bi-signpost-2 me-1"></i>Trips <span>{{ total_trips }}</span></button>
+                <button type="button" class="profile-tab-button" data-profile-tab="albums"><i class="bi bi-images me-1"></i>Albums <span>{{ album_count }}</span></button>
+                <button type="button" class="profile-tab-button" data-profile-tab="stories"><i class="bi bi-book me-1"></i>Stories <span>{{ story_count }}</span></button>
+                <button type="button" class="profile-tab-button" data-profile-tab="history"><i class="bi bi-clock-history me-1"></i>Travel History <span>{{ history_count }}</span></button>
+                <button type="button" class="profile-tab-button" data-profile-tab="saved"><i class="bi bi-bookmark-heart me-1"></i>Saved Spots <span>{{ saved_spot_count }}</span></button>
+                <button type="button" class="profile-tab-button" data-profile-tab="about"><i class="bi bi-person-vcard me-1"></i>About <span>{{ profile_completion }}%</span></button>
+            </nav>
+        </div>
+    </section>
+
+    <section class="profile-content-shell">
+        <div class="container">
+            <div class="row g-4">
+                <aside class="col-xl-4 col-lg-5">
+                    <div class="profile-sidebar-stack">
+                        <article class="profile-card">
+                            <div class="profile-card-head">
+                                <h2><i class="bi bi-activity me-2"></i>Profile Progress</h2>
+                                <strong>{{ profile_completion }}%</strong>
+                            </div>
+                            <div class="profile-progress-track">
+                                <span style="width: {{ profile_completion }}%;"></span>
+                            </div>
+                            <p class="profile-card-note">A complete profile looks more trustworthy across the travel community.</p>
+                        </article>
+
+                        <article class="profile-card">
+                            <div class="profile-card-head">
+                                <h2><i class="bi bi-person-lines-fill me-2"></i>About</h2>
+                            </div>
+                            <ul class="profile-info-list">
+                                <li>
+                                    <i class="bi bi-chat-square-quote"></i>
+                                    <div class="profile-info-copy">
+                                        <strong>Bio</strong>
+                                        <span>{{ profile.bio|default:"No bio added yet." }}</span>
+                                    </div>
+                                    <button type="button" class="profile-item-edit" data-profile-editor-open data-profile-focus-target="{{ form.bio.id_for_label }}">
+                                        <i class="bi bi-pencil-square me-1"></i>Edit
+                                    </button>
+                                </li>
+                                <li>
+                                    <i class="bi bi-geo-alt"></i>
+                                    <div class="profile-info-copy">
+                                        <strong>Location</strong>
+                                        <span>{{ profile.location|default:"Add your current city or region" }}</span>
+                                    </div>
+                                    <button type="button" class="profile-item-edit" data-profile-editor-open data-profile-focus-target="{{ form.location.id_for_label }}">
+                                        <i class="bi bi-pencil-square me-1"></i>Edit
+                                    </button>
+                                </li>
+                                <li>
+                                    <i class="bi bi-globe2"></i>
+                                    <div class="profile-info-copy">
+                                        <strong>Website</strong>
+                                        {% if profile.website %}
+                                        <a href="{{ profile.website }}" target="_blank" rel="noopener">{{ profile.website }}</a>
+                                        {% else %}
+                                        <span>Add your website or travel portfolio</span>
+                                        {% endif %}
+                                    </div>
+                                    <button type="button" class="profile-item-edit" data-profile-editor-open data-profile-focus-target="{{ form.website.id_for_label }}">
+                                        <i class="bi bi-pencil-square me-1"></i>Edit
+                                    </button>
+                                </li>
+                                <li>
+                                    <i class="bi bi-calendar-heart"></i>
+                                    <div class="profile-info-copy">
+                                        <strong>Joined</strong>
+                                        <span>{{ user.date_joined|date:"d M Y" }}</span>
+                                    </div>
+                                    <button type="button" class="profile-item-edit" data-profile-editor-open>
+                                        <i class="bi bi-pencil-square me-1"></i>Edit
+                                    </button>
+                                </li>
+                            </ul>
+                        </article>
+
+                        <article class="profile-card">
+                            <div class="profile-card-head">
+                                <h2><i class="bi bi-person-badge me-2"></i>Personal Details</h2>
+                            </div>
+                            <ul class="profile-info-list profile-readonly-list">
+                                <li>
+                                    <i class="bi bi-envelope"></i>
+                                    <div class="profile-info-copy">
+                                        <strong>Email</strong>
+                                        <span>{{ user.email|default:"Not added" }}</span>
+                                    </div>
+                                    <button type="button" class="profile-item-edit" data-profile-editor-open data-profile-focus-target="{{ form.email.id_for_label }}">
+                                        <i class="bi bi-pencil-square me-1"></i>Edit
+                                    </button>
+                                </li>
+                                <li>
+                                    <i class="bi bi-telephone"></i>
+                                    <div class="profile-info-copy">
+                                        <strong>Phone</strong>
+                                        <span>{{ profile.phone|default:"Not added" }}</span>
+                                    </div>
+                                    <button type="button" class="profile-item-edit" data-profile-editor-open data-profile-focus-target="{{ form.phone.id_for_label }}">
+                                        <i class="bi bi-pencil-square me-1"></i>Edit
+                                    </button>
+                                </li>
+                                <li>
+                                    <i class="bi bi-gender-ambiguous"></i>
+                                    <div class="profile-info-copy">
+                                        <strong>Gender</strong>
+                                        <span>{{ profile.get_gender_display|default:"Not specified" }}</span>
+                                    </div>
+                                    <button type="button" class="profile-item-edit" data-profile-editor-open data-profile-focus-target="{{ form.gender.id_for_label }}">
+                                        <i class="bi bi-pencil-square me-1"></i>Edit
+                                    </button>
+                                </li>
+                                <li>
+                                    <i class="bi bi-calendar2-heart"></i>
+                                    <div class="profile-info-copy">
+                                        <strong>Date of Birth</strong>
+                                        <span>{% if profile.date_of_birth %}{{ profile.date_of_birth|date:"d M Y" }}{% else %}Not added{% endif %}</span>
+                                    </div>
+                                    <button type="button" class="profile-item-edit" data-profile-editor-open data-profile-focus-target="{{ form.date_of_birth.id_for_label }}">
+                                        <i class="bi bi-pencil-square me-1"></i>Edit
+                                    </button>
+                                </li>
+                            </ul>
+                        </article>
+
+                        <article class="profile-card">
+                            <div class="profile-card-head">
+                                <h2><i class="bi bi-bar-chart-line me-2"></i>Travel Snapshot</h2>
+                            </div>
+                            <ul class="profile-info-list profile-readonly-list profile-stat-list">
+                                <li>
+                                    <i class="bi bi-signpost-2"></i>
+                                    <div class="profile-info-copy">
+                                        <strong>Trips Completed</strong>
+                                        <span>{{ total_trips|intcomma }}</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <i class="bi bi-building"></i>
+                                    <div class="profile-info-copy">
+                                        <strong>Districts Visited</strong>
+                                        <span>{{ visited_districts|intcomma }}</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <i class="bi bi-pin-map"></i>
+                                    <div class="profile-info-copy">
+                                        <strong>Spots Explored</strong>
+                                        <span>{{ visited_spots|intcomma }}</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <i class="bi bi-cash-stack"></i>
+                                    <div class="profile-info-copy">
+                                        <strong>Travel Spend</strong>
+                                        <span>Tk {{ total_spent|floatformat:0|intcomma }}</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </article>
+
+                        <article class="profile-card">
+                            <div class="profile-card-head">
+                                <h2><i class="bi bi-sliders2-vertical me-2"></i>Preferences</h2>
+                            </div>
+                            <div class="profile-preference-list">
+                                <div><span><i class="bi bi-translate me-1"></i>Language</span><strong>{{ profile.get_preferred_language_display }}</strong></div>
+                                <div><span><i class="bi bi-circle-half me-1"></i>Theme</span><strong>{{ profile.get_theme_mode_display }}</strong></div>
+                                <div><span><i class="bi bi-shield-lock me-1"></i>Contact Visibility</span><strong>{{ profile.get_contact_visibility_display }}</strong></div>
+                                <div><span><i class="bi bi-images me-1"></i>Album Privacy</span><strong>{{ profile.get_default_album_visibility_display }}</strong></div>
+                                <div><span><i class="bi bi-book me-1"></i>Story Privacy</span><strong>{{ profile.get_default_story_visibility_display }}</strong></div>
+                            </div>
+                        </article>
+                    </div>
+                </aside>
+
+                <main class="col-xl-8 col-lg-7">
+                    <div class="profile-panel-stack">
+                        <section class="profile-panel" data-profile-panel="posts">
+                            <article class="profile-card profile-panel-card">
+                                <div class="profile-card-head">
+                                    <div>
+                                        <p class="profile-kicker">Community Presence</p>
+                                        <h2><i class="bi bi-chat-square-text me-2"></i>Recent Posts</h2>
+                                    </div>
+                                    <a href="{% url 'community' %}?author=me" class="btn btn-sm btn-outline-primary"><i class="bi bi-box-arrow-up-right me-1"></i>Open Community</a>
+                                </div>
+                                <div class="profile-grid two-column">
+                                    {% for post in recent_posts %}
+                                    <article class="content-card">
+                                        <div class="content-meta">
+                                            <span class="content-tag">{{ post.get_post_type_display }}</span>
+                                            <span>{{ post.created_at|naturaltime }}</span>
+                                        </div>
+                                        {% if post.image_file %}
+                                        <img class="img-fluid rounded mb-3 community-post-image" src="{{ post.image_file.url }}" alt="{{ post.title }}">
+                                        {% endif %}
+                                        {% if post.video_file %}
+                                        <video class="w-100 rounded mb-3" controls preload="metadata">
+                                            <source src="{{ post.video_file.url }}">
+                                        </video>
+                                        {% endif %}
+                                        {% if post.audio_file %}
+                                        <audio class="w-100 mb-3" controls preload="metadata">
+                                            <source src="{{ post.audio_file.url }}">
+                                        </audio>
+                                        {% endif %}
+                                        <h3>{{ post.title }}</h3>
+                                        <p>{{ post.content|default:"Media-only post"|truncatechars:180 }}</p>
+                                        <div class="content-footer">
+                                            <span><i class="bi bi-chat-left-text me-1"></i>{{ post.comment_count }}</span>
+                                            <span><i class="bi bi-hand-thumbs-up me-1"></i>{{ post.like_count }}</span>
+                                            {% if post.spot %}<span><i class="bi bi-pin-map me-1"></i>{{ post.spot.name }}</span>{% endif %}
+                                        </div>
+                                    </article>
+                                    {% empty %}
+                                    <div class="profile-empty-state">
+                                        <i class="bi bi-chat-square-text"></i>
+                                        <h3>No posts yet</h3>
+                                        <p>Your profile will feel more active once you share travel questions, advice, or experiences.</p>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </article>
+                        </section>
+
+                        <section class="profile-panel" data-profile-panel="trips">
+                            <article class="profile-card profile-panel-card">
+                                <div class="profile-card-head">
+                                    <div>
+                                        <p class="profile-kicker">Travel Log</p>
+                                        <h2><i class="bi bi-signpost-2 me-2"></i>Recent Trips</h2>
+                                    </div>
+                                    <a href="{% url 'my_trips' %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-gear me-1"></i>Manage Trips</a>
+                                </div>
+                                <div class="profile-grid two-column">
+                                    {% for trip in recent_trips %}
+                                    <article class="content-card">
+                                        <div class="content-meta">
+                                            <span class="content-tag">{{ trip.district.name }}</span>
+                                            <span>Tk {{ trip.total_cost|floatformat:0|intcomma }}</span>
+                                        </div>
+                                        <h3>{{ trip.spot.name }}</h3>
+                                        <p>{{ trip.upazila.name }}, {{ trip.division.name }}</p>
+                                        <div class="content-footer">
+                                            <span><i class="bi bi-calendar-event me-1"></i>{{ trip.from_date|date:"d M Y" }}</span>
+                                            {% if trip.to_date %}<span><i class="bi bi-arrow-left-right me-1"></i>{{ trip.to_date|date:"d M Y" }}</span>{% endif %}
+                                        </div>
+                                        {% if trip.notes %}<p class="content-note">{{ trip.notes|truncatechars:120 }}</p>{% endif %}
+                                    </article>
+                                    {% empty %}
+                                    <div class="profile-empty-state">
+                                        <i class="bi bi-journal-check"></i>
+                                        <h3>No trips logged yet</h3>
+                                        <p>Start adding trips to turn this profile into a complete travel portfolio.</p>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </article>
+                        </section>
+
+                        <section class="profile-panel" data-profile-panel="albums">
+                            <article class="profile-card profile-panel-card">
+                                <div class="profile-card-head">
+                                    <div>
+                                        <p class="profile-kicker">Visual Diary</p>
+                                        <h2><i class="bi bi-images me-2"></i>Recent Albums</h2>
+                                    </div>
+                                    <a href="{% url 'albums' %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-box-arrow-up-right me-1"></i>Open Albums</a>
+                                </div>
+                                <div class="profile-grid two-column">
+                                    {% for album in recent_albums %}
+                                    <article class="gallery-card">
+                                        <div class="gallery-visual">
+                                            {% if album.preview_item and album.preview_item.file %}
+                                            <img src="{{ album.preview_item.file.url }}" alt="{{ album.title }}">
+                                            {% elif album.preview_item and album.preview_item.external_url %}
+                                            <img src="{{ album.preview_item.external_url }}" alt="{{ album.title }}">
+                                            {% else %}
+                                            <div class="gallery-placeholder"><i class="bi bi-images"></i></div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="gallery-body">
+                                            <h3>{{ album.title }}</h3>
+                                            <p>{{ album.description|default:"A curated collection from your trip."|truncatechars:100 }}</p>
+                                            <div class="content-footer">
+                                                <span><i class="bi bi-collection me-1"></i>{{ album.item_count }} items</span>
+                                                <span><i class="bi bi-calendar-event me-1"></i>{{ album.trip_date|date:"d M Y" }}</span>
+                                            </div>
+                                        </div>
+                                    </article>
+                                    {% empty %}
+                                    <div class="profile-empty-state">
+                                        <i class="bi bi-camera"></i>
+                                        <h3>No albums yet</h3>
+                                        <p>Albums are the fastest way to make a travel profile feel rich and complete.</p>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </article>
+                        </section>
+
+                        <section class="profile-panel" data-profile-panel="stories">
+                            <article class="profile-card profile-panel-card">
+                                <div class="profile-card-head">
+                                    <div>
+                                        <p class="profile-kicker">Narrative Layer</p>
+                                        <h2><i class="bi bi-book me-2"></i>Travel Stories</h2>
+                                    </div>
+                                    <a href="{% url 'stories' %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-box-arrow-up-right me-1"></i>Open Stories</a>
+                                </div>
+                                <div class="profile-grid single-column">
+                                    {% for story in recent_stories %}
+                                    <article class="story-card">
+                                        <div class="story-card-body">
+                                            <div class="content-meta">
+                                                <span class="content-tag">{% if story.is_public %}Public Story{% else %}Private Story{% endif %}</span>
+                                                <span>{{ story.trip_date|date:"d M Y" }}</span>
+                                            </div>
+                                            <h3>{{ story.title }}</h3>
+                                            <p>{{ story.content|truncatechars:200 }}</p>
+                                            <div class="content-footer">
+                                                {% if story.spot %}<span><i class="bi bi-pin-map me-1"></i>{{ story.spot.name }}</span>{% endif %}
+                                                <span><i class="bi bi-clock-history me-1"></i>{{ story.created_at|naturaltime }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="story-card-media">
+                                            {% if story.cover_file %}
+                                            <img src="{{ story.cover_file.url }}" alt="{{ story.title }}">
+                                            {% elif story.snap_url %}
+                                            <img src="{{ story.snap_url }}" alt="{{ story.title }}">
+                                            {% else %}
+                                            <div class="gallery-placeholder"><i class="bi bi-book-half"></i></div>
+                                            {% endif %}
+                                        </div>
+                                    </article>
+                                    {% empty %}
+                                    <div class="profile-empty-state">
+                                        <i class="bi bi-book"></i>
+                                        <h3>No stories yet</h3>
+                                        <p>Stories let you combine memory, detail, and practical traveler guidance in one place.</p>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </article>
+                        </section>
+
+                        <section class="profile-panel" data-profile-panel="history">
+                            <article class="profile-card profile-panel-card">
+                                <div class="profile-card-head">
+                                    <div>
+                                        <p class="profile-kicker">Context and Memory</p>
+                                        <h2><i class="bi bi-clock-history me-2"></i>Travel History Notes</h2>
+                                    </div>
+                                    <a href="{% url 'travel_history' %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-box-arrow-up-right me-1"></i>Open History</a>
+                                </div>
+                                <div class="profile-grid single-column">
+                                    {% for item in recent_history_entries %}
+                                    <article class="content-card">
+                                        <div class="content-meta">
+                                            <span class="content-tag">{{ item.place_name }}</span>
+                                            <span>{{ item.visit_date|date:"d M Y" }}</span>
+                                        </div>
+                                        <h3>{{ item.title }}</h3>
+                                        <p>{{ item.short_note }}</p>
+                                        <p class="content-note">{{ item.history_note|truncatechars:180 }}</p>
+                                    </article>
+                                    {% empty %}
+                                    <div class="profile-empty-state">
+                                        <i class="bi bi-clock-history"></i>
+                                        <h3>No history notes yet</h3>
+                                        <p>Write historical background and personal field notes for places you visit.</p>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </article>
+                        </section>
+
+                        <section class="profile-panel" data-profile-panel="saved">
+                            <article class="profile-card profile-panel-card">
+                                <div class="profile-card-head">
+                                    <div>
+                                        <p class="profile-kicker">Wishlist Layer</p>
+                                        <h2><i class="bi bi-bookmark-heart me-2"></i>Saved Travel Spots</h2>
+                                    </div>
+                                    <a href="{% url 'saved_spots' %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-gear me-1"></i>Manage Saved Spots</a>
+                                </div>
+                                <div class="profile-grid two-column">
+                                    {% for item in recent_saved_spots %}
+                                    <article class="content-card">
+                                        <div class="content-meta">
+                                            <span class="content-tag">{{ item.spot.category|default:"Travel Spot" }}</span>
+                                            <span>{{ item.created_at|naturaltime }}</span>
+                                        </div>
+                                        <h3>{{ item.spot.name }}</h3>
+                                        <p>{{ item.spot.upazila.name }}, {{ item.spot.district.name }}, {{ item.spot.division.name }}</p>
+                                        {% if item.note %}<p class="content-note">{{ item.note|truncatechars:100 }}</p>{% endif %}
+                                    </article>
+                                    {% empty %}
+                                    <div class="profile-empty-state">
+                                        <i class="bi bi-bookmark-heart"></i>
+                                        <h3>No saved spots yet</h3>
+                                        <p>Save destinations here to build a future trip list directly from your profile.</p>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </article>
+                        </section>
+
+                        <section class="profile-panel" data-profile-panel="about">
+                            <article class="profile-card profile-panel-card">
+                                <div class="profile-card-head">
+                                    <div>
+                                        <p class="profile-kicker">Identity and Controls</p>
+                                        <h2><i class="bi bi-person-vcard me-2"></i>About Profile</h2>
+                                    </div>
+                                </div>
+
+                                <div class="profile-grid two-column">
+                                    <article class="profile-inline-card">
+                                        <div class="profile-inline-card-head">
+                                            <h3><i class="bi bi-card-text me-2"></i>Profile Summary</h3>
+                                            <button type="button" class="profile-inline-edit" data-profile-editor-open>
+                                                <i class="bi bi-pencil-square me-1"></i>Edit
+                                            </button>
+                                        </div>
+                                        <div class="profile-data-grid">
+                                            <div><span><i class="bi bi-person-vcard me-1"></i>Full Name</span><strong>{{ profile.full_name|default:user.username }}</strong></div>
+                                            <div><span><i class="bi bi-at me-1"></i>Username</span><strong>@{{ user.username }}</strong></div>
+                                            <div><span><i class="bi bi-geo-alt me-1"></i>Location</span><strong>{{ profile.location|default:"Not added" }}</strong></div>
+                                            <div><span><i class="bi bi-globe2 me-1"></i>Website</span><strong>{{ profile.website|default:"Not added" }}</strong></div>
+                                            <div><span><i class="bi bi-envelope me-1"></i>Email</span><strong>{{ user.email|default:"Not added" }}</strong></div>
+                                            <div><span><i class="bi bi-telephone me-1"></i>Phone</span><strong>{{ profile.phone|default:"Not added" }}</strong></div>
+                                        </div>
+                                    </article>
+
+                                    <article class="profile-inline-card">
+                                        <div class="profile-inline-card-head">
+                                            <h3><i class="bi bi-shield-lock me-2"></i>Privacy Snapshot</h3>
+                                            <button type="button" class="profile-inline-edit" data-profile-editor-open>
+                                                <i class="bi bi-pencil-square me-1"></i>Edit
+                                            </button>
+                                        </div>
+                                        <div class="profile-preference-list">
+                                            <div><span><i class="bi bi-globe2 me-1"></i>Public Profile</span><strong>{% if profile.public_profile %}Enabled{% else %}Disabled{% endif %}</strong></div>
+                                            <div><span><i class="bi bi-chat-dots me-1"></i>Direct Messages</span><strong>{% if profile.allow_dm %}Allowed{% else %}Off{% endif %}</strong></div>
+                                            <div><span><i class="bi bi-bell me-1"></i>Community Updates</span><strong>{% if profile.receive_community_updates %}Enabled{% else %}Muted{% endif %}</strong></div>
+                                            <div><span><i class="bi bi-eye me-1"></i>Contact Visibility</span><strong>{{ profile.get_contact_visibility_display }}</strong></div>
+                                        </div>
+                                    </article>
+                                </div>
+
+                                <div class="profile-edit-card" id="profileEditCard" data-profile-editor {% if not form.errors and not onboarding_required %}hidden{% endif %}>
+                                    <div class="profile-card-head">
+                                        <div>
+                                            <p class="profile-kicker">Editable Profile</p>
+                                            <h2><i class="bi bi-pencil-square me-2"></i>Update Your Profile</h2>
+                                        </div>
+                                        <button type="button" class="profile-inline-edit" data-profile-editor-close>
+                                            <i class="bi bi-x-lg me-1"></i>Close
+                                        </button>
+                                    </div>
+
+                                    <form method="post" enctype="multipart/form-data" class="row g-3">
+                                        {% csrf_token %}
+                                        {% if form.non_field_errors %}
+                                        <div class="col-12 alert alert-danger">{{ form.non_field_errors }}</div>
+                                        {% endif %}
+
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="{{ form.full_name.id_for_label }}"><i class="bi bi-person-vcard me-1"></i>Full Name</label>
+                                            {{ form.full_name }}
+                                            {{ form.full_name.errors }}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="{{ form.email.id_for_label }}"><i class="bi bi-envelope me-1"></i>Email</label>
+                                            {{ form.email }}
+                                            {{ form.email.errors }}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="{{ form.phone.id_for_label }}"><i class="bi bi-telephone me-1"></i>Phone</label>
+                                            {{ form.phone }}
+                                            {{ form.phone.errors }}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="{{ form.location.id_for_label }}"><i class="bi bi-geo-alt me-1"></i>Location</label>
+                                            {{ form.location }}
+                                            {{ form.location.errors }}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="{{ form.website.id_for_label }}"><i class="bi bi-globe2 me-1"></i>Website</label>
+                                            {{ form.website }}
+                                            {{ form.website.errors }}
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label" for="{{ form.gender.id_for_label }}"><i class="bi bi-gender-ambiguous me-1"></i>Gender</label>
+                                            {{ form.gender }}
+                                            <div class="profile-select-hint">
+                                                <span><i class="bi bi-gender-male me-1"></i>Male</span>
+                                                <span><i class="bi bi-gender-female me-1"></i>Female</span>
+                                                <span><i class="bi bi-gender-ambiguous me-1"></i>Other</span>
+                                            </div>
+                                            {{ form.gender.errors }}
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label" for="{{ form.date_of_birth.id_for_label }}"><i class="bi bi-calendar2-heart me-1"></i>Date of Birth</label>
+                                            {{ form.date_of_birth }}
+                                            {{ form.date_of_birth.errors }}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="{{ form.avatar_file.id_for_label }}"><i class="bi bi-person-circle me-1"></i>Profile Photo</label>
+                                            {{ form.avatar_file }}
+                                            {{ form.avatar_file.errors }}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="{{ form.cover_photo.id_for_label }}"><i class="bi bi-image me-1"></i>Cover Photo</label>
+                                            {{ form.cover_photo }}
+                                            {{ form.cover_photo.errors }}
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="form-label" for="{{ form.avatar_url.id_for_label }}"><i class="bi bi-link-45deg me-1"></i>Or External Avatar URL</label>
+                                            {{ form.avatar_url }}
+                                            {{ form.avatar_url.errors }}
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="form-label" for="{{ form.bio.id_for_label }}"><i class="bi bi-chat-square-quote me-1"></i>Bio</label>
+                                            {{ form.bio }}
+                                            {{ form.bio.errors }}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="{{ form.preferred_language.id_for_label }}"><i class="bi bi-translate me-1"></i>Preferred Language</label>
+                                            {{ form.preferred_language }}
+                                            {{ form.preferred_language.errors }}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="{{ form.theme_mode.id_for_label }}"><i class="bi bi-circle-half me-1"></i>Theme Mode</label>
+                                            {{ form.theme_mode }}
+                                            {{ form.theme_mode.errors }}
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label" for="{{ form.contact_visibility.id_for_label }}"><i class="bi bi-eye me-1"></i>Contact Visibility</label>
+                                            {{ form.contact_visibility }}
+                                            {{ form.contact_visibility.errors }}
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label" for="{{ form.default_album_visibility.id_for_label }}"><i class="bi bi-images me-1"></i>Default Album Visibility</label>
+                                            {{ form.default_album_visibility }}
+                                            {{ form.default_album_visibility.errors }}
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label" for="{{ form.default_story_visibility.id_for_label }}"><i class="bi bi-book me-1"></i>Default Story Visibility</label>
+                                            {{ form.default_story_visibility }}
+                                            {{ form.default_story_visibility.errors }}
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="profile-setting-grid">
+                                                <div class="form-check">{{ form.receive_community_updates }} <label class="form-check-label" for="{{ form.receive_community_updates.id_for_label }}"><i class="bi bi-bell me-1"></i>Receive community updates</label></div>
+                                                <div class="form-check">{{ form.public_profile }} <label class="form-check-label" for="{{ form.public_profile.id_for_label }}"><i class="bi bi-globe2 me-1"></i>Make my profile public</label></div>
+                                                <div class="form-check">{{ form.allow_dm }} <label class="form-check-label" for="{{ form.allow_dm.id_for_label }}"><i class="bi bi-chat-dots me-1"></i>Allow direct messages</label></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 d-flex flex-wrap justify-content-between align-items-center gap-3">
+                                            <p class="profile-card-note mb-0">Save once to update the header, privacy summary, and profile content across the platform.</p>
+                                            <button type="submit" class="btn btn-primary btn-lg">
+                                                <i class="bi bi-check2-circle me-1"></i>Save Profile
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </article>
+                        </section>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/profile.js' %}"></script>
+{% endblock %}

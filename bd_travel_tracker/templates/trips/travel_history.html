@@ -1,0 +1,66 @@
+﻿{% extends 'base.html' %}
+
+{% block content %}
+<section class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+    <div>
+        <h1 class="h3 mb-1"><i class="bi bi-clock-history me-2"></i>Travel History</h1>
+        <p class="text-muted mb-0">Keep place history, notes, and references with optional photo.</p>
+    </div>
+</section>
+
+<div class="row g-3 mb-4">
+    <div class="col-lg-5">
+        <div class="card h-100">
+            <div class="card-header bg-white"><h2 class="h5 mb-0"><i class="bi bi-plus-circle me-2"></i>Add History Entry</h2></div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data" class="row g-2">
+                    {% csrf_token %}
+                    {% if history_form.non_field_errors %}
+                    <div class="col-12 alert alert-danger">{{ history_form.non_field_errors }}</div>
+                    {% endif %}
+                    <div class="col-12"><label class="form-label" for="{{ history_form.title.id_for_label }}">Title</label>{{ history_form.title }}</div>
+                    <div class="col-md-6"><label class="form-label" for="{{ history_form.place_name.id_for_label }}">Place</label>{{ history_form.place_name }}</div>
+                    <div class="col-md-6"><label class="form-label" for="{{ history_form.visit_date.id_for_label }}">Visit Date</label>{{ history_form.visit_date }}</div>
+                    <div class="col-12"><label class="form-label" for="{{ history_form.short_note.id_for_label }}">Short Note</label>{{ history_form.short_note }}</div>
+                    <div class="col-12"><label class="form-label" for="{{ history_form.history_note.id_for_label }}">History Details</label>{{ history_form.history_note }}</div>
+                    <div class="col-12"><label class="form-label" for="{{ history_form.reference_link.id_for_label }}">Reference Link</label>{{ history_form.reference_link }}</div>
+                    <div class="col-12"><label class="form-label" for="{{ history_form.photo.id_for_label }}">Photo</label>{{ history_form.photo }}</div>
+                    <div class="col-12"><button type="submit" class="btn btn-primary"><i class="bi bi-check2-circle me-1"></i>Save Entry</button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-7">
+        <div class="card h-100">
+            <div class="card-header bg-white"><h2 class="h5 mb-0"><i class="bi bi-journal-text me-2"></i>History Records</h2></div>
+            <div class="card-body">
+                <form method="get" class="row g-2 mb-3">
+                    <div class="col-md-5"><input class="form-control" type="text" name="place" value="{{ place_filter }}" placeholder="Filter by place"></div>
+                    <div class="col-md-4"><input class="form-control" type="date" name="date" value="{{ date_filter }}"></div>
+                    <div class="col-md-3 d-grid"><button class="btn btn-outline-primary" type="submit">Filter</button></div>
+                </form>
+
+                <div class="history-list">
+                    {% for entry in history_entries %}
+                    <article class="history-card">
+                        <h3 class="h6 mb-1">{{ entry.title }}</h3>
+                        <p class="small text-muted mb-2">{{ entry.place_name }} | {{ entry.visit_date }}</p>
+                        <p class="small mb-2"><strong>{{ entry.short_note }}</strong></p>
+                        <p class="small mb-2">{{ entry.history_note|truncatechars:260 }}</p>
+                        {% if entry.reference_link %}
+                        <p class="small mb-1"><a href="{{ entry.reference_link }}" target="_blank" rel="noopener"><i class="bi bi-link-45deg me-1"></i>Reference</a></p>
+                        {% endif %}
+                        {% if entry.photo %}
+                        <p class="small mb-0"><a href="{{ entry.photo.url }}" target="_blank" rel="noopener"><i class="bi bi-paperclip me-1"></i>Open photo</a></p>
+                        {% endif %}
+                    </article>
+                    {% empty %}
+                    <p class="text-muted">No history entries yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

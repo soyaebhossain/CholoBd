@@ -1,0 +1,46 @@
+<form method="post" class="row g-3 settings-section-body">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="save_section">
+    {% if form.non_field_errors %}
+    <div class="col-12"><div class="alert alert-danger mb-0">{{ form.non_field_errors }}</div></div>
+    {% endif %}
+
+    <div class="col-md-6">
+        <div class="settings-toggle-card">
+            {{ form.public_profile }}
+            <label for="{{ form.public_profile.id_for_label }}"><i class="bi bi-globe2 me-1"></i>Public profile</label>
+            <small>Controls whether your profile card can be viewed outside your account context.</small>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label" for="{{ form.contact_visibility.id_for_label }}"><i class="bi bi-eye me-1"></i>Contact visibility</label>
+        {{ form.contact_visibility }}
+    </div>
+    <div class="col-md-6">
+        <label class="form-label" for="{{ form.default_album_visibility.id_for_label }}"><i class="bi bi-images me-1"></i>Default album visibility</label>
+        {{ form.default_album_visibility }}
+    </div>
+    <div class="col-md-6">
+        <label class="form-label" for="{{ form.default_story_visibility.id_for_label }}"><i class="bi bi-book me-1"></i>Default story visibility</label>
+        {{ form.default_story_visibility }}
+    </div>
+    <div class="col-md-4">
+        <label class="form-label" for="{{ form.trip_visibility.id_for_label }}"><i class="bi bi-signpost-2 me-1"></i>Trip visibility</label>
+        {{ form.trip_visibility }}
+    </div>
+    <div class="col-md-4">
+        <label class="form-label" for="{{ form.history_visibility.id_for_label }}"><i class="bi bi-clock-history me-1"></i>Travel history visibility</label>
+        {{ form.history_visibility }}
+    </div>
+    <div class="col-md-4">
+        <label class="form-label" for="{{ form.who_can_message.id_for_label }}"><i class="bi bi-chat-dots me-1"></i>Message permission</label>
+        {{ form.who_can_message }}
+    </div>
+    <div class="col-md-4">
+        <label class="form-label" for="{{ form.who_can_comment.id_for_label }}"><i class="bi bi-chat-left-text me-1"></i>Comment permission</label>
+        {{ form.who_can_comment }}
+    </div>
+    <div class="col-12 settings-actions">
+        <button class="btn btn-primary" type="submit"><i class="bi bi-check2-circle me-1"></i>Save Privacy Settings</button>
+    </div>
+</form>

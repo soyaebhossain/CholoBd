@@ -1,0 +1,181 @@
+{% load static %}
+<!doctype html>
+<html lang="{{ active_language|default:'en' }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cholo Bd</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="{% static 'css/app.css' %}" rel="stylesheet">
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="theme-{{ active_theme|default:'light' }}">
+<nav class="navbar navbar-expand-lg app-navbar border-bottom sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold d-flex align-items-center" href="{% url 'home' %}">
+            <i class="bi bi-map-fill me-2"></i>
+            Cholo Bd
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+                <li class="nav-item"><a class="nav-link" href="{% url 'home' %}"><i class="bi bi-house-door me-1"></i>Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'travel_map' %}"><i class="bi bi-geo-alt me-1"></i>Explore Map</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'community_join' %}" data-community-entry><i class="bi bi-people me-1"></i>Community</a></li>
+                {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle account-trigger" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="account-trigger-avatar" aria-hidden="true">
+                            {% if user.profile.avatar %}
+                            <img src="{{ user.profile.avatar }}" alt="" class="account-trigger-image">
+                            {% else %}
+                            <i class="bi bi-person-circle"></i>
+                            {% endif %}
+                            {% if notification_unread_count %}
+                            <span class="badge rounded-pill text-bg-danger account-trigger-badge">{{ notification_unread_count }}</span>
+                            {% endif %}
+                        </span>
+                        <span>Account</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end account-dropdown">
+                        <li class="account-user-wrap">
+                            <div class="account-user-avatar">
+                                {% if user.profile.avatar %}
+                                <img src="{{ user.profile.avatar }}" alt="{{ user.username }}" class="account-avatar-image">
+                                {% else %}
+                                <i class="bi bi-person-circle"></i>
+                                {% endif %}
+                            </div>
+                            <div>
+                                <strong class="d-block">{{ user.username }}</strong>
+                                <small class="text-muted">Traveler Account</small>
+                            </div>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><h6 class="dropdown-header menu-section">Travel</h6></li>
+                        <li><a class="dropdown-item" href="{% url 'my_trips' %}"><span class="item-icon"><i class="bi bi-journal-check"></i></span>My Trips</a></li>
+                        <li><a class="dropdown-item" href="{% url 'direct_messages' %}"><span class="item-icon"><i class="bi bi-chat-dots"></i></span>Messages</a></li>
+                        <li>
+                            <a class="dropdown-item d-flex justify-content-between align-items-center gap-2" href="{% url 'notifications' %}">
+                                <span><span class="item-icon"><i class="bi bi-bell"></i></span>Notifications</span>
+                                {% if notification_unread_count %}
+                                <span class="badge rounded-pill text-bg-danger">{{ notification_unread_count }}</span>
+                                {% endif %}
+                            </a>
+                        </li>
+                        <li><a class="dropdown-item" href="{% url 'albums' %}"><span class="item-icon"><i class="bi bi-images"></i></span>Albums</a></li>
+                        <li><a class="dropdown-item" href="{% url 'stories' %}"><span class="item-icon"><i class="bi bi-book"></i></span>Stories</a></li>
+                        <li><a class="dropdown-item" href="{% url 'travel_history' %}"><span class="item-icon"><i class="bi bi-clock-history"></i></span>Travel History</a></li>
+                        <li><a class="dropdown-item" href="{% url 'saved_spots' %}"><span class="item-icon"><i class="bi bi-bookmark-heart"></i></span>Saved Spots</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><h6 class="dropdown-header menu-section">Preferences</h6></li>
+                        <li><a class="dropdown-item" href="{% url 'profile' %}"><span class="item-icon"><i class="bi bi-person-badge"></i></span>Profile</a></li>
+                        <li><a class="dropdown-item" href="{% url 'settings' %}"><span class="item-icon"><i class="bi bi-gear"></i></span>Settings</a></li>
+                        <li>
+                            <form method="post" action="{% url 'logout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="dropdown-item text-danger"><span class="item-icon"><i class="bi bi-box-arrow-right"></i></span>Logout</button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+                {% else %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle me-1"></i>Account
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end account-dropdown">
+                        <li><a class="dropdown-item" href="{% url 'login' %}"><i class="bi bi-box-arrow-in-right"></i>Login</a></li>
+                        <li><a class="dropdown-item" href="{% url 'register' %}"><i class="bi bi-person-plus"></i>Sign Up</a></li>
+                    </ul>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<main class="app-main {% block main_class %}container py-4{% endblock %}">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags|default:'info' }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    {% block content %}{% endblock %}
+</main>
+
+{% block global_footer %}
+<footer class="app-footer">
+    <div class="container">
+        <div class="app-footer-top">
+            <div class="app-footer-brand">
+                <i class="bi bi-map-fill me-2"></i>
+                Cholo Bd
+            </div>
+            <div class="app-footer-links">
+                <a href="{% url 'home' %}"><i class="bi bi-house-door me-1"></i>Home</a>
+                <a href="{% url 'travel_map' %}"><i class="bi bi-geo-alt me-1"></i>Explore Map</a>
+                {% if user.is_authenticated %}
+                <a href="{% url 'my_trips' %}"><i class="bi bi-journal-check me-1"></i>Trips</a>
+                {% else %}
+                <a href="{% url 'login' %}"><i class="bi bi-journal-check me-1"></i>Trips</a>
+                {% endif %}
+                <a href="{% url 'community_join' %}" data-community-entry><i class="bi bi-people me-1"></i>Community</a>
+            </div>
+        </div>
+        <div class="app-footer-meta">
+            <span><i class="bi bi-shield-check me-1"></i>Clean and secure trip tracking</span>
+            <span><i class="bi bi-geo me-1"></i>Bangladesh-wide travel hierarchy</span>
+        </div>
+    </div>
+</footer>
+{% endblock %}
+
+{% if not user.is_authenticated %}
+<div class="modal fade community-auth-modal" id="communityAuthModal" tabindex="-1" aria-labelledby="communityAuthTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold" id="communityAuthTitle"><i class="bi bi-people-fill me-2"></i>Join Community</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body pt-2">
+                <p class="mb-0 text-muted">To join Bangladesh Travel Community, please continue with Login / Sign up.</p>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <a class="btn btn-primary" href="{% url 'login' %}?next={% url 'community_join' %}">
+                    <i class="bi bi-box-arrow-in-right me-1"></i>Login / Sign up
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+{% if not user.is_authenticated %}
+<script>
+    (function () {
+        const modalElement = document.getElementById("communityAuthModal");
+        if (!modalElement) {
+            return;
+        }
+        const communityModal = new bootstrap.Modal(modalElement);
+        document.querySelectorAll("[data-community-entry]").forEach((item) => {
+            item.addEventListener("click", function (event) {
+                event.preventDefault();
+                communityModal.show();
+            });
+        });
+    })();
+</script>
+{% endif %}
+{% block extra_js %}{% endblock %}
+</body>
+</html>

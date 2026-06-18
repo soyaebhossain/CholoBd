@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+>
+{% endblock %}
+
+{% block content %}
+<section class="mb-4">
+    <h1 class="h3 mb-1"><i class="bi bi-globe-central-south-asia me-2"></i>Bangladesh Travel Map</h1>
+    <p class="text-muted mb-0">Use quick filters to inspect spots and recent visit history. Your total trips: {{ trip_count }}</p>
+</section>
+
+<div
+    id="map-page"
+    class="map-layout"
+    data-district-url="{% url 'api_districts' %}"
+    data-upazila-url="{% url 'api_upazilas' %}"
+    data-spot-url="{% url 'api_spots' %}"
+    data-insight-url="{% url 'api_spot_insight' %}"
+>
+    <div class="card p-3">
+        <h2 class="h5"><i class="bi bi-funnel me-2"></i>Quick Spot Lookup</h2>
+        <div class="mb-3">
+            <label class="form-label" for="divisionFilter"><i class="bi bi-diagram-3 me-1"></i>Select Division</label>
+            <select id="divisionFilter" class="form-select">
+                <option value="">-- Select Division --</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="districtFilter"><i class="bi bi-building me-1"></i>Select District</label>
+            <select id="districtFilter" class="form-select" disabled>
+                <option value="">-- Select District --</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="upazilaFilter"><i class="bi bi-signpost-split me-1"></i>Select Upazila</label>
+            <select id="upazilaFilter" class="form-select" disabled>
+                <option value="">-- Select Upazila --</option>
+            </select>
+        </div>
+        <div>
+            <label class="form-label" for="spotFilter"><i class="bi bi-pin-map me-1"></i>Select Spot</label>
+            <select id="spotFilter" class="form-select" disabled>
+                <option value="">-- Select Spot --</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="card p-3">
+        <div id="map" class="travel-map"></div>
+        <p class="small text-muted mt-2 mb-0">
+            Marker color: Green = visited by you, Gray = available spot.
+        </p>
+    </div>
+
+    <aside class="card p-3" id="insightPanel">
+        <h2 class="h5 mb-3"><i class="bi bi-graph-up-arrow me-2"></i>Recent Tour / Spot Insight</h2>
+        <div class="small text-muted" id="insightPlaceholder">Select a spot from the filter to view analytics.</div>
+
+        <div id="insightBody" class="d-none">
+            <table class="table table-sm table-borderless mb-3">
+                <tbody>
+                <tr><th>Spot</th><td id="insightSpotName"></td></tr>
+                <tr><th>Division</th><td id="insightDivision"></td></tr>
+                <tr><th>District</th><td id="insightDistrict"></td></tr>
+                <tr><th>Upazila</th><td id="insightUpazila"></td></tr>
+                <tr><th>Total Visits</th><td id="insightTotalVisits"></td></tr>
+                <tr><th>Unique Visitors</th><td id="insightUniqueVisitors"></td></tr>
+                <tr><th>Average Cost</th><td id="insightAvgCost"></td></tr>
+                <tr><th>Last Visit</th><td id="insightLastVisit"></td></tr>
+                </tbody>
+            </table>
+
+            <h3 class="h6"><i class="bi bi-clock-history me-1"></i>Recent 5 Tour History</h3>
+            <div class="table-responsive">
+                <table class="table table-sm align-middle" id="recentHistoryTable">
+                    <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Date</th>
+                        <th>Hotel/Stay</th>
+                        <th>Cost</th>
+                    </tr>
+                    </thead>
+                    <tbody id="recentHistoryBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </aside>
+</div>
+
+{{ divisions_json|json_script:'division-data' }}
+{{ map_spots_json|json_script:'spot-map-data' }}
+{% endblock %}
+
+{% block extra_js %}
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+></script>
+<script src="{% static 'js/map.js' %}"></script>
+{% endblock %}
