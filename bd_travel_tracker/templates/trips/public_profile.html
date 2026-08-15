@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load humanize %}
 
+{% block title %}{{ profile.full_name|default:target_user.username }} | Cholo Bd{% endblock %}
+
 {% block content %}
 <section class="mb-4">
     <div class="card border-0 shadow-sm">

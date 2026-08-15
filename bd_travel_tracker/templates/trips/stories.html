@@ -1,7 +1,9 @@
 ﻿{% extends 'base.html' %}
 
+{% block title %}Travel Stories | Cholo Bd{% endblock %}
+
 {% block content %}
-<section class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+<section class="app-page-header d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
     <div>
         <h1 class="h3 mb-1"><i class="bi bi-book me-2"></i>Stories</h1>
         <p class="text-muted mb-0">Post travel stories and quick snaps from your tours.</p>
@@ -86,7 +88,7 @@
                         {% endif %}
                     </article>
                     {% empty %}
-                    <p class="text-muted">No stories posted yet.</p>
+                    <div class="app-empty-state app-empty-state-compact"><span class="app-empty-icon"><i class="bi bi-journal-richtext"></i></span><h3>No stories posted yet</h3><p>Share the moment, lesson, or route that made a journey memorable.</p></div>
                     {% endfor %}
                 </div>
             </div>

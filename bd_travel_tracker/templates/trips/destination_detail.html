@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% load static humanize %}
 
+{% block title %}{{ destination.name }} Travel Guide | Cholo Bd{% endblock %}
+{% block meta_description %}Explore {{ destination.name }}, nearby places, map details, and recent traveler activity on Cholo Bd.{% endblock %}
+
 {% block extra_head %}
 <link rel="stylesheet" href="{% static 'css/destinations.css' %}">
 <link
