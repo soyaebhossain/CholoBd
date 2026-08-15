@@ -13,6 +13,7 @@ from .location_resolver import SpotAdminResolver
 from .models import (
     Album,
     AlbumItem,
+    CallSession,
     Conversation,
     CommunityMembership,
     CommunityComment,
@@ -28,6 +29,7 @@ from .models import (
     Division,
     Message,
     MessageAttachment,
+    LoginThrottle,
     SavedSpot,
     TourSpot,
     Trip,
@@ -1767,7 +1769,11 @@ class TravelTrackerTests(TestCase):
             {"mode": "video"},
         )
 
-        self.assertRedirects(response, f"{reverse('direct_messages')}?conversation={conversation.id}")
+        call_session = CallSession.objects.get(conversation=conversation)
+        self.assertRedirects(
+            response,
+            f"{reverse('direct_messages')}?conversation={conversation.id}#call-{call_session.id}",
+        )
         self.assertTrue(
             CommunityNotification.objects.filter(
                 user=other_user,
@@ -1891,3 +1897,63 @@ class TravelTrackerTests(TestCase):
         self.assertEqual(conversations_response.json()["results"][0]["partner"]["username"], "reader")
         self.assertEqual(messages_response.json()["results"][0]["content"], "Welcome to the thread.")
         self.assertEqual(mark_read_response.json()["updated"], 1)
+
+
+class ProductionReadinessTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username="secure-user", password="valid-secret-123")
+
+    def test_health_and_readiness_endpoints(self):
+        health_response = self.client.get(reverse("healthz"))
+        ready_response = self.client.get(reverse("readyz"))
+
+        self.assertEqual(health_response.status_code, 200)
+        self.assertEqual(health_response.json()["status"], "ok")
+        self.assertEqual(ready_response.status_code, 200)
+        self.assertEqual(ready_response.json()["status"], "ready")
+        self.assertEqual(health_response["Cache-Control"], "max-age=0, no-cache, no-store, must-revalidate, private")
+
+    def test_operations_headers_are_present(self):
+        response = self.client.get(reverse("healthz"))
+
+        self.assertRegex(
+            response["X-Request-ID"],
+            r"^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+        )
+        self.assertEqual(response["Permissions-Policy"], "camera=(), microphone=(), geolocation=(self)")
+        self.assertEqual(response["X-Permitted-Cross-Domain-Policies"], "none")
+
+    @override_settings(
+        LOGIN_THROTTLE_FAILURE_LIMIT=3,
+        LOGIN_THROTTLE_WINDOW_SECONDS=60,
+        LOGIN_THROTTLE_LOCK_SECONDS=120,
+    )
+    def test_login_is_throttled_after_repeated_failures(self):
+        login_url = reverse("login")
+        credentials = {"username": self.user.username, "password": "wrong-password"}
+
+        for _ in range(3):
+            response = self.client.post(login_url, credentials)
+            self.assertEqual(response.status_code, 200)
+
+        blocked_response = self.client.post(login_url, credentials)
+
+        self.assertEqual(blocked_response.status_code, 429)
+        self.assertGreaterEqual(int(blocked_response["Retry-After"]), 1)
+        self.assertEqual(LoginThrottle.objects.count(), 1)
+
+    @override_settings(LOGIN_THROTTLE_FAILURE_LIMIT=3)
+    def test_successful_login_clears_failure_record(self):
+        login_url = reverse("login")
+        self.client.post(
+            login_url,
+            {"username": self.user.username, "password": "wrong-password"},
+        )
+
+        response = self.client.post(
+            login_url,
+            {"username": self.user.username, "password": "valid-secret-123"},
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(LoginThrottle.objects.count(), 0)
