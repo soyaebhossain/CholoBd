@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ eyebrow }} | Cholo Bd{% endblock %}
+{% block meta_description %}{{ description }}{% endblock %}
+{% block og_title %}{{ title }} | Cholo Bd{% endblock %}
+{% block og_description %}{{ description }}{% endblock %}
+{% block main_class %}public-page-main{% endblock %}
+
+{% block content %}
+<section class="public-page-hero">
+    <div class="container">
+        <p class="public-page-eyebrow">{{ eyebrow }}</p>
+        <h1>{{ title }}</h1>
+        <p class="public-page-lead">{{ description }}</p>
+        <div class="public-page-trust" aria-label="Platform principles">
+            <span><i class="bi bi-shield-check" aria-hidden="true"></i> Privacy-minded</span>
+            <span><i class="bi bi-compass" aria-hidden="true"></i> Traveler-focused</span>
+            <span><i class="bi bi-eye" aria-hidden="true"></i> Transparent</span>
+        </div>
+    </div>
+</section>
+
+<section class="container public-page-content" aria-label="{{ eyebrow }} details">
+    <div class="row g-4">
+        {% for heading, body in sections %}
+        <div class="col-lg-6">
+            <article class="public-info-card h-100">
+                <span class="public-info-icon" aria-hidden="true"><i class="bi bi-check2"></i></span>
+                <div>
+                    <h2>{{ heading }}</h2>
+                    <p>{{ body }}</p>
+                </div>
+            </article>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="public-page-cta">
+        <div>
+            <h2>Ready for your next journey?</h2>
+            <p>Explore verified destination information and keep your travel plans organized.</p>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-primary" href="{% url 'destinations' %}"><i class="bi bi-compass me-1"></i>Explore destinations</a>
+            {% if request.resolver_match.url_name != 'help_center' %}
+            <a class="btn btn-outline-success" href="{% url 'help_center' %}">Visit Help Center</a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

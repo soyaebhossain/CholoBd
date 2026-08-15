@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.humanize",
+    "django.contrib.sitemaps",
     "trips",
 ]
 
@@ -160,6 +161,7 @@ SECURE_CSP_REPORT_ONLY = (
             "https://fonts.googleapis.com",
             CSP.UNSAFE_INLINE,
         ],
+        "worker-src": [CSP.SELF, "blob:"],
     }
     if env_bool("DJANGO_CSP_REPORT_ONLY", not DEBUG)
     else {}
