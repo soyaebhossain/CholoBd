@@ -69,7 +69,7 @@ PUBLIC_PAGES = {
 
 
 def _public_page(request, page_key):
-    return render(request, "public/information_page.html", PUBLIC_PAGES[page_key])
+    return render(request, "platform/information_page.html", PUBLIC_PAGES[page_key])
 
 
 @require_GET
@@ -99,7 +99,7 @@ def terms(request):
 
 @require_GET
 def offline(request):
-    return render(request, "public/offline.html")
+    return render(request, "platform/offline.html")
 
 
 @require_GET
@@ -143,7 +143,7 @@ def web_manifest(request):
 @require_GET
 @never_cache
 def service_worker(request):
-    source = loader.get_template("public/service-worker.js").render()
+    source = loader.get_template("platform/service-worker.js").render()
     response = HttpResponse(source, content_type="text/javascript; charset=utf-8")
     response.headers["Service-Worker-Allowed"] = "/"
     return response
