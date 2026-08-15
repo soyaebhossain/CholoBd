@@ -5,6 +5,8 @@ Django settings for config project.
 import os
 from pathlib import Path
 
+from django.utils.csp import CSP
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 def env_bool(name, default=False):
@@ -42,12 +44,15 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "django.middleware.csp.ContentSecurityPolicyMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "trips.middleware.OperationsMiddleware",
     "trips.middleware.ProfileCompletionRequiredMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
+    "trips.middleware.LoginThrottleMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
@@ -135,6 +140,40 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_REFERRER_POLICY = os.getenv("DJANGO_SECURE_REFERRER_POLICY", "same-origin")
 X_FRAME_OPTIONS = os.getenv("DJANGO_X_FRAME_OPTIONS", "DENY")
 
+# Start CSP in report-only mode so violations can be observed before enforcement.
+SECURE_CSP_REPORT_ONLY = (
+    {
+        "default-src": [CSP.SELF],
+        "base-uri": [CSP.SELF],
+        "connect-src": [CSP.SELF, "https:"],
+        "font-src": [CSP.SELF, "https://fonts.gstatic.com", "https://cdn.jsdelivr.net", "data:"],
+        "form-action": [CSP.SELF],
+        "frame-ancestors": [CSP.NONE],
+        "frame-src": [CSP.SELF, "https://www.google.com", "https://maps.google.com", "https://meet.jit.si"],
+        "img-src": [CSP.SELF, "https:", "data:", "blob:"],
+        "media-src": [CSP.SELF, "https:", "blob:"],
+        "object-src": [CSP.NONE],
+        "script-src": [CSP.SELF, "https://cdn.jsdelivr.net", CSP.UNSAFE_INLINE],
+        "style-src": [
+            CSP.SELF,
+            "https://cdn.jsdelivr.net",
+            "https://fonts.googleapis.com",
+            CSP.UNSAFE_INLINE,
+        ],
+    }
+    if env_bool("DJANGO_CSP_REPORT_ONLY", not DEBUG)
+    else {}
+)
+
+PERMISSIONS_POLICY = os.getenv(
+    "DJANGO_PERMISSIONS_POLICY",
+    "camera=(), microphone=(), geolocation=(self)",
+)
+
+LOGIN_THROTTLE_FAILURE_LIMIT = int(os.getenv("LOGIN_THROTTLE_FAILURE_LIMIT", "5"))
+LOGIN_THROTTLE_WINDOW_SECONDS = int(os.getenv("LOGIN_THROTTLE_WINDOW_SECONDS", "900"))
+LOGIN_THROTTLE_LOCK_SECONDS = int(os.getenv("LOGIN_THROTTLE_LOCK_SECONDS", "900"))
+
 # Bound large uploads before form/model validation runs.
 DATA_UPLOAD_MAX_MEMORY_SIZE = int(os.getenv("DJANGO_DATA_UPLOAD_MAX_MEMORY_SIZE", "10485760"))
 FILE_UPLOAD_MAX_MEMORY_SIZE = int(os.getenv("DJANGO_FILE_UPLOAD_MAX_MEMORY_SIZE", "5242880"))
@@ -142,3 +181,32 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = int(os.getenv("DJANGO_FILE_UPLOAD_MAX_MEMORY_SIZE"
 GOOGLE_MAPS_EMBED_API_KEY = os.getenv("GOOGLE_MAPS_EMBED_API_KEY", "")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+LOG_LEVEL = os.getenv("DJANGO_LOG_LEVEL", "INFO").upper()
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "json": {
+            "()": "trips.logging.JsonFormatter",
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "json",
+        },
+    },
+    "loggers": {
+        "django.request": {
+            "handlers": ["console"],
+            "level": "WARNING",
+            "propagate": False,
+        },
+        "trips": {
+            "handlers": ["console"],
+            "level": LOG_LEVEL,
+            "propagate": False,
+        },
+    },
+}

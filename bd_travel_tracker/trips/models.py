@@ -1525,6 +1525,20 @@ class DirectMessage(models.Model):
             raise ValidationError("Sender must be part of the conversation.")
 
 
+class LoginThrottle(models.Model):
+    key = models.CharField(max_length=64, primary_key=True)
+    failures = models.PositiveIntegerField(default=0)
+    window_started_at = models.DateTimeField(default=timezone.now)
+    blocked_until = models.DateTimeField(null=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True, db_index=True)
+
+    class Meta:
+        ordering = ["-updated_at"]
+
+    def __str__(self):
+        return f"Login throttle {self.key[:8]} ({self.failures})"
+
+
 @receiver(post_save, sender=get_user_model())
 def ensure_profile_exists(sender, instance, created, **kwargs):
     if created:
