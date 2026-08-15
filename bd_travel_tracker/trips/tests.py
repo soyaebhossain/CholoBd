@@ -1977,10 +1977,32 @@ class ProfessionalPlatformTests(TestCase):
         response = self.client.get(reverse("home"))
 
         self.assertContains(response, "Skip to main content")
+        self.assertContains(response, 'class="app-loading-bar"')
+        self.assertContains(response, 'aria-current="page"')
         self.assertContains(response, 'rel="manifest"')
         self.assertContains(response, 'rel="canonical"')
         self.assertContains(response, 'property="og:title"')
         self.assertContains(response, 'id="main-content"')
+
+    def test_authenticated_shell_has_private_metadata_and_polished_empty_state(self):
+        user = User.objects.create_user(
+            username="ui-traveler",
+            password="secure-password-123",
+            email="ui-traveler@example.com",
+        )
+        user.profile.full_name = "UI Traveler"
+        user.profile.phone = "01700000000"
+        user.profile.save(update_fields=["full_name", "phone"])
+        self.client.force_login(user)
+
+        response = self.client.get(reverse("my_trips"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "<title>My Trips | Cholo Bd</title>", html=True)
+        self.assertContains(response, 'content="noindex,nofollow"')
+        self.assertContains(response, 'class="app-empty-state"')
+        self.assertContains(response, "Add a trip")
+        self.assertContains(response, "app-shell.js")
 
     def test_web_manifest_is_installable(self):
         response = self.client.get(reverse("web_manifest"))

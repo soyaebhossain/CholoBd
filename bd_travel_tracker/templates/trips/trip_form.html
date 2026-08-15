@@ -1,8 +1,10 @@
 ﻿{% extends 'base.html' %}
 {% load static %}
 
+{% block title %}{% if is_edit %}Edit Trip{% else %}Add New Trip{% endif %} | Cholo Bd{% endblock %}
+
 {% block content %}
-<section class="mb-4">
+<section class="app-page-header mb-4">
     {% if is_edit %}
     <h1 class="h3 mb-1"><i class="bi bi-pencil-square me-2"></i>Edit Trip</h1>
     <p class="text-muted mb-0">Update trip details and save changes. Total cost will auto-recalculate.</p>
