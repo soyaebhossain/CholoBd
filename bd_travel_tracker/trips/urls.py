@@ -1,9 +1,15 @@
 from django.urls import path
 
-from . import views
+from . import public_views, views
 
 urlpatterns = [
     path("", views.home, name="home"),
+    path("about/", public_views.about, name="about"),
+    path("help/", public_views.help_center, name="help_center"),
+    path("privacy/", public_views.privacy, name="privacy"),
+    path("safety/", public_views.safety, name="safety"),
+    path("terms/", public_views.terms, name="terms"),
+    path("offline/", public_views.offline, name="offline"),
     path("account-entry/", views.account_entry, name="account_entry"),
     path("destinations/", views.destinations, name="destinations"),
     path("destinations/<int:spot_id>/", views.destination_detail, name="destination_detail"),

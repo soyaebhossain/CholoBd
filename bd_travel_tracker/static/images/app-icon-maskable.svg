@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Cholo Bd">
+  <rect width="512" height="512" fill="#0f5c46"/>
+  <circle cx="256" cy="256" r="178" fill="#176b50"/>
+  <path d="M142 160l75-24 79 24 75-24v216l-75 24-79-24-75 24V160z" fill="none" stroke="#fff" stroke-width="23" stroke-linejoin="round"/>
+  <path d="M217 136v216M296 160v216" fill="none" stroke="#fff" stroke-width="19"/>
+  <path d="M256 184c-36 0-65 29-65 65 0 50 65 107 65 107s65-57 65-107c0-36-29-65-65-65zm0 88a26 26 0 1 1 0-52 26 26 0 0 1 0 52z" fill="#f3bd4d" stroke="#0b4535" stroke-width="8"/>
+</svg>

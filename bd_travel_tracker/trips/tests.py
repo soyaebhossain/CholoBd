@@ -1957,3 +1957,61 @@ class ProductionReadinessTests(TestCase):
 
         self.assertEqual(response.status_code, 302)
         self.assertEqual(LoginThrottle.objects.count(), 0)
+
+
+class ProfessionalPlatformTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        division = Division.objects.create(name="Test Division")
+        district = District.objects.create(division=division, name="Test District")
+        upazila = Upazila.objects.create(district=district, name="Test Upazila")
+        cls.spot = TourSpot.objects.create(upazila=upazila, name="River View")
+
+    def test_public_trust_pages_are_available(self):
+        for route_name in ("about", "help_center", "privacy", "safety", "terms", "offline"):
+            with self.subTest(route_name=route_name):
+                response = self.client.get(reverse(route_name))
+                self.assertEqual(response.status_code, 200)
+
+    def test_homepage_has_search_and_accessibility_metadata(self):
+        response = self.client.get(reverse("home"))
+
+        self.assertContains(response, "Skip to main content")
+        self.assertContains(response, 'rel="manifest"')
+        self.assertContains(response, 'rel="canonical"')
+        self.assertContains(response, 'property="og:title"')
+        self.assertContains(response, 'id="main-content"')
+
+    def test_web_manifest_is_installable(self):
+        response = self.client.get(reverse("web_manifest"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response["Content-Type"].startswith("application/manifest+json"))
+        self.assertEqual(response.json()["short_name"], "Cholo Bd")
+        self.assertEqual(response.json()["display"], "standalone")
+        self.assertEqual(len(response.json()["icons"]), 2)
+
+    def test_service_worker_is_root_scoped_and_not_cached(self):
+        response = self.client.get(reverse("service_worker"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response["Service-Worker-Allowed"], "/")
+        self.assertIn("no-cache", response["Cache-Control"])
+        self.assertContains(response, 'const OFFLINE_URL = "/offline/";')
+
+    def test_robots_and_sitemap_publish_public_routes(self):
+        robots = self.client.get(reverse("robots_txt"))
+        sitemap = self.client.get(reverse("django.contrib.sitemaps.views.sitemap"))
+
+        self.assertContains(robots, "Disallow: /admin/")
+        self.assertContains(robots, "Sitemap: http://testserver/sitemap.xml")
+        self.assertContains(sitemap, reverse("destination_detail", args=[self.spot.id]))
+        self.assertContains(sitemap, reverse("privacy"))
+
+    @override_settings(DEBUG=False, ALLOWED_HOSTS=["testserver"])
+    def test_missing_page_uses_branded_error_experience(self):
+        response = self.client.get("/this-page-does-not-exist/")
+
+        self.assertEqual(response.status_code, 404)
+        self.assertContains(response, "That page could not be found", status_code=404)
+        self.assertContains(response, "Cholo Bd", status_code=404)

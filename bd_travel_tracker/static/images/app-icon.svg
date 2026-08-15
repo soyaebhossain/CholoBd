@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Cholo Bd">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#176b50"/>
+      <stop offset="1" stop-color="#0b4535"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#g)"/>
+  <path d="M102 136l96-31 116 31 96-31v271l-96 31-116-31-96 31V136z" fill="none" stroke="#fff" stroke-width="28" stroke-linejoin="round"/>
+  <path d="M198 105v271M314 136v271" fill="none" stroke="#fff" stroke-width="24"/>
+  <path d="M256 166c-44 0-80 35-80 79 0 62 80 132 80 132s80-70 80-132c0-44-36-79-80-79zm0 108a32 32 0 1 1 0-64 32 32 0 0 1 0 64z" fill="#f3bd4d" stroke="#0b4535" stroke-width="10"/>
+</svg>
